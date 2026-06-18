@@ -1522,7 +1522,10 @@ function renderQuestion() {
     label.append(input, letter, text);
     label.addEventListener('click', (e) => {
       e.preventDefault();
-      if (answered) return;
+      if (answered) {
+        if (++postAnswerClicks >= 3) advance();
+        return;
+      }
       if (selectedLetters.has(opt.l)) {
         confirmAnswer();
       } else {
