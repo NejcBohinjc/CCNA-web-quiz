@@ -1355,7 +1355,7 @@ document.querySelectorAll('.pick-btn').forEach(btn => {
   const nodes = [];
   const edges = [];
   const packets = [];
-  const NODE_COUNT = 18;
+  const NODE_COUNT = 40;
 
   function resize() {
     canvas.width  = window.innerWidth;
