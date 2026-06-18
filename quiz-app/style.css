@@ -334,6 +334,15 @@ input[type="number"]:focus {
   text-align: right;
 }
 
+.wrong-live {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--incorrect);
+  white-space: nowrap;
+  min-width: 40px;
+  text-align: right;
+}
+
 /* ── QUIZ CARD ── */
 .quiz-card { max-width: 680px; }
 
