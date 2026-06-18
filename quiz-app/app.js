@@ -1401,7 +1401,7 @@ document.querySelectorAll('.pick-btn').forEach(btn => {
 
     // edges
     ctx.strokeStyle = edgeColor;
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 1.5;
     edges.forEach(e => {
       const a = nodes[e.a], b = nodes[e.b];
       ctx.beginPath();
