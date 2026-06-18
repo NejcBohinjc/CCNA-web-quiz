@@ -1602,10 +1602,24 @@ function showResults() {
   resPct.textContent = pct + '%';
   resFrac.textContent = `${score} / ${pool.length}`;
 
-  if (pct === 100)      resMsg.textContent = 'Perfect score! Outstanding work.';
-  else if (pct >= 80)   resMsg.textContent = 'Great job — you\'re well prepared!';
-  else if (pct >= 60)   resMsg.textContent = 'Good effort. Review the highlighted areas.';
-  else                  resMsg.textContent = 'Keep studying — you\'ll get there!';
+  const PASS_PCT = 70;
+  const passed = pct >= PASS_PCT;
+
+  const badge = passed
+    ? `<span class="pass-badge pass">PASSED</span>`
+    : `<span class="pass-badge fail">FAILED</span>`;
+
+  let detail;
+  if (passed) {
+    if (pct === 100)    detail = 'Perfect score!';
+    else if (pct >= 90) detail = 'Excellent work!';
+    else                detail = `You scored above the ${PASS_PCT}% pass mark.`;
+  } else {
+    const missing = Math.ceil(pool.length * PASS_PCT / 100) - score;
+    detail = `You needed ${missing} more correct answer${missing !== 1 ? 's' : ''} to pass.`;
+  }
+
+  resMsg.innerHTML = `${badge} ${detail}`;
 
   // animate ring
   const circumference = 327;
@@ -1613,9 +1627,7 @@ function showResults() {
   setTimeout(() => { ringFill.style.strokeDashoffset = offset; }, 80);
 
   // color ring by score
-  if (pct >= 80) ringFill.style.stroke = 'var(--correct)';
-  else if (pct >= 60) ringFill.style.stroke = 'var(--accent)';
-  else ringFill.style.stroke = 'var(--incorrect)';
+  ringFill.style.stroke = passed ? 'var(--correct)' : 'var(--incorrect)';
 
   // wrong answers list
   wrongList.innerHTML = '';
