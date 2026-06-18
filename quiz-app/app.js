@@ -1509,6 +1509,21 @@ function renderQuestion() {
 
     label.append(input, letter, text);
     label.addEventListener('click', (e) => { e.preventDefault(); handleSelect(opt.l, q.multi); });
+    label.addEventListener('dblclick', (e) => {
+      e.preventDefault();
+      if (answered) return;
+      // Force-select (don't toggle — second click of dblclick would have toggled it off)
+      if (q.multi) {
+        selectedLetters.add(opt.l);
+      } else {
+        selectedLetters = new Set([opt.l]);
+      }
+      optWrap.querySelectorAll('.option-label').forEach(lbl => {
+        lbl.classList.toggle('selected', selectedLetters.has(lbl.dataset.letter));
+      });
+      nextBtn.disabled = false;
+      confirmAnswer();
+    });
     optWrap.appendChild(label);
   });
 }
