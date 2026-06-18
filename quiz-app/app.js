@@ -1306,6 +1306,7 @@ const qSlider    = id('q-slider');
 const qCounter   = id('q-counter');
 const progress   = id('progress-fill');
 const scoreLive  = id('q-score-live');
+const wrongLive  = id('q-wrong-live');
 const multiHint  = id('multi-hint');
 const qText      = id('q-text');
 const optWrap    = id('options-wrap');
