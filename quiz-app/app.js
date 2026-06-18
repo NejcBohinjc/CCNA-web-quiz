@@ -1291,6 +1291,7 @@ let score = 0;
 let wrongItems = [];   // { question, yourLetters, correctLetters }
 let selectedLetters = new Set();
 let answered = false;
+let postAnswerClicks = 0;
 
 /* ─────────────────────────────────────────
    DOM REFS
