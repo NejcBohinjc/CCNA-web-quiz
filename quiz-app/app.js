@@ -1317,6 +1317,7 @@ const resMsg     = id('res-message');
 const wrongList  = id('wrong-list');
 const ringFill   = id('ring-fill');
 const themeBtn   = id('theme-toggle');
+const qTimer     = id('q-timer');
 
 function id(s) { return document.getElementById(s); }
 
