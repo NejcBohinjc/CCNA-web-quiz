@@ -1567,6 +1567,7 @@ function confirmAnswer() {
       yourLetters: new Set(selectedLetters),
       correctLetters: new Set(correctLetters)
     });
+    wrongLive.textContent = `✗ ${wrongItems.length}`;
   }
 
   // reveal correct / incorrect
