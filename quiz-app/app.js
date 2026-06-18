@@ -1494,6 +1494,7 @@ function startQuiz() {
   pool = shuffle([...QUESTIONS]).slice(0, n);
   current = 0; score = 0; wrongItems = [];
   showScreen('quiz');
+  startTimer();
   renderQuestion();
 }
 
