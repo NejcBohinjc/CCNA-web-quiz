@@ -1327,16 +1327,24 @@ function id(s) { return document.getElementById(s); }
    ───────────────────────────────────────── */
 let timerInterval = null;
 let timerSeconds  = 0;
+let timerVisible  = true;
 
-function startTimer() {
+function renderTimer() {
+  const s = Math.max(0, timerSeconds);
+  const m = String(Math.floor(s / 60)).padStart(2, '0');
+  const sec = String(s % 60).padStart(2, '0');
+  qTimer.textContent = `${m}:${sec}`;
+  qTimer.classList.toggle('expired', timerSeconds <= 0);
+}
+
+function startTimer(totalSeconds) {
   clearInterval(timerInterval);
-  timerSeconds = 0;
-  qTimer.textContent = '00:00';
+  timerSeconds = totalSeconds;
+  renderTimer();
   timerInterval = setInterval(() => {
-    timerSeconds++;
-    const m = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
-    const s = String(timerSeconds % 60).padStart(2, '0');
-    qTimer.textContent = `${m}:${s}`;
+    timerSeconds--;
+    renderTimer();
+    if (timerSeconds <= 0) stopTimer();
   }, 1000);
 }
 
@@ -1344,6 +1352,12 @@ function stopTimer() {
   clearInterval(timerInterval);
   timerInterval = null;
 }
+
+timerToggleBtn.addEventListener('click', () => {
+  timerVisible = !timerVisible;
+  timerToggleBtn.classList.toggle('active', timerVisible);
+  qTimer.style.display = timerVisible ? '' : 'none';
+});
 
 /* ─────────────────────────────────────────
    THEME TOGGLE
