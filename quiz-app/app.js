@@ -1471,7 +1471,7 @@ function renderQuestion() {
   selectedLetters = new Set();
 
   // topbar
-  qCounter.textContent = `${current + 1} / ${pool.length}`;
+  qCounter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(pool.length).padStart(2, '0')}`;
   scoreLive.textContent = `✓ ${score}`;
   wrongLive.textContent = `✗ ${wrongItems.length}`;
   const pct = ((current + 1) / pool.length) * 100;
