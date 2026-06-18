@@ -1373,7 +1373,7 @@ document.querySelectorAll('.pick-btn').forEach(btn => {
     }
     for (let i = 0; i < NODE_COUNT; i++) {
       const dists = nodes.map((n, j) => ({ j, d: Math.hypot(n.x - nodes[i].x, n.y - nodes[i].y) }))
-        .filter(e => e.j !== i).sort((a, b) => a.d - b.d).slice(0, 2);
+        .filter(e => e.j !== i).sort((a, b) => a.d - b.d).slice(0, 3);
       dists.forEach(e => {
         if (!edges.find(ed => (ed.a === i && ed.b === e.j) || (ed.a === e.j && ed.b === i)))
           edges.push({ a: i, b: e.j });
