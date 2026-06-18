@@ -1692,6 +1692,10 @@ function showResults() {
 /* ─────────────────────────────────────────
    RESTART BUTTONS
    ───────────────────────────────────────── */
+exitBtn.addEventListener('click', () => {
+  showScreen('start');
+});
+
 retryBtn.addEventListener('click', () => {
   // same pool, reset state
   current = 0; score = 0; wrongItems = [];
