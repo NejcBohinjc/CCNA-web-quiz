@@ -1315,9 +1315,10 @@ const resPct     = id('res-pct');
 const resFrac    = id('res-fraction');
 const resMsg     = id('res-message');
 const wrongList  = id('wrong-list');
-const ringFill   = id('ring-fill');
-const themeBtn   = id('theme-toggle');
-const qTimer     = id('q-timer');
+const ringFill        = id('ring-fill');
+const themeBtn        = id('theme-toggle');
+const qTimer          = id('q-timer');
+const timerToggleBtn  = id('timer-toggle-btn');
 
 function id(s) { return document.getElementById(s); }
 
