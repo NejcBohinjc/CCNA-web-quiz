@@ -1745,6 +1745,7 @@ function showResults() {
    RESTART BUTTONS
    ───────────────────────────────────────── */
 exitBtn.addEventListener('click', () => {
+  stopTimer();
   showScreen('start');
 });
 
