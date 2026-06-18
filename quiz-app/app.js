@@ -1368,8 +1368,15 @@ document.querySelectorAll('.pick-btn').forEach(btn => {
 
   function buildGraph() {
     nodes.length = 0; edges.length = 0; packets.length = 0;
+    const depth = 0.22; // max distance from any edge (0–1)
     for (let i = 0; i < NODE_COUNT; i++) {
-      nodes.push({ x: rand(0.05, 0.95), y: rand(0.05, 0.95) });
+      const side = Math.floor(Math.random() * 4);
+      let x, y;
+      if (side === 0) { x = rand(0.02, 0.98); y = rand(0.02, depth); }       // top
+      else if (side === 1) { x = rand(1 - depth, 0.98); y = rand(0.02, 0.98); } // right
+      else if (side === 2) { x = rand(0.02, 0.98); y = rand(1 - depth, 0.98); } // bottom
+      else                 { x = rand(0.02, depth); y = rand(0.02, 0.98); }   // left
+      nodes.push({ x, y });
     }
     for (let i = 0; i < NODE_COUNT; i++) {
       const dists = nodes.map((n, j) => ({ j, d: Math.hypot(n.x - nodes[i].x, n.y - nodes[i].y) }))
