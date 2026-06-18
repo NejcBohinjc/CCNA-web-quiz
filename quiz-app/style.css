@@ -480,6 +480,22 @@ input[type="range"] {
   letter-spacing: 0.04em;
 }
 
+.tally-divider {
+  width: 1px;
+  height: 12px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+.q-timer {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+  letter-spacing: 0.06em;
+}
+
 /* Quiz card */
 .quiz-card {
   width: 100%;
