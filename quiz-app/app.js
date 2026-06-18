@@ -1396,7 +1396,7 @@ document.querySelectorAll('.pick-btn').forEach(btn => {
 
     const dark = document.documentElement.dataset.theme !== 'light';
     const edgeColor  = dark ? 'rgba(79,142,247,0.30)'  : 'rgba(29,95,232,0.22)';
-    const nodeColor  = dark ? 'rgba(79,142,247,0.60)'  : 'rgba(29,95,232,0.50)';
+    const nodeColor  = dark ? 'rgba(79,142,247,0.20)'  : 'rgba(29,95,232,0.18)';
     const pktColor   = dark ? '#4F8EF7'                : '#1D5FE8';
 
     // edges
