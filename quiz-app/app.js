@@ -1464,8 +1464,7 @@ startBtn.addEventListener('click', startQuiz);
 
 function startQuiz() {
   const n = Math.max(1, Math.min(111, parseInt(qCount.value) || 10));
-  qCount.value = n;
-  qSlider.value = n;
+  syncCount(n);
 
   pool = shuffle([...QUESTIONS]).slice(0, n);
   current = 0; score = 0; wrongItems = [];
