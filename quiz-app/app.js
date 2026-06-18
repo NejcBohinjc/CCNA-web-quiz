@@ -1648,6 +1648,7 @@ function advance() {
    ───────────────────────────────────────── */
 function showResults() {
   progress.style.width = '100%';
+  stopTimer();
   showScreen('results');
 
   const pct = Math.round((score / pool.length) * 100);
