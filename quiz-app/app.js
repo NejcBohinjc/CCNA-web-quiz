@@ -1330,19 +1330,30 @@ themeBtn.addEventListener('click', () => {
 /* ─────────────────────────────────────────
    SLIDER ↔ NUMBER SYNC
    ───────────────────────────────────────── */
-qSlider.addEventListener('input', () => { qCount.value = qSlider.value; });
-qCount.addEventListener('input', () => {
-  let v = Math.max(1, Math.min(111, parseInt(qCount.value) || 1));
+const timeEstimate = id('time-estimate');
+
+function formatTime(n) {
+  const mins = n;
+  if (mins < 60) return `~ ${mins} min`;
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  return m === 0 ? `~ ${h}h` : `~ ${h}h ${m}min`;
+}
+
+function syncCount(v) {
   qCount.value = v;
   qSlider.value = v;
+  timeEstimate.textContent = formatTime(v);
+}
+
+qSlider.addEventListener('input', () => syncCount(parseInt(qSlider.value)));
+qCount.addEventListener('input', () => {
+  const v = Math.max(1, Math.min(111, parseInt(qCount.value) || 1));
+  syncCount(v);
 });
 
 document.querySelectorAll('.pick-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const n = parseInt(btn.dataset.n);
-    qCount.value = n;
-    qSlider.value = n;
-  });
+  btn.addEventListener('click', () => syncCount(parseInt(btn.dataset.n)));
 });
 
 /* ─────────────────────────────────────────
