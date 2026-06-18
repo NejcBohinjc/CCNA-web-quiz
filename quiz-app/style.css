@@ -71,10 +71,10 @@ body {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.35;
+  opacity: 0.75;
   transition: opacity var(--transition);
 }
-[data-theme="light"] #bg-canvas { opacity: 0.18; }
+[data-theme="light"] #bg-canvas { opacity: 0.45; }
 
 /* ─────────────────────────────────────────
    HEADER
