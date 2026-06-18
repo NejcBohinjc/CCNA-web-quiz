@@ -1322,6 +1322,29 @@ const qTimer     = id('q-timer');
 function id(s) { return document.getElementById(s); }
 
 /* ─────────────────────────────────────────
+   TIMER
+   ───────────────────────────────────────── */
+let timerInterval = null;
+let timerSeconds  = 0;
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timerSeconds = 0;
+  qTimer.textContent = '00:00';
+  timerInterval = setInterval(() => {
+    timerSeconds++;
+    const m = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+    const s = String(timerSeconds % 60).padStart(2, '0');
+    qTimer.textContent = `${m}:${s}`;
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+}
+
+/* ─────────────────────────────────────────
    THEME TOGGLE
    ───────────────────────────────────────── */
 themeBtn.addEventListener('click', () => {
