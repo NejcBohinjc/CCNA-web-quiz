@@ -1387,7 +1387,7 @@ document.querySelectorAll('.pick-btn').forEach(btn => {
     const rev  = Math.random() < 0.5;
     packets.push({ edge, t: 0, speed: rand(0.003, 0.008), rev });
   }
-  for (let i = 0; i < 6; i++) spawnPacket();
+  for (let i = 0; i < 15; i++) spawnPacket();
 
   let raf;
   function draw() {
