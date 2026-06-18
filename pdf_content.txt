@@ -1,0 +1,817 @@
+﻿Total pages: 23
+=== PAGE 1 ===
+CCNA 1 v7.0 - Introduction to Networks
+ Final Exam Practice Quiz — Questions with Correct Answers Marked
+ 111 questions. Correct answer(s) are highlighted in green and marked with a checkmark (✓).
+Q1. Which two traffic types use the Real-Time Transport Protocol (RTP)? (Choose two.)
+✓ A. video
+B. web
+C. file transfer
+✓ D. voice
+E. peer to peer
+Q2. Which wireless technology has low-power and data rate requirements making it
+popular in home automation applications?
+✓ A. ZigBee
+B. LoRaWAN
+C. 5G
+D. Wi-Fi
+Q3. Which layer of the TCP/IP model provides a route to forward messages through an
+internetwork?
+A. application
+B. network access
+✓ C. internet
+D. transport
+Q4. Which type of server relies on record types such as A, NS, AAAA, and MX in order to
+provide services?
+✓ A. DNS
+B. email
+C. file
+D. web
+Q5. What are proprietary protocols?
+A. protocols developed by private organizations to operate on any vendor hardware
+B. protocols that can be freely used by any organization or vendor
+✓ C. protocols developed by organizations who have control over their definition and operation
+
+=== PAGE 2 ===
+D. a collection of protocols known as the TCP/IP protocol suite
+Q6. What service is provided by DNS?
+✓ A. Resolves domain names, such as cisco.com, into IP addresses.
+B. A basic set of rules for exchanging text, graphic images, sound, video, and other multimedia files on
+the web.
+C. Allows for data transfers between a client and a file server.
+D. Uses encryption to secure the exchange of text, graphic images, sound, and video on the web.
+Q7. A client packet is received by a server. The packet has a destination port number of
+110. What service is the client requesting?
+A. DNS
+B. DHCP
+C. SMTP
+✓ D. POP3
+Q8. What command can be used on a Windows PC to see the IP configuration of that
+computer?
+A. show ip interface brief
+B. ping
+C. show interfaces
+✓ D. ipconfig
+Q9. A wired laser printer is attached to a home computer. That printer has been shared so
+that other computers on the home network can also use the printer. What networking
+model is in use?
+A. client-based
+B. master-slave
+C. point-to-point
+✓ D. peer-to-peer (P2P)
+Q10. What characteristic describes a virus?
+A. a network device that filters access and traffic coming into a network
+B. the use of stolen credentials to access private data
+C. an attack that slows or crashes a device or network service
+✓ D. malicious software or code running on an end device
+Q11. Three bank employees are using the corporate network. The first employee uses a
+web browser to view a company web page in order to read some announcements. The
+
+=== PAGE 3 ===
+second employee accesses the corporate database to perform some financial
+transactions. The third employee participates in an important live audio conference with
+other corporate managers in branch offices. If QoS is implemented on this network, what
+will be the priorities from highest to lowest of the different data types?
+A. financial transactions, web page, audio conference
+✓ B. audio conference, financial transactions, web page
+C. financial transactions, audio conference, web page
+D. audio conference, web page, financial transactions
+Q13. Refer to the exhibit. If Host1 were to transfer a file to the server, what layers of the
+TCP/IP model would be used?
+A. only application and Internet layers
+B. only Internet and network access layers
+C. only application, Internet, and network access layers
+✓ D. application, transport, Internet, and network access layers
+E. only application, transport, network, data link, and physical layers
+F. application, session, transport, network, data link, and physical layers
+Q15. Refer to the exhibit. The IP address of which device interface should be used as the
+default gateway setting of host H1?
+A. R1: S0/0/0
+B. R2: S0/0/1
+✓ C. R1: G0/0
+D. R2: S0/0/0
+Q16. What service is provided by Internet Messenger?
+✓ A. An application that allows real-time chatting among remote users.
+B. Allows remote access to network devices and servers.
+C. Resolves domain names, such as cisco.com, into IP addresses.
+D. Uses encryption to provide secure remote access to network devices and servers.
+Q17. Refer to the exhibit. Match the network with the correct IP address and prefix that will
+satisfy the usable host addressing requirements for each network. (Network
+A=192.168.0.128/25, B=192.168.0.0/26, C=192.168.0.96/27, D=192.168.0.80/30)
+✓ A. Network A: 192.168.0.128 /25
+✓ B. Network B: 192.168.0.0 /26
+✓ C. Network C: 192.168.0.96 /27
+✓ D. Network D: 192.168.0.80 /30
+
+=== PAGE 4 ===
+Q18. Refer to the exhibit. Which protocol was responsible for building the table that is
+shown? (output of arp -a)
+A. DHCP
+✓ B. ARP
+C. DNS
+D. ICMP
+Q19. A network administrator notices that some newly installed Ethernet cabling is
+carrying corrupt and distorted data signals. The new cabling was installed in the ceiling
+close to fluorescent lights and electrical equipment. Which two factors may interfere with
+the copper cabling and result in signal distortion and data corruption? (Choose two.)
+A. crosstalk
+B. extended length of cabling
+✓ C. RFI
+✓ D. EMI
+E. signal attenuation
+Q20. A host is trying to send a packet to a device on a remote LAN segment, but there are
+currently no mappings in its ARP cache. How will the device obtain a destination MAC
+address?
+A. It will send the frame and use its own MAC address as the destination.
+B. It will send an ARP request for the MAC address of the destination device.
+C. It will send the frame with a broadcast MAC address.
+D. It will send a request to the DNS server for the destination MAC address.
+✓ E. It will send an ARP request for the MAC address of the default gateway.
+Q22. A client packet is received by a server. The packet has a destination port number of
+53. What service is the client requesting?
+✓ A. DNS
+B. NetBIOS (NetBT)
+C. POP3
+D. IMAP
+Q23. A network administrator is adding a new LAN to a branch office. The new LAN must
+support 25 connected devices. What is the smallest network mask that the network
+administrator can use for the new network?
+A. 255.255.255.128
+B. 255.255.255.192
+✓ C. 255.255.255.224
+
+=== PAGE 5 ===
+D. 255.255.255.240
+Q24. What characteristic describes a Trojan horse?
+✓ A. malicious software or code running on an end device
+B. an attack that slows or crashes a device or network service
+C. the use of stolen credentials to access private data
+D. a network device that filters access and traffic coming into a network
+Q25. What service is provided by HTTPS?
+A. Uses encryption to provide secure remote access to network devices and servers.
+B. Resolves domain names, such as cisco.com, into IP addresses.
+✓ C. Uses encryption to secure the exchange of text, graphic images, sound, and video on the
+web.
+D. Allows remote access to network devices and servers.
+Q26. A technician with a PC is using multiple applications while connected to the Internet.
+How is the PC able to keep track of the data flow between multiple application sessions
+and have each application receive the correct packet flows?
+A. The data flow is being tracked based on the destination MAC address of the technician PC.
+✓ B. The data flow is being tracked based on the source port number that is used by each
+application.
+C. The data flow is being tracked based on the source IP address that is used by the PC of the
+technician.
+D. The data flow is being tracked based on the destination IP address that is used by the PC of the
+technician.
+Q27. A network administrator is adding a new LAN to a branch office. The new LAN must
+support 61 connected devices. What is the smallest network mask that the network
+administrator can use for the new network?
+A. 255.255.255.240
+B. 255.255.255.224
+✓ C. 255.255.255.192
+D. 255.255.255.128
+Q28. Refer to the exhibit. Match the network with the correct IP address and prefix.
+(A=192.168.0.0/25, B=192.168.0.128/26, C=192.168.0.192/27, D=192.168.0.224/30)
+✓ A. Network A: 192.168.0.0 /25
+✓ B. Network B: 192.168.0.128 /26
+✓ C. Network C: 192.168.0.192 /27
+✓ D. Network D: 192.168.0.224 /30
+
+=== PAGE 6 ===
+Q29. What characteristic describes a DoS attack?
+A. the use of stolen credentials to access private data
+B. a network device that filters access and traffic coming into a network
+C. software that is installed on a user device and collects information about the user
+✓ D. an attack that slows or crashes a device or network service
+Q31. What service is provided by SMTP?
+✓ A. Allows clients to send email to a mail server and the servers to send email to other servers.
+B. Allows remote access to network devices and servers.
+C. Uses encryption to provide secure remote access to network devices and servers.
+D. An application that allows real-time chatting among remote users.
+Q32. Which scenario describes a function provided by the transport layer?
+A. A student is using a classroom VoIP phone to call home. The unique identifier burned into the phone
+is a transport layer address used to contact another network device on the same network.
+B. A student is playing a short web-based movie with sound. The movie and sound are encoded within
+the transport layer header.
+✓ C. A student has two web browser windows open in order to access two web sites. The
+transport layer ensures the correct web page is delivered to the correct browser window.
+D. A corporate worker is accessing a web server located on a corporate network. The transport layer
+formats the screen so the web page appears properly no matter what device is being used to view the
+web site.
+Q33. Refer to the exhibit. Host B on subnet Teachers transmits a packet to host D on
+subnet Students. Which Layer 2 and Layer 3 addresses are contained in the PDUs that are
+transmitted from host B to the router?
+✓ A. L2 dest=00-00-0c-94-36-ab, L2 src=00-00-0c-94-36-bb, L3 dest=172.16.20.200, L3
+src=172.16.10.200
+B. L2 dest=00-00-0c-94-36-dd, L2 src=00-00-0c-94-36-bb, L3 dest=172.16.20.200, L3
+src=172.16.10.200
+C. L2 dest=00-00-0c-94-36-cd, L2 src=00-00-0c-94-36-bb, L3 dest=172.16.20.99, L3
+src=172.16.10.200
+D. L2 dest=00-00-0c-94-36-ab, L2 src=00-00-0c-94-36-bb, L3 dest=172.16.20.200, L3
+src=172.16.100.200
+Q34. What does the term "attenuation" mean in data communication?
+A. strengthening of a signal by a networking device
+B. leakage of signals from one cable pair to another
+C. time for a signal to reach its destination
+
+=== PAGE 7 ===
+✓ D. loss of signal strength as distance increases
+Q35. Refer to the exhibit. An administrator is trying to configure the switch but receives
+the error message that is displayed in the exhibit. What is the problem?
+A. The entire command, configure terminal, must be used.
+B. The administrator is already in global configuration mode.
+✓ C. The administrator must first enter privileged EXEC mode before issuing the command.
+D. The administrator must connect via the console port to access global configuration mode.
+Q36. Which two protocols operate at the top layer of the TCP/IP protocol suite? (Choose
+two.)
+A. TCP
+B. IP
+C. UDP
+✓ D. POP
+✓ E. DNS
+F. Ethernet
+Q37. A company has a file server that shares a folder named Public. The network security
+policy specifies that the Public folder is assigned Read-Only rights to anyone who can log
+into the server while the Edit rights are assigned only to the network admin group. Which
+component is addressed in the AAA network service framework?
+A. automation
+B. accounting
+C. authentication
+✓ D. authorization
+Q38. What three requirements are defined by the protocols used in network
+communications to allow message transmission across a network? (Choose three.)
+✓ A. message size
+✓ B. message encoding
+C. connector specifications
+D. media selection
+✓ E. delivery options
+F. end-device installation
+Q39. What are two characteristics of IP? (Choose two.)
+✓ A. does not require a dedicated end-to-end connection
+✓ B. operates independently of the network media
+
+=== PAGE 8 ===
+C. retransmits packets if errors occur
+D. re-assembles out of order packets into the correct order at the receiver end
+E. guarantees delivery of packets
+Q40. An employee remotely logs into the company using the appropriate username and
+password to attend a video conference. The connection to the ISP failed but a secondary
+connection activated within seconds, unnoticed. What three network characteristics are
+described in this scenario? (Choose three.)
+✓ A. security
+✓ B. quality of service
+C. scalability
+D. powerline networking
+E. integrity
+✓ F. fault tolerance
+Q41. What are two common causes of signal degradation when using UTP cabling?
+(Choose two.)
+✓ A. improper termination
+B. low-quality shielding in cable
+C. installing cables in conduit
+✓ D. low-quality cable or connectors
+E. loss of light over long distances
+Q42. Which subnet would include the address 192.168.1.96 as a usable host address?
+✓ A. 192.168.1.64/26
+B. 192.168.1.32/27
+C. 192.168.1.32/28
+D. 192.168.1.64/29
+Q43. Refer to the exhibit. On the basis of the output, which two statements about network
+connectivity are correct? (Choose two.)
+A. This host does not have a default gateway configured.
+✓ B. There are 4 hops between this device and the device at 192.168.100.1.
+✓ C. There is connectivity between this device and the device at 192.168.100.1.
+D. The connectivity between these two hosts allows for videoconferencing calls.
+E. The average transmission time between the two hosts is 2 milliseconds.
+Q44. Which two statements describe how to assess traffic flow patterns and network
+traffic types using a protocol analyzer? (Choose two.)
+
+=== PAGE 9 ===
+A. Capture traffic on the weekends when most employees are off work.
+✓ B. Capture traffic during peak utilization times to get a good representation of the different
+traffic types.
+C. Only capture traffic in the areas of the network that receive most of the traffic such as the data
+center.
+✓ D. Perform the capture on different network segments.
+E. Only capture WAN traffic because traffic to the web is responsible for the largest amount of traffic on
+a network.
+Q45. What is the consequence of configuring a router with the ipv6 unicast-routing global
+configuration command?
+A. All router interfaces will be automatically activated.
+✓ B. The IPv6 enabled router interfaces begin sending ICMPv6 Router Advertisement
+messages.
+C. Each router interface will generate an IPv6 link-local address.
+D. It statically creates a global unicast address on this router.
+Q46. Which three layers of the OSI model map to the application layer of the TCP/IP
+model? (Choose three.)
+✓ A. application
+B. network
+C. data link
+✓ D. session
+✓ E. presentation
+F. transport
+Q47. Refer to the exhibit. If PC1 is sending a packet to PC2 and routing has been
+configured between the two routers, what will R1 do with the Ethernet frame header
+attached by PC1?
+A. nothing, because the router has a route to the destination network
+B. open the header and use it to determine whether the data is to be sent out S0/0/0
+C. open the header and replace the destination MAC address with a new one
+✓ D. remove the Ethernet header and configure a new Layer 2 header before sending it out
+S0/0/0
+Q48. What will happen if the default gateway address is incorrectly configured on a host?
+A. The host cannot communicate with other hosts in the local network.
+✓ B. The host cannot communicate with hosts in other networks.
+C. A ping from the host to 127.0.0.1 would not be successful.
+D. The host will have to use ARP to determine the correct address of the default gateway.
+
+=== PAGE 10 ===
+E. The switch will not forward packets initiated by the host.
+Q49. What are two features of ARP? (Choose two.)
+A. When a host is encapsulating a packet into a frame, it refers to the MAC address table to determine
+the mapping of IP addresses to MAC addresses.
+B. An ARP request is sent to all devices on the Ethernet LAN and contains the IP address of the
+destination host and its multicast MAC address.
+✓ C. If a host is ready to send a packet to a local destination device and it has the IP address but
+not the MAC address of the destination, it generates an ARP broadcast.
+D. If no device responds to the ARP request, then the originating node will broadcast the data packet to
+all devices on the network segment.
+✓ E. If a device receiving an ARP request has the destination IPv4 address, it responds with an
+ARP reply.
+Q50. A network administrator is adding a new LAN to a branch office. The new LAN must
+support 90 connected devices. What is the smallest network mask that the network
+administrator can use for the new network?
+✓ A. 255.255.255.128
+B. 255.255.255.240
+C. 255.255.255.248
+D. 255.255.255.224
+Q51. What are two ICMPv6 messages that are not present in ICMP for IPv4? (Choose two.)
+✓ A. Neighbor Solicitation
+B. Destination Unreachable
+C. Host Confirmation
+D. Time Exceeded
+✓ E. Router Advertisement
+F. Route Redirection
+Q52. A client packet is received by a server. The packet has a destination port number of
+80. What service is the client requesting?
+A. DHCP
+B. SMTP
+C. DNS
+✓ D. HTTP
+Q53. What is an advantage for small organizations of adopting IMAP instead of POP?
+A. POP only allows the client to store messages in a centralized way, while IMAP allows distributed
+storage.
+
+=== PAGE 11 ===
+✓ B. Messages are kept in the mail servers until they are manually deleted from the email client.
+C. When the user connects to a POP server, copies of the messages are kept in the mail server for a
+short time, but IMAP keeps them for a long time.
+D. IMAP sends and retrieves email, but POP only retrieves email.
+Q54. A technician can ping the IP address of the web server of a remote company but
+cannot successfully ping the URL address of the same web server. Which software utility
+can the technician use to diagnose the problem?
+A. tracert
+B. ipconfig
+C. netstat
+✓ D. nslookup
+Q55. Which two functions are performed at the LLC sublayer of the OSI Data Link Layer to
+facilitate Ethernet communication? (Choose two.)
+A. implements CSMA/CD over legacy shared half-duplex media
+✓ B. enables IPv4 and IPv6 to utilize the same physical medium
+C. integrates Layer 2 flows between 10 Gigabit Ethernet over fiber and 1 Gigabit Ethernet over copper
+D. implements a process to delimit fields within an Ethernet 2 frame
+✓ E. places information in the Ethernet frame that identifies which network layer protocol is
+being encapsulated by the frame
+Q56. The global configuration command ip default-gateway 172.16.100.1 is applied to a
+switch. What is the effect of this command?
+A. The switch can communicate with other hosts on the 172.16.100.0 network.
+✓ B. The switch can be remotely managed from a host on another network.
+C. The switch is limited to sending and receiving frames to and from the gateway 172.16.100.1.
+D. The switch will have a management interface with the address 172.16.100.1.
+Q57. What happens when the transport input ssh command is entered on the switch vty
+lines?
+A. The SSH client on the switch is enabled.
+B. The switch requires a username/password combination for remote access.
+✓ C. Communication between the switch and remote users is encrypted.
+D. The switch requires remote connections via a proprietary client software.
+Q58. Match the type of threat with the cause.
+(electrical/hardware/environmental/maintenance)
+✓ A. electrical threats -> voltage spikes, insufficient supply voltage (brownouts), unconditioned
+power (noise), and total power loss
+
+=== PAGE 12 ===
+✓ B. hardware threats -> physical damage to servers, routers, switches, cabling plant, and
+workstations
+✓ C. environmental threats -> temperature extremes or humidity extremes
+✓ D. maintenance threats -> poor handling of key electrical components (ESD), lack of critical
+spare parts, poor cabling, and poor labeling
+Q59. A disgruntled employee is using some free wireless networking tools to determine
+information about the enterprise wireless networks. This person is planning on using this
+information to hack the wireless network. What type of attack is this?
+A. DoS
+B. access
+✓ C. reconnaissance
+D. Trojan horse
+Q60. What service is provided by HTTP?
+A. Uses encryption to secure the exchange of text, graphic images, sound, and video on the web.
+B. Allows for data transfers between a client and a file server.
+C. An application that allows real-time chatting among remote users.
+✓ D. A basic set of rules for exchanging text, graphic images, sound, video, and other
+multimedia files on the web.
+Q61. A client packet is received by a server. The packet has a destination port number of
+67. What service is the client requesting?
+A. FTP
+✓ B. DHCP
+C. Telnet
+D. SSH
+Q62. What are two problems that can be caused by a large number of ARP request and
+reply messages? (Choose two.)
+A. Switches become overloaded because they concentrate all the traffic from the attached subnets.
+✓ B. The ARP request is sent as a broadcast, and will flood the entire subnet.
+C. The network may become overloaded because ARP reply messages have a very large payload due
+to the 48-bit MAC address and 32-bit IP address that they contain.
+D. A large number of ARP request and reply messages may slow down the switching process, leading
+the switch to make many changes in its MAC table.
+✓ E. All ARP request messages must be processed by all nodes on the local network.
+Q63. A group of Windows PCs in a new subnet can access local network resources but
+not the Internet. Which three Windows CLI commands and utilities will provide the
+
+=== PAGE 13 ===
+necessary information? (Choose three.)
+A. netsh interface ipv6 show neighbor
+B. arp -a
+C. tracert
+✓ D. ping
+✓ E. ipconfig
+✓ F. nslookup
+G. telnet
+Q64. During the process of forwarding traffic, what will the router do immediately after
+matching the destination IP address to a network on a directly connected routing table
+entry?
+A. analyze the destination IP address
+✓ B. switch the packet to the directly connected interface
+C. look up the next-hop address for the packet
+D. discard the traffic after consulting the route table
+Q65. What characteristic describes antispyware?
+✓ A. applications that protect end devices from becoming infected with malicious software
+B. a network device that filters access and traffic coming into a network
+C. software on a router that filters traffic based on IP addresses or applications
+D. a tunneling protocol that provides remote users with secure access into the network of an
+organization
+Q66. A network administrator needs to keep the user ID, password, and session contents
+private when establishing remote CLI connectivity with a switch to manage it. Which
+access method should be chosen?
+A. Telnet
+B. AUX
+✓ C. SSH
+D. Console
+Q67. What are the two most effective ways to defend against malware? (Choose two.)
+A. Implement a VPN.
+B. Implement network firewalls.
+C. Implement RAID.
+D. Implement strong passwords.
+✓ E. Update the operating system and other application software.
+✓ F. Install and update antivirus software.
+
+=== PAGE 14 ===
+Q68. Which type of security threat would be responsible if a spreadsheet add-on disables
+the local software firewall?
+A. brute-force attack
+✓ B. Trojan horse
+C. DoS
+D. buffer overflow
+Q69. Which frame field is created by a source node and used by a destination node to
+ensure that a transmitted data signal has not been altered by interference, distortion, or
+signal loss?
+A. User Datagram Protocol field
+B. transport layer error check field
+C. flow control field
+✓ D. frame check sequence field
+E. error correction process field
+Q70. A network administrator is adding a new LAN to a branch office. The new LAN must
+support 4 connected devices. What is the smallest network mask that the network
+administrator can use for the new network?
+✓ A. 255.255.255.248
+B. 255.255.255.0
+C. 255.255.255.128
+D. 255.255.255.192
+Q71. What service is provided by POP3?
+✓ A. Retrieves email from the server by downloading the email to the local mail application of
+the client.
+B. An application that allows real-time chatting among remote users.
+C. Allows remote access to network devices and servers.
+D. Uses encryption to provide secure remote access to network devices and servers.
+Q72. What two security solutions are most likely to be used only in a corporate
+environment? (Choose two.)
+A. antispyware
+✓ B. virtual private networks
+✓ C. intrusion prevention systems
+D. strong passwords
+E. antivirus software
+
+=== PAGE 15 ===
+Q73. What characteristic describes antivirus software?
+✓ A. applications that protect end devices from becoming infected with malicious software
+B. a network device that filters access and traffic coming into a network
+C. a tunneling protocol that provides remote users with secure access into the network of an
+organization
+D. software on a router that filters traffic based on IP addresses or applications
+Q74. What mechanism is used by a router to prevent a received IPv4 packet from traveling
+endlessly on a network?
+A. It checks the value of the TTL field and if it is 0, it discards the packet and sends a Destination
+Unreachable message to the source host.
+B. It checks the value of the TTL field and if it is 100, it discards the packet and sends a Destination
+Unreachable message to the source host.
+✓ C. It decrements the value of the TTL field by 1 and if the result is 0, it discards the packet and
+sends a Time Exceeded message to the source host.
+D. It increments the value of the TTL field by 1 and if the result is 100, it discards the packet and sends
+a Parameter Problem message to the source host.
+Q75. A client packet is received by a server. The packet has a destination port number of
+69. What service is the client requesting?
+A. DNS
+B. DHCP
+C. SMTP
+✓ D. TFTP
+Q76. An administrator defined a local user account with a secret password on router R1
+for use with SSH. Which three additional steps are required to configure R1 to accept only
+encrypted SSH connections? (Choose three.)
+A. Configure DNS on the router.
+B. Generate two-way pre-shared keys.
+✓ C. Configure the IP domain name on the router.
+✓ D. Generate the SSH keys.
+✓ E. Enable inbound vty SSH sessions.
+F. Enable inbound vty Telnet sessions.
+Q77. Which two functions are performed at the MAC sublayer of the OSI Data Link Layer
+to facilitate Ethernet communication? (Choose two.) [implements trailer w/ FCS for error
+detection; implements process to delimit fields within Ethernet 2 frame]
+A. handles communication between upper layer networking software and Ethernet NIC hardware
+
+=== PAGE 16 ===
+✓ B. implements trailer with frame check sequence for error detection
+C. places information in the Ethernet frame that identifies which network layer protocol is being
+encapsulated by the frame
+✓ D. implements a process to delimit fields within an Ethernet 2 frame
+E. adds Ethernet control information to network protocol data
+Q78. An IPv6 enabled device sends a data packet with the destination address of FF02::2.
+What is the target of this packet?
+A. all IPv6 enabled devices on the local link
+B. all IPv6 DHCP servers
+C. all IPv6 enabled devices across the network
+✓ D. all IPv6 configured routers on the local link
+Q79. What are the three parts of an IPv6 global unicast address? (Choose three.)
+✓ A. subnet ID
+B. subnet mask
+C. broadcast address
+✓ D. global routing prefix
+✓ E. interface ID
+Q80. A network administrator is designing the layout of a new wireless network. Which
+three areas of concern should be accounted for when building a wireless network?
+(Choose three.)
+A. extensive cabling
+B. mobility options
+C. packet collision
+✓ D. interference
+✓ E. security
+✓ F. coverage area
+Q81. A new network administrator has been asked to enter a banner message on a Cisco
+device. What is the fastest way a network administrator could test whether the banner is
+properly configured?
+A. Enter CTRL-Z at the privileged mode prompt.
+B. Exit global configuration mode.
+C. Power cycle the device.
+D. Reboot the device.
+✓ E. Exit privileged EXEC mode and press Enter.
+
+=== PAGE 17 ===
+Q82. What method is used to manage contention-based access on a wireless network?
+A. token passing
+✓ B. CSMA/CA
+C. priority ordering
+D. CSMA/CD
+Q83. What is a function of the data link layer?
+A. provides the formatting of data
+B. provides end-to-end delivery of data between hosts
+C. provides delivery of data between two applications
+✓ D. provides for the exchange of frames over a common local media
+Q84. What is the purpose of the TCP sliding window?
+A. to ensure that segments arrive in order at the destination
+B. to end communication when data transmission is complete
+C. to inform a source to retransmit data from a specific point forward
+✓ D. to request that a source decrease the rate at which it transmits data
+Q85. What characteristic describes spyware?
+A. a network device that filters access and traffic coming into a network
+✓ B. software that is installed on a user device and collects information about the user
+C. an attack that slows or crashes a device or network service
+D. the use of stolen credentials to access private data
+Q86. Which switching method drops frames that fail the FCS check?
+✓ A. store-and-forward switching
+B. borderless switching
+C. ingress port buffering
+D. cut-through switching
+Q87. Which range of link-local addresses can be assigned to an IPv6-enabled interface?
+A. FEC0::/10
+B. FDEE::/7
+✓ C. FE80::/10
+D. FF00::/8
+Q88. What service is provided by FTP?
+
+=== PAGE 18 ===
+A. A basic set of rules for exchanging text, graphic images, sound, video, and other multimedia files on
+the web.
+B. An application that allows real-time chatting among remote users.
+✓ C. Allows for data transfers between a client and a file server.
+D. Uses encryption to secure the exchange of text, graphic images, sound, and video on the web.
+Q89. A user is attempting to access http://www.cisco.com/ without success. Which two
+configuration values must be set on the host to allow this access? (Choose two.)
+✓ A. DNS server
+B. source port number
+C. HTTP server
+D. source MAC address
+✓ E. default gateway
+Q90. Which two statements accurately describe an advantage or a disadvantage when
+deploying NAT for IPv4 in a network? (Choose two.)
+A. NAT adds authentication capability to IPv4.
+✓ B. NAT introduces problems for some applications that require end-to-end connectivity.
+C. NAT will impact negatively on switch performance.
+✓ D. NAT provides a solution to slow down the IPv4 address depletion.
+E. NAT improves packet handling.
+F. NAT causes routing tables to include more information.
+Q91. What would be the interface ID of an IPv6 enabled interface with a MAC address of
+1C-6F-65-C2-BD-F8 when the interface ID is generated by using the EUI-64 process?
+A. 0C6F:65FF:FEC2:BDF8
+✓ B. 1E6F:65FF:FEC2:BDF8
+C. C16F:65FF:FEC2:BDF8
+D. 106F:65FF:FEC2:BDF8
+Q92. Refer to the exhibit. PC1 issues an ARP request because it needs to send a packet to
+PC2. In this scenario, what will happen next?
+A. SW1 will send an ARP reply with the SW1 Fa0/1 MAC address.
+B. SW1 will send an ARP reply with the PC2 MAC address.
+✓ C. PC2 will send an ARP reply with the PC2 MAC address.
+D. RT1 will send an ARP reply with the RT1 Fa0/0 MAC address.
+E. RT1 will send an ARP reply with the PC2 MAC address.
+Q93. What service is provided by BOOTP?
+
+=== PAGE 19 ===
+A. Uses encryption to secure the exchange of text, graphic images, sound, and video on the web.
+B. Allows for data transfers between a client and a file server.
+✓ C. Legacy application that enables a diskless workstation to discover its own IP address and
+find a BOOTP server on the network.
+D. A basic set of rules for exchanging text, graphic images, sound, video, and other multimedia files on
+the web.
+Q94. What characteristic describes adware?
+A. a network device that filters access and traffic coming into a network
+✓ B. software that is installed on a user device and collects information about the user
+C. the use of stolen credentials to access private data
+D. an attack that slows or crashes a device or network service
+Q95. When a switch configuration includes a user-defined error threshold on a per-port
+basis, to which switching method will the switch revert when the error threshold is
+reached?
+A. cut-through
+✓ B. store-and-forward
+C. fast-forward
+D. fragment-free
+Q96. Match a statement to the related network model. (P2P network: no dedicated server
+required, client/server roles set per request basis. P2P application: requires specific user
+interface, background service required.)
+✓ A. Peer-to-peer NETWORK -> no dedicated server is required
+✓ B. Peer-to-peer NETWORK -> client and server roles are set on a per request basis
+✓ C. Peer-to-peer APPLICATION -> requires a specific user interface
+✓ D. Peer-to-peer APPLICATION -> a background service is required
+Q97. What are two primary responsibilities of the Ethernet MAC sublayer? (Choose two.)
+A. error detection
+B. frame delimiting
+✓ C. accessing the media
+✓ D. data encapsulation
+E. logical addressing
+Q98. Refer to the exhibit. What three facts can be determined from the viewable output of
+the show ip interface brief command? (Choose three.)
+A. Two physical interfaces have been configured.
+
+=== PAGE 20 ===
+✓ B. The switch can be remotely managed.
+✓ C. One device is attached to a physical interface.
+D. Passwords have been configured on the switch.
+E. Two devices are attached to the switch.
+✓ F. The default SVI has been configured.
+Q99. Match each type of frame field to its function. (addressing/error detection/type/frame
+start)
+✓ A. addressing -> This field helps to direct the frame toward its destination.
+✓ B. error detection -> This field checks if the frame has been damaged during the transfer.
+✓ C. type -> This field is used by the LLC to identify the Layer 3 protocol.
+✓ D. frame start -> This field identifies the beginning of a frame.
+Q100. What is the subnet ID associated with the IPv6 address
+2001:DA48:FC5:A4:3D1B::1/64?
+A. 2001:DA48::/64
+B. 2001:DA48:FC5::A4:/64
+✓ C. 2001:DA48:FC5:A4::/64
+D. 2001::/64
+Q101. Match the firewall function to the type of threat protection it provides to the
+network.
+✓ A. prevents access by port number -> application filtering
+✓ B. prevents access based on IP or MAC address -> packet filtering
+✓ C. prevents unsolicited incoming sessions -> stateful packet inspection
+✓ D. prevents access to websites -> URL filtering
+Q102. Users are reporting longer delays in authentication and in accessing network
+resources during certain time periods of the week. What kind of information should
+network engineers check to find out if this situation is part of a normal network behavior?
+A. syslog records and messages
+✓ B. the network performance baseline
+C. debug output and packet captures
+D. network configuration files
+Q103. How does the service password-encryption command enhance password security
+on Cisco routers and switches?
+A. It requires encrypted passwords to be used when connecting remotely to a router or switch with
+Telnet.
+
+=== PAGE 21 ===
+✓ B. It encrypts passwords that are stored in router or switch configuration files.
+C. It requires that a user type encrypted passwords to gain console access to a router or switch.
+D. It encrypts passwords as they are sent across the network.
+Q104. Which two statements are correct in a comparison of IPv4 and IPv6 packet
+headers? (Choose two.)
+✓ A. The Source Address field name from IPv4 is kept in IPv6.
+B. The Version field from IPv4 is not kept in IPv6.
+C. The Destination Address field is new in IPv6.
+D. The Header Checksum field name from IPv4 is kept in IPv6.
+✓ E. The Time-to-Live field from IPv4 has been replaced by the Hop Limit field in IPv6.
+Q105. A network administrator wants to have the same network mask for all networks at a
+particular small site (IP phones - 22, PCs - 20, Printers - 2, Scanners - 2). The site uses
+192.168.10.0/24. Which single subnet mask would make the most efficient use of the
+available addresses for the four subnetworks?
+A. 255.255.255.192
+B. 255.255.255.252
+C. 255.255.255.240
+D. 255.255.255.248
+E. 255.255.255.0
+✓ F. 255.255.255.224
+Q106. What characteristic describes identity theft?
+✓ A. the use of stolen credentials to access private data
+B. software on a router that filters traffic based on IP addresses or applications
+C. software that identifies fast-spreading threats
+D. a tunneling protocol that provides remote users with secure access into the network of an
+organization
+Q107. A network administrator is adding a new LAN to a branch office. The new LAN must
+support 200 connected devices. What is the smallest network mask that the network
+administrator can use for the new network?
+A. 255.255.255.240
+✓ B. 255.255.255.0
+C. 255.255.255.248
+D. 255.255.255.224
+Q108. What are three commonly followed standards for constructing and installing
+cabling? (Choose three.)
+
+=== PAGE 22 ===
+A. cost per meter (foot)
+✓ B. cable lengths
+C. connector color
+✓ D. pinouts
+✓ E. connector types
+F. tensile strength of plastic insulator
+Q109. Refer to the exhibit. What is wrong with the displayed termination?
+A. The woven copper braid should not have been removed.
+B. The wrong type of connector is being used.
+✓ C. The untwisted length of each wire is too long.
+D. The wires are too thick for the connector that is used.
+Q110. Match the characteristic to the category. (IP address vs MAC address)
+✓ A. IP address -> contained in the Layer 3 header
+✓ B. MAC address -> contained in the Layer 2 header
+✓ C. IP address -> separated into a network portion and a unique identifier
+✓ D. MAC address -> separated into OUI and a unique identifier
+✓ E. IP address -> 32 or 128 bits
+✓ F. MAC address -> 48 bits
+Q111. A client packet is received by a server. The packet has a destination port number of
+143. What service is the client requesting?
+✓ A. IMAP
+B. FTP
+C. SSH
+D. Telnet
+Q112. What are two characteristics shared by TCP and UDP? (Choose two.)
+A. default window size
+B. connectionless communication
+✓ C. port numbering
+D. 3-way handshake
+E. ability to carry digitized voice
+✓ F. use of checksum
+Q113. Refer to the exhibit. Which two network addresses can be assigned to the network
+containing 10 hosts, within the 10.18.10.0/24 range, wasting the fewest addresses?
+(Choose two.)
+
+=== PAGE 23 ===
+A. 10.18.10.200/28
+✓ B. 10.18.10.208/28
+C. 10.18.10.240/27
+D. 10.18.10.200/27
+E. 10.18.10.224/27
+✓ F. 10.18.10.224/28
+Q114. A client packet is received by a server. The packet has a destination port number of
+21. What service is the client requesting?
+✓ A. FTP
+B. LDAP
+C. SLP
+D. SNMP
+Q115. What attribute of a NIC would place it at the data link layer of the OSI model?
+A. attached Ethernet cable
+B. IP address
+✓ C. MAC address
+D. RJ-45 port
+E. TCP/IP protocol stack
+

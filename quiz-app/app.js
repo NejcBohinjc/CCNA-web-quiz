@@ -1471,7 +1471,7 @@ function renderQuestion() {
   // topbar
   qCounter.textContent = `${current + 1} / ${pool.length}`;
   scoreLive.textContent = `✓ ${score}`;
-  const pct = (current / pool.length) * 100;
+  const pct = ((current + 1) / pool.length) * 100;
   progress.style.width = pct + '%';
 
   // hint
