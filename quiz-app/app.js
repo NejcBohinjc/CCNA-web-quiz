@@ -1480,6 +1480,7 @@ function renderQuestion() {
   const q = pool[current];
   answered = false;
   selectedLetters = new Set();
+  postAnswerClicks = 0;
 
   // topbar
   qCounter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(pool.length).padStart(2, '0')}`;
