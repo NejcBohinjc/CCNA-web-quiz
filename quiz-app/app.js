@@ -1300,6 +1300,7 @@ const startBtn   = id('start-btn');
 const nextBtn    = id('next-btn');
 const retryBtn   = id('retry-btn');
 const newBtn     = id('new-btn');
+const exitBtn    = id('exit-btn');
 const qCount     = id('q-count');
 const qSlider    = id('q-slider');
 const qCounter   = id('q-counter');
