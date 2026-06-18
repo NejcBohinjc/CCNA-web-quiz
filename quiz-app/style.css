@@ -342,6 +342,14 @@ body {
   color: var(--text-muted);
 }
 
+.time-estimate {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  margin-top: 2px;
+}
+
 /* Slider */
 input[type="range"] {
   width: 100%;
