@@ -1509,7 +1509,9 @@ function startQuiz() {
   pool = shuffle([...QUESTIONS]).slice(0, n);
   current = 0; score = 0; wrongItems = [];
   showScreen('quiz');
-  startTimer();
+  timerToggleBtn.classList.toggle('active', timerVisible);
+  qTimer.style.display = timerVisible ? '' : 'none';
+  startTimer(pool.length * 60);
   renderQuestion();
 }
 
