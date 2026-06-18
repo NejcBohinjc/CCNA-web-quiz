@@ -274,6 +274,24 @@ input[type="number"]:focus {
   margin: 0 auto 16px;
 }
 
+.exit-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  padding: 5px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.exit-btn:hover {
+  background: color-mix(in srgb, var(--incorrect) 12%, transparent);
+  border-color: var(--incorrect);
+  color: var(--incorrect);
+}
+
 .q-counter {
   font-family: var(--font-mono);
   font-size: 0.82rem;
