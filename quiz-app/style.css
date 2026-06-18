@@ -113,6 +113,11 @@ body {
 }
 .screen.active { display: flex; }
 
+#screen-quiz.active {
+  flex-direction: column;
+  align-items: center;
+}
+
 /* ── CARD ── */
 .card {
   background: var(--surface);
