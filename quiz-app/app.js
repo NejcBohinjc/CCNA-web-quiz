@@ -1473,6 +1473,7 @@ function renderQuestion() {
   // topbar
   qCounter.textContent = `${current + 1} / ${pool.length}`;
   scoreLive.textContent = `✓ ${score}`;
+  wrongLive.textContent = `✗ ${wrongItems.length}`;
   const pct = ((current + 1) / pool.length) * 100;
   progress.style.width = pct + '%';
 
