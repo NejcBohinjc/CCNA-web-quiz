@@ -1319,6 +1319,9 @@ const ringFill        = id('ring-fill');
 const themeBtn        = id('theme-toggle');
 const qTimer          = id('q-timer');
 const timerToggleBtn  = id('timer-toggle-btn');
+const timerPauseBtn   = id('timer-pause-btn');
+const sessionHistorySection = id('session-history-section');
+const sessionHistoryList  = id('session-history-list');
 
 function id(s) { return document.getElementById(s); }
 
@@ -1328,6 +1331,7 @@ function id(s) { return document.getElementById(s); }
 let timerInterval = null;
 let timerSeconds  = 0;
 let timerVisible  = true;
+let timerPaused   = false;
 
 function renderTimer() {
   const s = Math.max(0, timerSeconds);
@@ -1340,11 +1344,14 @@ function renderTimer() {
 function startTimer(totalSeconds) {
   clearInterval(timerInterval);
   timerSeconds = totalSeconds;
+  timerPaused = false;
   renderTimer();
   timerInterval = setInterval(() => {
-    timerSeconds--;
-    renderTimer();
-    if (timerSeconds <= 0) stopTimer();
+    if (!timerPaused) {
+      timerSeconds--;
+      renderTimer();
+      if (timerSeconds <= 0) stopTimer();
+    }
   }, 1000);
 }
 
@@ -1353,11 +1360,20 @@ function stopTimer() {
   timerInterval = null;
 }
 
+function togglePauseTimer() {
+  timerPaused = !timerPaused;
+  timerPauseBtn.classList.toggle('paused', timerPaused);
+  timerPauseBtn.textContent = timerPaused ? '▶' : '❚❚';
+  timerPauseBtn.title = timerPaused ? 'Resume timer' : 'Pause timer';
+}
+
 timerToggleBtn.addEventListener('click', () => {
   timerVisible = !timerVisible;
   timerToggleBtn.classList.toggle('active', timerVisible);
   qTimer.style.display = timerVisible ? '' : 'none';
 });
+
+timerPauseBtn.addEventListener('click', togglePauseTimer);
 
 /* ─────────────────────────────────────────
    THEME TOGGLE
@@ -1365,7 +1381,14 @@ timerToggleBtn.addEventListener('click', () => {
 themeBtn.addEventListener('click', () => {
   const html = document.documentElement;
   html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('quiz-theme', html.dataset.theme);
 });
+
+// Restore saved theme
+(function restoreTheme() {
+  const saved = localStorage.getItem('quiz-theme');
+  if (saved) document.documentElement.dataset.theme = saved;
+})();
 
 /* ─────────────────────────────────────────
    SLIDER ↔ NUMBER SYNC
@@ -1524,6 +1547,10 @@ function startQuiz() {
   showScreen('quiz');
   timerToggleBtn.classList.toggle('active', timerVisible);
   qTimer.style.display = timerVisible ? '' : 'none';
+  timerPauseBtn.style.display = '';
+  timerPauseBtn.classList.remove('paused');
+  timerPauseBtn.textContent = '❚❚';
+  timerPauseBtn.title = 'Pause timer';
   startTimer(pool.length * 60);
   renderQuestion();
 }
@@ -1679,6 +1706,7 @@ function advance() {
 function showResults() {
   progress.style.width = '100%';
   stopTimer();
+  timerPauseBtn.style.display = 'none';
   showScreen('results');
 
   const pct = Math.round((score / pool.length) * 100);
@@ -1712,10 +1740,38 @@ function showResults() {
   // color ring by score
   ringFill.style.stroke = passed ? 'var(--correct)' : 'var(--incorrect)';
 
+  // Save session history
+  const history = JSON.parse(localStorage.getItem('quiz-history') || '[]');
+  history.unshift({
+    date: new Date().toISOString(),
+    questions: pool.length,
+    score,
+    pct,
+    passed
+  });
+  if (history.length > 20) history.length = 20;
+  localStorage.setItem('quiz-history', JSON.stringify(history));
+
+  // Render session history
+  if (history.length > 1) {
+    sessionHistorySection.style.display = '';
+    sessionHistoryList.innerHTML = '';
+    history.slice(1, 6).forEach(h => {
+      const d = new Date(h.date);
+      const dateStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+      const item = document.createElement('div');
+      item.className = 'session-history-item';
+      item.innerHTML = `<span class="session-history-date">${dateStr}</span><span class="session-history-score ${h.passed ? 'pass' : 'fail'}">${h.score}/${h.questions} (${h.pct}%)</span>`;
+      sessionHistoryList.appendChild(item);
+    });
+  }
+
   // wrong answers list
   wrongList.innerHTML = '';
   if (wrongItems.length === 0) {
     wrongList.innerHTML = '<p style="text-align:center;color:var(--correct);font-weight:600;padding:12px 0;">All answers correct!</p>';
+    // Trigger confetti for perfect score
+    if (pct === 100) launchConfetti();
     return;
   }
 
@@ -1776,6 +1832,7 @@ function showResults() {
    ───────────────────────────────────────── */
 exitBtn.addEventListener('click', () => {
   stopTimer();
+  timerPauseBtn.style.display = 'none';
   showScreen('start');
 });
 
@@ -1810,4 +1867,126 @@ function setsEqual(a, b) {
   if (a.size !== b.size) return false;
   for (const x of a) if (!b.has(x)) return false;
   return true;
+}
+
+/* ─────────────────────────────────────────
+   KEYBOARD SHORTCUTS
+   ───────────────────────────────────────── */
+document.addEventListener('keydown', (e) => {
+  // Only active during quiz screen
+  if (!screens.quiz.classList.contains('active')) return;
+
+  const options = optWrap.querySelectorAll('.option-label');
+  if (!options.length) return;
+
+  // Arrow keys / J/K to navigate options
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'j' || e.key === 'J') {
+    e.preventDefault();
+    const currentIdx = Array.from(options).findIndex(o => o.classList.contains('selected'));
+    const nextIdx = (currentIdx + 1) % options.length;
+    options[nextIdx].dispatchEvent(new Event('click', { bubbles: true }));
+  }
+  else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'k' || e.key === 'K') {
+    e.preventDefault();
+    const currentIdx = Array.from(options).findIndex(o => o.classList.contains('selected'));
+    const prevIdx = (currentIdx - 1 + options.length) % options.length;
+    options[prevIdx].dispatchEvent(new Event('click', { bubbles: true }));
+  }
+  // Space to select/deselect or confirm
+  else if (e.key === ' ') {
+    e.preventDefault();
+    const selected = optWrap.querySelector('.option-label.selected');
+    if (selected && !answered) {
+      selected.dispatchEvent(new Event('click', { bubbles: true }));
+    } else if (answered) {
+      nextBtn.click();
+    }
+  }
+  // Enter to confirm or advance
+  else if (e.key === 'Enter') {
+    e.preventDefault();
+    if (!answered && selectedLetters.size > 0) {
+      nextBtn.click();
+    } else if (answered) {
+      nextBtn.click();
+    }
+  }
+  // Number keys 1-9 to select option letter (A=1, B=2, etc.)
+  else if (/^[1-9]$/.test(e.key) && !answered) {
+    const letterMap = { '1':'A','2':'B','3':'C','4':'D','5':'E','6':'F','7':'G','8':'H','9':'I' };
+    const letter = letterMap[e.key];
+    if (letter) {
+      const target = options.find(o => o.dataset.letter === letter);
+      if (target) target.dispatchEvent(new Event('click', { bubbles: true }));
+    }
+  }
+  // P to pause/resume timer
+  else if (e.key === 'p' || e.key === 'P') {
+    e.preventDefault();
+    togglePauseTimer();
+  }
+});
+
+/* ─────────────────────────────────────────
+   CONFETTI — lightweight particle burst
+   ───────────────────────────────────────── */
+function launchConfetti() {
+  const canvas = document.createElement('canvas');
+  canvas.style.cssText = 'position:fixed;inset:0;z-index:9999;pointer-events:none;';
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const colors = ['#4F8EF7','#34D399','#F87171','#FBBF24','#A78BFA','#F472B6','#38BDF8'];
+  const particles = [];
+  for (let i = 0; i < 120; i++) {
+    particles.push({
+      x: W / 2 + (Math.random() - 0.5) * 200,
+      y: H / 2,
+      vx: (Math.random() - 0.5) * 16,
+      vy: Math.random() * -18 - 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      size: Math.random() * 6 + 3,
+      rot: Math.random() * Math.PI * 2,
+      vr: (Math.random() - 0.5) * 0.3,
+      life: 1
+    });
+  }
+
+  let raf;
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    let alive = false;
+    for (const p of particles) {
+      if (p.life <= 0) continue;
+      alive = true;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.35;
+      p.vx *= 0.99;
+      p.rot += p.vr;
+      p.life -= 0.008;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.globalAlpha = Math.max(0, p.life);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size * 0.6);
+      ctx.restore();
+    }
+    if (alive) {
+      raf = requestAnimationFrame(frame);
+    } else {
+      window.removeEventListener('resize', resize);
+      canvas.remove();
+      cancelAnimationFrame(raf);
+    }
+  }
+  frame();
 }

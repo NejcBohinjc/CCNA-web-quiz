@@ -54,6 +54,12 @@
             <span class="stat-lbl">certification</span>
           </div>
         </div>
+        <div class="shortcuts-hint">
+          <span class="shortcut"><kbd>↑↓</kbd> Navigate</span>
+          <span class="shortcut"><kbd>Enter</kbd> Confirm</span>
+          <span class="shortcut"><kbd>P</kbd> Pause timer</span>
+          <span class="shortcut"><kbd>1-9</kbd> Select option</span>
+        </div>
       </div>
 
       <div class="start-picker card">
@@ -89,6 +95,7 @@
         <span id="q-wrong-live" class="wrong-live">✗ 0</span>
         <span class="tally-divider"></span>
         <button id="timer-toggle-btn" class="timer-toggle-btn" title="Toggle countdown timer">⏱</button>
+        <button id="timer-pause-btn" class="timer-pause-btn" title="Pause/Resume timer" style="display:none;">❚❚</button>
         <span id="q-timer" class="q-timer">10:00</span>
       </div>
     </div>
@@ -117,6 +124,10 @@
       </div>
       <p id="res-message" class="res-message"></p>
       <div id="wrong-list" class="wrong-list"></div>
+      <div id="session-history-section" class="session-history-section" style="display:none;">
+        <p class="session-history-label">Recent sessions</p>
+        <div id="session-history-list" class="session-history-list"></div>
+      </div>
       <div class="results-actions">
         <button id="retry-btn" class="btn-primary">Retry</button>
         <button id="new-btn" class="btn-secondary">New quiz</button>
