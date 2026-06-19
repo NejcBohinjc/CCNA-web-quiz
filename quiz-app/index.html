@@ -76,6 +76,16 @@
           <button class="pick-btn" data-n="50">50</button>
           <button class="pick-btn" data-n="111">All</button>
         </div>
+        <div class="diff-filter-wrap">
+          <p class="picker-label">Filter by difficulty</p>
+          <div class="diff-filter-btns">
+            <button class="diff-filter-btn active" data-diff="all">All</button>
+            <button class="diff-filter-btn" data-diff="easy">Easy</button>
+            <button class="diff-filter-btn" data-diff="medium">Medium</button>
+            <button class="diff-filter-btn" data-diff="hard">Hard</button>
+          </div>
+          <span id="diff-avail" class="diff-avail">111 total available</span>
+        </div>
         <button id="start-btn" class="btn-primary">Begin session →</button>
       </div>
 
@@ -85,8 +95,10 @@
   <!-- ── QUIZ SCREEN ── -->
   <main id="screen-quiz" class="screen">
     <div class="quiz-topbar">
-      <button id="exit-btn" class="exit-btn">←</button>
+      <button id="exit-btn" class="exit-btn" title="Exit quiz">❮</button>
+      <button id="nav-prev-btn" class="nav-btn" title="Previous question">◀</button>
       <span id="q-counter" class="q-counter">01 / 10</span>
+      <button id="nav-next-btn" class="nav-btn" title="Next question">▶</button>
       <div class="progress-track">
         <div id="progress-fill" class="progress-fill"></div>
       </div>
@@ -104,6 +116,12 @@
       <p id="multi-hint" class="multi-hint hidden">Select all that apply</p>
       <h2 id="q-text" class="q-text"></h2>
       <div id="options-wrap" class="options-wrap"></div>
+      <div id="diff-rate-wrap" class="diff-rate-wrap">
+        <span class="diff-rate-label">Difficulty</span>
+        <button class="diff-rate-btn" data-diff="easy">Easy</button>
+        <button class="diff-rate-btn" data-diff="medium">Medium</button>
+        <button class="diff-rate-btn" data-diff="hard">Hard</button>
+      </div>
       <button id="next-btn" class="btn-primary" disabled>Confirm →</button>
     </div>
   </main>
@@ -132,9 +150,11 @@
         <button id="retry-btn" class="btn-primary">Retry</button>
         <button id="new-btn" class="btn-secondary">New quiz</button>
       </div>
+      <button id="export-btn" class="btn-export">↓ Export difficulty ratings</button>
     </div>
   </main>
 
+  <script src="difficulty-data.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

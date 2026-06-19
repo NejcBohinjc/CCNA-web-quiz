@@ -1292,6 +1292,11 @@ let wrongItems = [];   // { question, yourLetters, correctLetters }
 let selectedLetters = new Set();
 let answered = false;
 let postAnswerClicks = 0;
+let userAnswers = [];       // Set per question index
+let answeredFlags = [];     // true once confirmAnswer called
+let difficulties = {};         // questionId (string) -> 'easy'|'medium'|'hard'
+let diffFilter   = 'all';     // 'all'|'easy'|'medium'|'hard'
+let difficultiesChanged = false;
 
 /* ─────────────────────────────────────────
    DOM REFS
@@ -1320,10 +1325,108 @@ const themeBtn        = id('theme-toggle');
 const qTimer          = id('q-timer');
 const timerToggleBtn  = id('timer-toggle-btn');
 const timerPauseBtn   = id('timer-pause-btn');
+const navPrevBtn      = id('nav-prev-btn');
+const navNextBtn      = id('nav-next-btn');
 const sessionHistorySection = id('session-history-section');
 const sessionHistoryList  = id('session-history-list');
+const diffAvailEl         = id('diff-avail');
 
 function id(s) { return document.getElementById(s); }
+
+/* ─────────────────────────────────────────
+   DIFFICULTY
+   ───────────────────────────────────────── */
+function loadDifficulties() {
+  difficulties = Object.assign({}, window.DIFFICULTY_DATA || {});
+  try {
+    const saved = localStorage.getItem('quiz-difficulties');
+    if (saved) Object.assign(difficulties, JSON.parse(saved));
+  } catch(e) {}
+  QUESTIONS.forEach(q => {
+    if (!difficulties[String(q.id)]) difficulties[String(q.id)] = 'easy';
+  });
+}
+
+function setDifficulty(questionId, diff) {
+  difficulties[String(questionId)] = diff;
+  difficultiesChanged = true;
+  localStorage.setItem('quiz-difficulties', JSON.stringify(difficulties));
+}
+
+function getAvailableCount(diff) {
+  if (diff === 'all') return QUESTIONS.length;
+  const n = QUESTIONS.filter(q => difficulties[String(q.id)] === diff).length;
+  return n > 0 ? n : QUESTIONS.length;
+}
+
+function updateDiffFilter(diff) {
+  diffFilter = diff;
+  const avail = getAvailableCount(diff);
+  qSlider.max = avail;
+  qCount.max  = avail;
+  const cur = Math.max(1, Math.min(parseInt(qCount.value) || 10, avail));
+  syncCount(cur);
+  document.querySelectorAll('.diff-filter-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.diff === diff);
+  });
+  if (diffAvailEl) {
+    const label = diff === 'all' ? 'total' : diff;
+    diffAvailEl.textContent = `${avail} ${label} available`;
+  }
+}
+
+function updateDiffRaterUI(questionId) {
+  const d = difficulties[String(questionId)] || 'easy';
+  document.querySelectorAll('.diff-rate-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.diff === d);
+  });
+}
+
+const SAVE_URL = 'http://localhost:3001/save-difficulties';
+
+function buildDiffContent() {
+  const entries = QUESTIONS
+    .slice().sort((a, b) => a.id - b.id)
+    .map(q => `  "${q.id}": "${difficulties[String(q.id)] || 'easy'}"`)
+    .join(',\n');
+  return (
+    `/* CCNA1 Question Difficulty Ratings\n` +
+    `   Values: "easy" | "medium" | "hard"\n` +
+    `   Edit directly here, or use the Export button in the app and commit the downloaded file.\n` +
+    `   Commit this file to GitHub to sync your ratings across machines. */\n` +
+    `window.DIFFICULTY_DATA = {\n${entries}\n};\n`
+  );
+}
+
+function syncDifficulties() {
+  if (!difficultiesChanged) return;
+  const content = buildDiffContent();
+  difficultiesChanged = false;
+  fetch(SAVE_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ content })
+  }).catch(() => {});
+}
+
+function exportDifficulties() {
+  const content = buildDiffContent();
+  const blob = new Blob([content], { type: 'application/javascript' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = 'difficulty-data.js'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+window.addEventListener('beforeunload', () => {
+  if (!difficultiesChanged) return;
+  navigator.sendBeacon(SAVE_URL, new Blob(
+    [JSON.stringify({ content: buildDiffContent() })],
+    { type: 'application/json' }
+  ));
+});
+
+loadDifficulties();
 
 /* ─────────────────────────────────────────
    TIMER
@@ -1375,6 +1478,20 @@ timerToggleBtn.addEventListener('click', () => {
 
 timerPauseBtn.addEventListener('click', togglePauseTimer);
 
+navPrevBtn.addEventListener('click', () => {
+  if (current > 0) {
+    current--;
+    renderQuestion();
+  }
+});
+
+navNextBtn.addEventListener('click', () => {
+  if (current < pool.length - 1) {
+    current++;
+    renderQuestion();
+  }
+});
+
 /* ─────────────────────────────────────────
    THEME TOGGLE
    ───────────────────────────────────────── */
@@ -1416,7 +1533,7 @@ qCount.addEventListener('input', () => {
     timeEstimate.textContent = '~ — min';
     return;
   }
-  const v = Math.max(1, Math.min(111, parseInt(raw) || 1));
+  const v = Math.max(1, Math.min(getAvailableCount(diffFilter), parseInt(raw) || 1));
   qCount.value = v;
   syncCount(v);
 });
@@ -1429,8 +1546,27 @@ qCount.addEventListener('blur', () => {
 });
 
 document.querySelectorAll('.pick-btn').forEach(btn => {
-  btn.addEventListener('click', () => syncCount(parseInt(btn.dataset.n)));
+  btn.addEventListener('click', () => {
+    const avail = getAvailableCount(diffFilter);
+    syncCount(Math.min(parseInt(btn.dataset.n), avail));
+  });
 });
+
+document.querySelectorAll('.diff-filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => updateDiffFilter(btn.dataset.diff));
+});
+updateDiffFilter('all');
+
+document.querySelectorAll('.diff-rate-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (pool.length > 0 && current < pool.length) {
+      setDifficulty(pool[current].id, btn.dataset.diff);
+      updateDiffRaterUI(pool[current].id);
+    }
+  });
+});
+
+id('export-btn').addEventListener('click', exportDifficulties);
 
 /* ─────────────────────────────────────────
    CANVAS BACKGROUND — animated nodes/packets
@@ -1539,11 +1675,16 @@ function showScreen(name) {
 startBtn.addEventListener('click', startQuiz);
 
 function startQuiz() {
-  const n = Math.max(1, Math.min(111, parseInt(qCount.value) || 10));
+  const filtered = diffFilter === 'all'
+    ? [...QUESTIONS]
+    : QUESTIONS.filter(q => difficulties[String(q.id)] === diffFilter);
+  const questionPool = filtered.length > 0 ? filtered : [...QUESTIONS];
+  const n = Math.max(1, Math.min(questionPool.length, parseInt(qCount.value) || 10));
   syncCount(n);
 
-  pool = shuffle([...QUESTIONS]).slice(0, n);
+  pool = shuffle(questionPool).slice(0, n);
   current = 0; score = 0; wrongItems = [];
+  userAnswers = []; answeredFlags = [];
   showScreen('quiz');
   timerToggleBtn.classList.toggle('active', timerVisible);
   qTimer.style.display = timerVisible ? '' : 'none';
@@ -1560,8 +1701,13 @@ function startQuiz() {
    ───────────────────────────────────────── */
 function renderQuestion() {
   const q = pool[current];
-  answered = false;
-  selectedLetters = new Set();
+  if (answeredFlags[current]) {
+    answered = true;
+    selectedLetters = new Set(userAnswers[current] || []);
+  } else {
+    answered = false;
+    selectedLetters = new Set();
+  }
   postAnswerClicks = 0;
 
   // topbar
@@ -1579,7 +1725,7 @@ function renderQuestion() {
   }
 
   qText.textContent = `Q${q.id}. ${q.text}`;
-  nextBtn.disabled = true;
+  nextBtn.disabled = current < pool.length - 1;
   nextBtn.textContent = current < pool.length - 1 ? 'Confirm →' : 'Finish →';
 
   // render options
@@ -1608,7 +1754,7 @@ function renderQuestion() {
         if (++postAnswerClicks >= 3) advance();
         return;
       }
-      if (selectedLetters.has(opt.l)) {
+      if (selectedLetters.has(opt.l) && !q.multi) {
         confirmAnswer();
       } else {
         handleSelect(opt.l, q.multi);
@@ -1617,9 +1763,28 @@ function renderQuestion() {
     optWrap.appendChild(label);
   });
 
-  // focus first option for keyboard navigation
-  const firstOpt = optWrap.querySelector('.option-label');
-  if (firstOpt) firstOpt.classList.add('keyboard-focus');
+  // restore locked state for already-answered questions
+  if (answeredFlags[current]) {
+    const correctLetters = new Set(q.options.filter(o => o.c).map(o => o.l));
+    optWrap.querySelectorAll('.option-label').forEach(lbl => {
+      const letter = lbl.dataset.letter;
+      lbl.classList.add('locked');
+      if (correctLetters.has(letter)) {
+        lbl.classList.add('correct');
+      } else if (selectedLetters.has(letter)) {
+        lbl.classList.add('incorrect');
+      }
+    });
+    nextBtn.disabled = false;
+    nextBtn.textContent = current < pool.length - 1 ? 'Next →' : 'See Results →';
+  }
+
+  // nav button state
+  navPrevBtn.disabled = current === 0;
+  navNextBtn.disabled = current >= pool.length - 1;
+
+  // difficulty rater
+  updateDiffRaterUI(q.id);
 }
 
 /* ─────────────────────────────────────────
@@ -1647,7 +1812,7 @@ function handleSelect(letter, multi) {
     }
   });
 
-  nextBtn.disabled = selectedLetters.size === 0;
+  nextBtn.disabled = selectedLetters.size === 0 && current < pool.length - 1;
 }
 
 /* ─────────────────────────────────────────
@@ -1655,14 +1820,25 @@ function handleSelect(letter, multi) {
    ───────────────────────────────────────── */
 nextBtn.addEventListener('click', () => {
   if (!answered) {
-    confirmAnswer();
+    if (current === pool.length - 1) {
+      if (selectedLetters.size > 0) confirmAnswer();
+      tryFinish();
+    } else {
+      confirmAnswer();
+    }
   } else {
-    advance();
+    if (current < pool.length - 1) {
+      advance();
+    } else {
+      tryFinish();
+    }
   }
 });
 
 function confirmAnswer() {
   answered = true;
+  answeredFlags[current] = true;
+  userAnswers[current] = new Set(selectedLetters);
   const q = pool[current];
   const correctLetters = new Set(q.options.filter(o => o.c).map(o => o.l));
   const isCorrect = setsEqual(selectedLetters, correctLetters);
@@ -1698,16 +1874,46 @@ function confirmAnswer() {
 function advance() {
   current++;
   if (current >= pool.length) {
+    // Auto-submit any unanswered questions as incorrect
+    for (let i = 0; i < pool.length; i++) {
+      if (!answeredFlags[i]) {
+        const q = pool[i];
+        const correctLetters = new Set(q.options.filter(o => o.c).map(o => o.l));
+        wrongItems.push({
+          question: q,
+          yourLetters: new Set(),
+          correctLetters: correctLetters,
+          skipped: true
+        });
+      }
+    }
     showResults();
   } else {
     renderQuestion();
   }
 }
 
+function tryFinish() {
+  const unanswered = [];
+  for (let i = 0; i < pool.length; i++) {
+    if (!answeredFlags[i]) unanswered.push(`Q${pool[i].id}`);
+  }
+  if (unanswered.length === 0) {
+    advance();
+    return;
+  }
+  const count = unanswered.length;
+  const ok = confirm(
+    `${count} unanswered question${count !== 1 ? 's' : ''}: ${unanswered.join(', ')}.\n\nThey will be marked incorrect. Finish anyway?`
+  );
+  if (ok) advance();
+}
+
 /* ─────────────────────────────────────────
    RESULTS
    ───────────────────────────────────────── */
 function showResults() {
+  syncDifficulties();
   progress.style.width = '100%';
   stopTimer();
   timerPauseBtn.style.display = 'none';
@@ -1835,18 +2041,24 @@ function showResults() {
    RESTART BUTTONS
    ───────────────────────────────────────── */
 exitBtn.addEventListener('click', () => {
+  syncDifficulties();
   stopTimer();
   timerPauseBtn.style.display = 'none';
   showScreen('start');
 });
 
 retryBtn.addEventListener('click', () => {
-  // same pool, reset state
   current = 0; score = 0; wrongItems = [];
+  userAnswers = []; answeredFlags = [];
   pool = shuffle(pool);
   ringFill.style.strokeDashoffset = 327;
   ringFill.style.stroke = 'var(--accent)';
   showScreen('quiz');
+  timerPauseBtn.style.display = '';
+  timerPauseBtn.classList.remove('paused');
+  timerPauseBtn.textContent = '❚❚';
+  timerPauseBtn.title = 'Pause timer';
+  startTimer(pool.length * 60);
   renderQuestion();
 });
 
@@ -1886,7 +2098,7 @@ document.addEventListener('keydown', (e) => {
   // Arrow keys / J/K to navigate highlight only (no selection change)
   if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'j' || e.key === 'J') {
     e.preventDefault();
-    const currentIdx = Array.from(options).findIndex(o => o.classList.contains('keyboard-focus')) || -1;
+    const currentIdx = Array.from(options).findIndex(o => o.classList.contains('keyboard-focus'));
     const nextIdx = (currentIdx + 1) % options.length;
     options.forEach(o => o.classList.remove('keyboard-focus'));
     options[nextIdx].classList.add('keyboard-focus');
@@ -1894,38 +2106,46 @@ document.addEventListener('keydown', (e) => {
   }
   else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'k' || e.key === 'K') {
     e.preventDefault();
-    const currentIdx = Array.from(options).findIndex(o => o.classList.contains('keyboard-focus')) || -1;
+    const currentIdx = Array.from(options).findIndex(o => o.classList.contains('keyboard-focus'));
     const prevIdx = (currentIdx - 1 + options.length) % options.length;
     options.forEach(o => o.classList.remove('keyboard-focus'));
     options[prevIdx].classList.add('keyboard-focus');
     options[prevIdx].scrollIntoView({ block: 'nearest' });
   }
-  // Space to select/deselect or confirm
+  // Space: toggle keyboard-focused option
   else if (e.key === ' ') {
     e.preventDefault();
-    const selected = optWrap.querySelector('.option-label.selected');
-    if (selected && !answered) {
-      selected.dispatchEvent(new Event('click', { bubbles: true }));
-    } else if (answered) {
-      nextBtn.click();
-    }
+    if (answered) { nextBtn.click(); return; }
+    const focused = optWrap.querySelector('.option-label.keyboard-focus');
+    if (focused) handleSelect(focused.dataset.letter, pool[current].multi);
   }
-  // Enter to confirm or advance
+  // Enter: select focused option if nothing chosen yet, otherwise confirm
   else if (e.key === 'Enter') {
     e.preventDefault();
-    if (!answered && selectedLetters.size > 0) {
-      nextBtn.click();
-    } else if (answered) {
-      nextBtn.click();
+    if (answered) { nextBtn.click(); return; }
+    const q = pool[current];
+    const focused = optWrap.querySelector('.option-label.keyboard-focus');
+    if (selectedLetters.size === 0 && focused) {
+      handleSelect(focused.dataset.letter, q.multi);
+      if (!q.multi) confirmAnswer();
+    } else if (selectedLetters.size > 0) {
+      if (!nextBtn.disabled) confirmAnswer();
     }
   }
-  // Number keys 1-9 to select option letter (A=1, B=2, etc.)
+  // Number keys 1-9 to toggle option letter (A=1, B=2, etc.)
   else if (/^[1-9]$/.test(e.key) && !answered) {
     const letterMap = { '1':'A','2':'B','3':'C','4':'D','5':'E','6':'F','7':'G','8':'H','9':'I' };
     const letter = letterMap[e.key];
     if (letter) {
+      const q = pool[current];
       const target = options.find(o => o.dataset.letter === letter);
-      if (target) target.dispatchEvent(new Event('click', { bubbles: true }));
+      if (target) {
+        handleSelect(letter, q.multi);
+        if (!q.multi) confirmAnswer();
+        // Move keyboard focus to this option
+        options.forEach(o => o.classList.remove('keyboard-focus'));
+        target.classList.add('keyboard-focus');
+      }
     }
   }
   // P to pause/resume timer
