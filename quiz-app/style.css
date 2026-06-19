@@ -401,13 +401,13 @@ input[type="range"] {
 .exit-btn {
   flex-shrink: 0;
   background: transparent;
-  border: 1px solid var(--border);
-  border-radius: 7px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
   color: var(--text-muted);
   font-family: var(--font-mono);
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 5px 11px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 7px 14px;
   cursor: pointer;
   transition: background var(--transition), color var(--transition), border-color var(--transition);
   letter-spacing: 0.02em;

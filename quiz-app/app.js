@@ -1388,8 +1388,21 @@ function syncCount(v) {
 
 qSlider.addEventListener('input', () => syncCount(parseInt(qSlider.value)));
 qCount.addEventListener('input', () => {
-  const v = Math.max(1, Math.min(111, parseInt(qCount.value) || 1));
+  const raw = qCount.value.trim();
+  if (raw === '') {
+    timeEstimate.textContent = '~ — min';
+    return;
+  }
+  const v = Math.max(1, Math.min(111, parseInt(raw) || 1));
+  qCount.value = v;
   syncCount(v);
+});
+qCount.addEventListener('blur', () => {
+  const raw = qCount.value.trim();
+  if (raw === '') {
+    qCount.value = 1;
+    syncCount(1);
+  }
 });
 
 document.querySelectorAll('.pick-btn').forEach(btn => {
