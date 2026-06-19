@@ -1616,6 +1616,10 @@ function renderQuestion() {
     });
     optWrap.appendChild(label);
   });
+
+  // focus first option for keyboard navigation
+  const firstOpt = optWrap.querySelector('.option-label');
+  if (firstOpt) firstOpt.classList.add('keyboard-focus');
 }
 
 /* ─────────────────────────────────────────
@@ -1879,18 +1883,22 @@ document.addEventListener('keydown', (e) => {
   const options = optWrap.querySelectorAll('.option-label');
   if (!options.length) return;
 
-  // Arrow keys / J/K to navigate options
+  // Arrow keys / J/K to navigate highlight only (no selection change)
   if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'j' || e.key === 'J') {
     e.preventDefault();
-    const currentIdx = Array.from(options).findIndex(o => o.classList.contains('selected'));
+    const currentIdx = Array.from(options).findIndex(o => o.classList.contains('keyboard-focus')) || -1;
     const nextIdx = (currentIdx + 1) % options.length;
-    options[nextIdx].dispatchEvent(new Event('click', { bubbles: true }));
+    options.forEach(o => o.classList.remove('keyboard-focus'));
+    options[nextIdx].classList.add('keyboard-focus');
+    options[nextIdx].scrollIntoView({ block: 'nearest' });
   }
   else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'k' || e.key === 'K') {
     e.preventDefault();
-    const currentIdx = Array.from(options).findIndex(o => o.classList.contains('selected'));
+    const currentIdx = Array.from(options).findIndex(o => o.classList.contains('keyboard-focus')) || -1;
     const prevIdx = (currentIdx - 1 + options.length) % options.length;
-    options[prevIdx].dispatchEvent(new Event('click', { bubbles: true }));
+    options.forEach(o => o.classList.remove('keyboard-focus'));
+    options[prevIdx].classList.add('keyboard-focus');
+    options[prevIdx].scrollIntoView({ block: 'nearest' });
   }
   // Space to select/deselect or confirm
   else if (e.key === ' ') {
