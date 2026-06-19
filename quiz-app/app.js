@@ -1400,12 +1400,11 @@ function buildDiffContent() {
 
 function syncDifficulties() {
   if (!difficultiesChanged) return;
-  const content = buildDiffContent();
   difficultiesChanged = false;
   fetch(SAVE_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ content })
+    body: JSON.stringify({ difficulties: Object.assign({}, difficulties) })
   }).catch(() => {});
 }
 
@@ -1421,7 +1420,7 @@ function exportDifficulties() {
 window.addEventListener('beforeunload', () => {
   if (!difficultiesChanged) return;
   navigator.sendBeacon(SAVE_URL, new Blob(
-    [JSON.stringify({ content: buildDiffContent() })],
+    [JSON.stringify({ difficulties: Object.assign({}, difficulties) })],
     { type: 'application/json' }
   ));
 });
