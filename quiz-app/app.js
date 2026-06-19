@@ -162,14 +162,22 @@ const QUESTIONS = [
   },
   {
     id: 17,
-    text: "Match the network with the correct IP address and prefix that will satisfy the usable host addressing requirements for each network. (Network A=192.168.0.128/25, B=192.168.0.0/26, C=192.168.0.96/27, D=192.168.0.80/30) — Select ALL correct matches.",
-    multi: true,
-    options: [
-      { l: "A", t: "Network A: 192.168.0.128 /25",  c: true },
-      { l: "B", t: "Network B: 192.168.0.0 /26",    c: true },
-      { l: "C", t: "Network C: 192.168.0.96 /27",   c: true },
-      { l: "D", t: "Network D: 192.168.0.80 /30",   c: true }
-    ]
+    text: "Match the network with the correct IP address and prefix.",
+    match: {
+      columns: ["Network A", "Network B", "Network C", "Network D"],
+      pairs: [
+        { leftIdx: 0, rightIdx: 0, correct: true },
+        { leftIdx: 1, rightIdx: 1, correct: true },
+        { leftIdx: 2, rightIdx: 2, correct: true },
+        { leftIdx: 3, rightIdx: 3, correct: true }
+      ],
+      leftTexts: [
+        "192.168.0.128/25",
+        "192.168.0.0/26",
+        "192.168.0.96/27",
+        "192.168.0.80/30"
+      ]
+    }
   },
   {
     id: 18,
@@ -274,14 +282,22 @@ const QUESTIONS = [
   },
   {
     id: 28,
-    text: "Match the network with the correct IP address and prefix. (A=192.168.0.0/25, B=192.168.0.128/26, C=192.168.0.192/27, D=192.168.0.224/30) — Select ALL correct matches.",
-    multi: true,
-    options: [
-      { l: "A", t: "Network A: 192.168.0.0 /25",    c: true },
-      { l: "B", t: "Network B: 192.168.0.128 /26",  c: true },
-      { l: "C", t: "Network C: 192.168.0.192 /27",  c: true },
-      { l: "D", t: "Network D: 192.168.0.224 /30",  c: true }
-    ]
+    text: "Match the network with the correct IP address and prefix.",
+    match: {
+      columns: ["Network A", "Network B", "Network C", "Network D"],
+      pairs: [
+        { leftIdx: 0, rightIdx: 0, correct: true },
+        { leftIdx: 1, rightIdx: 1, correct: true },
+        { leftIdx: 2, rightIdx: 2, correct: true },
+        { leftIdx: 3, rightIdx: 3, correct: true }
+      ],
+      leftTexts: [
+        "192.168.0.0/25",
+        "192.168.0.128/26",
+        "192.168.0.192/27",
+        "192.168.0.224/30"
+      ]
+    }
   },
   {
     id: 29,
@@ -610,14 +626,22 @@ const QUESTIONS = [
   },
   {
     id: 58,
-    text: "Match the type of threat with the cause. (electrical / hardware / environmental / maintenance) — Select ALL correct matches.",
-    multi: true,
-    options: [
-      { l: "A", t: "electrical threats → voltage spikes, insufficient supply voltage (brownouts), unconditioned power (noise), and total power loss",    c: true },
-      { l: "B", t: "hardware threats → physical damage to servers, routers, switches, cabling plant, and workstations",                                  c: true },
-      { l: "C", t: "environmental threats → temperature extremes or humidity extremes",                                                                    c: true },
-      { l: "D", t: "maintenance threats → poor handling of key electrical components (ESD), lack of critical spare parts, poor cabling and labeling",    c: true }
-    ]
+    text: "Match the type of threat with the cause.",
+    match: {
+      columns: ["Electrical", "Hardware", "Environmental", "Maintenance"],
+      pairs: [
+        { leftIdx: 0, rightIdx: 0, correct: true },
+        { leftIdx: 1, rightIdx: 1, correct: true },
+        { leftIdx: 2, rightIdx: 2, correct: true },
+        { leftIdx: 3, rightIdx: 3, correct: true }
+      ],
+      leftTexts: [
+        "voltage spikes, insufficient supply voltage (brownouts), unconditioned power (noise), and total power loss",
+        "physical damage to servers, routers, switches, cabling plant, and workstations",
+        "temperature extremes or humidity extremes",
+        "poor handling of key electrical components (ESD), lack of critical spare parts, poor cabling and labeling"
+      ]
+    }
   },
   {
     id: 59,
@@ -1047,14 +1071,16 @@ const QUESTIONS = [
   },
   {
     id: 96,
-    text: "Match a statement to the related network model. (P2P network / P2P application) — Select ALL correct matches.",
-    multi: true,
-    options: [
-      { l: "A", t: "Peer-to-peer NETWORK → no dedicated server is required",           c: true },
-      { l: "B", t: "Peer-to-peer NETWORK → client and server roles are set on a per request basis", c: true },
-      { l: "C", t: "Peer-to-peer APPLICATION → requires a specific user interface",    c: true },
-      { l: "D", t: "Peer-to-peer APPLICATION → a background service is required",      c: true }
-    ]
+    text: "Match each statement to the related network model.",
+    match: {
+      columns: ["Peer-to-peer NETWORK", "Peer-to-peer APPLICATION"],
+      pairs: [
+        { left: "no dedicated server is required",                 right: "Peer-to-peer NETWORK",  correct: true  },
+        { left: "client and server roles are set on a per request basis", right: "Peer-to-peer NETWORK", correct: true  },
+        { left: "requires a specific user interface",              right: "Peer-to-peer APPLICATION", correct: true },
+        { left: "a background service is required",                right: "Peer-to-peer APPLICATION", correct: true }
+      ]
+    }
   },
   {
     id: 97,
@@ -1297,6 +1323,10 @@ let answeredFlags = [];     // true once confirmAnswer called
 let difficulties = {};         // questionId (string) -> 'easy'|'medium'|'hard'
 let diffFilter   = 'all';     // 'all'|'easy'|'medium'|'hard'
 let difficultiesChanged = false;
+
+/* ── Matching state ── */
+let matchConnections = [];  // [{ sourceIdx, targetIdx }] for current question
+let matchDragging = null;   // { sourceIdx, sourceEl } while drag is in progress
 
 /* ─────────────────────────────────────────
    DOM REFS
@@ -1698,6 +1728,221 @@ function startQuiz() {
 /* ─────────────────────────────────────────
    RENDER QUESTION
    ───────────────────────────────────────── */
+/* ─────────────────────────────────────────
+   MATCHING — helpers for drag-to-connect
+   ───────────────────────────────────────── */
+function renderMatchingQuestion(q) {
+  const wrap = document.createElement('div');
+  wrap.className = 'matching-wrap';
+
+  // SVG overlay for lines
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(svgNS, 'svg');
+  svg.id = 'match-svg';
+  svg.setAttribute('class', 'match-svg');
+  svg.innerHTML = '<defs><filter id="glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>';
+
+  const leftCol = document.createElement('div');
+  leftCol.className = 'match-column match-left';
+
+  const rightCol = document.createElement('div');
+  rightCol.className = 'match-column match-right';
+
+  const leftTexts = q.match.leftTexts || q.match.pairs.filter(p => p.correct).map(p => p.left);
+  const leftItems = leftTexts.map((text, i) => ({ text, idx: i }));
+
+  const rightItems = q.match.columns.map((c, i) => ({
+    text: c,
+    idx: i
+  }));
+
+  // Render left column (draggable items)
+  leftItems.forEach((item, i) => {
+    const el = document.createElement('div');
+    el.className = 'match-item match-left-item';
+    el.dataset.sourceIdx = i;
+    el.draggable = true;
+    el.innerHTML = `<span class="match-icon">☰</span> ${item.text}`;
+
+    // Drag events
+    el.addEventListener('dragstart', (e) => {
+      matchDragging = { sourceIdx: i, sourceEl: el };
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', i);
+      el.classList.add('dragging');
+    });
+    el.addEventListener('dragend', () => {
+      el.classList.remove('dragging');
+      matchDragging = null;
+    });
+
+    leftCol.appendChild(el);
+  });
+
+  // Render right column (drop zones)
+  rightItems.forEach((item, i) => {
+    const el = document.createElement('div');
+    el.className = 'match-item match-right-item';
+    el.dataset.targetIdx = i;
+
+    el.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      el.classList.add('match-drop-hover');
+    });
+    el.addEventListener('dragleave', () => {
+      el.classList.remove('match-drop-hover');
+    });
+    el.addEventListener('drop', (e) => {
+      e.preventDefault();
+      el.classList.remove('match-drop-hover');
+      const sourceIdx = parseInt(e.dataTransfer.getData('text/plain'));
+      const targetIdx = i;
+
+      // Check if this source is already connected
+      const existing = matchConnections.findIndex(c => c.sourceIdx === sourceIdx);
+      if (existing !== -1) {
+        matchConnections.splice(existing, 1);
+      }
+
+      // Check if this target already has a connection
+      const targetExisting = matchConnections.findIndex(c => c.targetIdx === targetIdx);
+      if (targetExisting !== -1) {
+        matchConnections.splice(targetExisting, 1);
+      }
+
+      matchConnections.push({ sourceIdx, targetIdx });
+      drawAllLines();
+      nextBtn.disabled = false;
+    });
+
+    el.innerHTML = `<span class="match-icon">⇋</span> ${item.text}`;
+    rightCol.appendChild(el);
+  });
+
+  wrap.appendChild(svg);
+  wrap.appendChild(leftCol);
+  wrap.appendChild(rightCol);
+  optWrap.appendChild(wrap);
+
+  // Position SVG overlay
+  requestAnimationFrame(() => {
+    positionMatchSVG(wrap, svg);
+    drawAllLines();
+  });
+
+  window.addEventListener('resize', () => {
+    positionMatchSVG(wrap, svg);
+    drawAllLines();
+  });
+}
+
+function positionMatchSVG(wrap, svg) {
+  const rect = wrap.getBoundingClientRect();
+  svg.style.width = rect.width + 'px';
+  svg.style.height = rect.height + 'px';
+}
+
+function drawAllLines() {
+  const svg = document.getElementById('match-svg');
+  if (!svg) return;
+
+  // Remove old lines
+  svg.querySelectorAll('.match-line').forEach(l => l.remove());
+
+  const wrap = svg.closest('.matching-wrap');
+  const leftItems = wrap.querySelectorAll('.match-left-item');
+  const rightItems = wrap.querySelectorAll('.match-right-item');
+
+  matchConnections.forEach(conn => {
+    const leftEl = leftItems[conn.sourceIdx];
+    const rightEl = rightItems[conn.targetIdx];
+    if (!leftEl || !rightEl) return;
+
+    const wrapRect = wrap.getBoundingClientRect();
+    const leftRect = leftEl.getBoundingClientRect();
+    const rightRect = rightEl.getBoundingClientRect();
+
+    const x1 = leftRect.right - wrapRect.left;
+    const y1 = leftRect.top + leftRect.height / 2 - wrapRect.top;
+    const x2 = rightRect.left - wrapRect.left;
+    const y2 = rightRect.top + rightRect.height / 2 - wrapRect.top;
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    const midX = (x1 + x2) / 2;
+    const d = `M ${x1} ${y1} C ${midX} ${y1}, ${midX} ${y2}, ${x2} ${y2}`;
+    path.setAttribute('d', d);
+    path.setAttribute('class', 'match-line');
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', '#00d4ff');
+    path.setAttribute('stroke-width', '2');
+    path.setAttribute('filter', 'url(#glow)');
+    svg.appendChild(path);
+  });
+}
+
+function restoreMatchingState(q) {
+  // Restore saved connections
+  const saved = userAnswers[current] || [];
+  matchConnections = saved.map(c => ({ sourceIdx: c.sourceIdx, targetIdx: c.targetIdx }));
+
+  // Mark items as connected
+  const wrap = optWrap.querySelector('.matching-wrap');
+  if (!wrap) return;
+  const leftItems = wrap.querySelectorAll('.match-left-item');
+  const rightItems = wrap.querySelectorAll('.match-right-item');
+
+  matchConnections.forEach(conn => {
+    if (leftItems[conn.sourceIdx]) {
+      leftItems[conn.sourceIdx].classList.add('connected');
+    }
+    if (rightItems[conn.targetIdx]) {
+      rightItems[conn.targetIdx].classList.add('connected');
+    }
+  });
+
+  requestAnimationFrame(() => {
+    drawAllLines();
+  });
+}
+
+function showMatchingResult(q, correctPairs, allCorrect) {
+  const wrap = optWrap.querySelector('.matching-wrap');
+  if (!wrap) return;
+  const leftItems = wrap.querySelectorAll('.match-left-item');
+  const rightItems = wrap.querySelectorAll('.match-right-item');
+  const svg = document.getElementById('match-svg');
+
+  // Color the lines
+  if (svg) {
+    const lines = svg.querySelectorAll('.match-line');
+    matchConnections.forEach((conn, i) => {
+      if (lines[i]) {
+        const isCorrect = correctPairs.some(p => p.leftIdx === conn.sourceIdx && p.rightIdx === conn.targetIdx);
+        lines[i].setAttribute('stroke', isCorrect ? '#00ff88' : '#ff4444');
+      }
+    });
+  }
+
+  // Color the items
+  correctPairs.forEach(p => {
+    const isCorrect = matchConnections.some(c => c.sourceIdx === p.leftIdx && c.targetIdx === p.rightIdx);
+    if (!isCorrect) {
+      if (leftItems[p.leftIdx]) leftItems[p.leftIdx].classList.add('incorrect');
+      if (rightItems[p.rightIdx]) rightItems[p.rightIdx].classList.add('incorrect');
+    }
+  });
+
+  // Show missing correct pairs
+  correctPairs.forEach(p => {
+    const isCorrect = matchConnections.some(c => c.sourceIdx === p.leftIdx && c.targetIdx === p.rightIdx);
+    if (!isCorrect) {
+      if (leftItems[p.leftIdx]) leftItems[p.leftIdx].classList.add('correct');
+      if (rightItems[p.rightIdx]) rightItems[p.rightIdx].classList.add('correct');
+    }
+  });
+}
+
 function renderQuestion() {
   const q = pool[current];
   if (answeredFlags[current]) {
@@ -1727,7 +1972,21 @@ function renderQuestion() {
   nextBtn.disabled = current < pool.length - 1;
   nextBtn.textContent = current < pool.length - 1 ? 'Confirm →' : 'Finish →';
 
-  // render options
+  // ── MATCHING QUESTION TYPE ──
+  if (q.match) {
+    optWrap.innerHTML = '';
+    matchConnections = [];
+    renderMatchingQuestion(q);
+    if (answeredFlags[current]) {
+      restoreMatchingState(q);
+      nextBtn.disabled = false;
+      nextBtn.textContent = current < pool.length - 1 ? 'Next →' : 'See Results →';
+    }
+    updateDiffRaterUI(q.id);
+    return;
+  }
+
+  // render options (standard)
   optWrap.innerHTML = '';
   q.options.forEach(opt => {
     const label = document.createElement('label');
@@ -1786,79 +2045,77 @@ function renderQuestion() {
   updateDiffRaterUI(q.id);
 }
 
-/* ─────────────────────────────────────────
-   SELECTION HANDLING
-   ───────────────────────────────────────── */
-function handleSelect(letter, multi) {
-  if (answered) return;
-
-  if (multi) {
-    if (selectedLetters.has(letter)) {
-      selectedLetters.delete(letter);
-    } else {
-      selectedLetters.add(letter);
-    }
-  } else {
-    selectedLetters = new Set([letter]);
-  }
-
-  // update visual state
-  optWrap.querySelectorAll('.option-label').forEach(lbl => {
-    if (selectedLetters.has(lbl.dataset.letter)) {
-      lbl.classList.add('selected');
-    } else {
-      lbl.classList.remove('selected');
-    }
-  });
-
-  nextBtn.disabled = selectedLetters.size === 0 && current < pool.length - 1;
-}
-
-/* ─────────────────────────────────────────
-   CONFIRM / NEXT
-   ───────────────────────────────────────── */
-nextBtn.addEventListener('click', () => {
-  if (!answered) {
-    if (current === pool.length - 1) {
-      if (selectedLetters.size > 0) confirmAnswer();
-      tryFinish();
-    } else {
-      confirmAnswer();
-    }
-  } else {
-    if (current < pool.length - 1) {
-      advance();
-    } else {
-      tryFinish();
-    }
-  }
-});
-
 function confirmAnswer() {
-  answered = true;
-  answeredFlags[current] = true;
-  userAnswers[current] = new Set(selectedLetters);
+  const q = pool[current];
+
+  if (q.match) {
+    // Validate matching connections
+    const pairs = q.match.pairs;
+    const correctPairs = pairs.filter(p => p.correct);
+    const userConnSet = new Set(matchConnections.map(c => `${c.sourceIdx}-${c.targetIdx}`));
+    const correctSet = new Set(correctPairs.map(p => `${p.leftIdx}-${p.rightIdx}`));
+
+    let allCorrect = true;
+    if (userConnSet.size !== correctSet.size) {
+      allCorrect = false;
+    } else {
+      for (const key of correctSet) {
+        if (!userConnSet.has(key)) {
+          allCorrect = false;
+          break;
+        }
+      }
+    }
+
+    if (allCorrect) {
+      score++;
+      scoreLive.textContent = `✓ ${score}`;
+    } else {
+      wrongItems.push({ question: q, connections: [...matchConnections], correctConnections: correctPairs });
+    }
+
+    userAnswers[current] = [...matchConnections];
+    answeredFlags[current] = true;
+    answered = true;
+
+    // Show result visual feedback
+    showMatchingResult(q, correctPairs, allCorrect);
+    nextBtn.disabled = false;
+    nextBtn.textContent = current < pool.length - 1 ? 'Next →' : 'See Results →';
+    return;
+  }
+
+  if (selectedLetters.size === 0) return;
+
+  // standard answer validation
   const q = pool[current];
   const correctLetters = new Set(q.options.filter(o => o.c).map(o => o.l));
-  const isCorrect = setsEqual(selectedLetters, correctLetters);
+  const userSet = new Set(selectedLetters);
 
-  if (isCorrect) {
+  let correct = true;
+  if (userSet.size !== correctLetters.size) {
+    correct = false;
+  } else {
+    for (const l of correctLetters) {
+      if (!userSet.has(l)) { correct = false; break; }
+    }
+  }
+
+  if (correct) {
     score++;
     scoreLive.textContent = `✓ ${score}`;
   } else {
-    wrongItems.push({
-      question: q,
-      yourLetters: new Set(selectedLetters),
-      correctLetters: new Set(correctLetters)
-    });
-    wrongLive.textContent = `✗ ${wrongItems.length}`;
+    wrongItems.push({ question: q, yourLetters: selectedLetters, correctLetters });
   }
 
-  // reveal correct / incorrect
+  userAnswers[current] = [...selectedLetters];
+  answeredFlags[current] = true;
+  answered = true;
+
+  // lock options
   optWrap.querySelectorAll('.option-label').forEach(lbl => {
     const letter = lbl.dataset.letter;
     lbl.classList.add('locked');
-    lbl.classList.remove('selected');
     if (correctLetters.has(letter)) {
       lbl.classList.add('correct');
     } else if (selectedLetters.has(letter)) {
@@ -1869,6 +2126,7 @@ function confirmAnswer() {
   nextBtn.disabled = false;
   nextBtn.textContent = current < pool.length - 1 ? 'Next →' : 'See Results →';
 }
+
 
 function advance() {
   current++;
