@@ -1140,14 +1140,16 @@ const QUESTIONS = [
   },
   {
     id: 101,
-    text: "Match the firewall function to the type of threat protection it provides. — Select ALL correct matches.",
-    multi: true,
-    options: [
-      { l: "A", t: "prevents access by port number → application filtering",           c: true },
-      { l: "B", t: "prevents access based on IP or MAC address → packet filtering",    c: true },
-      { l: "C", t: "prevents unsolicited incoming sessions → stateful packet inspection", c: true },
-      { l: "D", t: "prevents access to websites → URL filtering",                      c: true }
-    ]
+    text: "Match the firewall function to the type of threat protection it provides.",
+    match: {
+      columns: ["application filtering", "packet filtering", "stateful packet inspection", "URL filtering"],
+      pairs: [
+        { left: "prevents access by port number",          right: "application filtering",          correct: true },
+        { left: "prevents access based on IP or MAC address", right: "packet filtering",            correct: true },
+        { left: "prevents unsolicited incoming sessions",  right: "stateful packet inspection",     correct: true },
+        { left: "prevents access to websites",             right: "URL filtering",                  correct: true }
+      ]
+    }
   },
   {
     id: 102,
