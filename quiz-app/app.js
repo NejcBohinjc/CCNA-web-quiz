@@ -2186,7 +2186,7 @@ function renderQuestion() {
     img.className = 'exhibit-img';
     img.alt = 'Exhibit';
     img.title = 'Click to open full size';
-    img.addEventListener('click', () => window.open(img.src, '_blank'));
+    img.addEventListener('click', () => openLightbox(img.src));
     imgWrap.appendChild(img);
     optWrap.before(imgWrap);
   }
@@ -2769,3 +2769,24 @@ function launchConfetti() {
 }
 
 document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+/* ── Lightbox ── */
+const lightbox     = id('lightbox');
+const lightboxImg  = id('lightbox-img');
+
+function openLightbox(src) {
+  lightboxImg.src = src;
+  lightbox.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  lightbox.style.display = 'none';
+  lightboxImg.src = '';
+  document.body.style.overflow = '';
+}
+
+lightbox.addEventListener('click', closeLightbox);
+lightboxImg.addEventListener('click', e => e.stopPropagation());
+id('lightbox-close').addEventListener('click', closeLightbox);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
