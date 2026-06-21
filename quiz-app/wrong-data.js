@@ -7,7 +7,6 @@ window.WRONG_DATA = {
   "57": true,
   "62": true,
   "63": true,
-  "77": true,
   "78": true,
   "86": true,
   "96": true,
