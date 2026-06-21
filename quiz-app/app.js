@@ -127,6 +127,7 @@ const QUESTIONS = [
   },
   {
     id: 13,
+    exhibit: 'exhibits/exhibit_003.png',
     text: "Refer to the exhibit. If Host1 were to transfer a file to the server, what layers of the TCP/IP model would be used?",
     multi: false,
     options: [
@@ -140,6 +141,7 @@ const QUESTIONS = [
   },
   {
     id: 15,
+    exhibit: 'exhibits/exhibit_005.jpg',
     text: "Refer to the exhibit. The IP address of which device interface should be used as the default gateway setting of host H1?",
     multi: false,
     options: [
@@ -181,6 +183,7 @@ const QUESTIONS = [
   },
   {
     id: 18,
+    exhibit: 'exhibits/exhibit_008.jpg',
     text: "Refer to the exhibit. Which protocol was responsible for building the table that is shown? (Output of arp -a)",
     multi: false,
     options: [
@@ -334,6 +337,7 @@ const QUESTIONS = [
   },
   {
     id: 33,
+    exhibit: 'exhibits/exhibit_012.png',
     text: "Refer to the exhibit. Host B on subnet Teachers transmits a packet to host D on subnet Students. Which Layer 2 and Layer 3 addresses are contained in the PDUs transmitted from host B to the router?",
     multi: false,
     options: [
@@ -356,6 +360,7 @@ const QUESTIONS = [
   },
   {
     id: 35,
+    exhibit: 'exhibits/exhibit_013.png',
     text: "Refer to the exhibit. An administrator is trying to configure the switch but receives an error message. What is the problem?",
     multi: false,
     options: [
@@ -452,6 +457,7 @@ const QUESTIONS = [
   },
   {
     id: 43,
+    exhibit: 'exhibits/exhibit_014.jpg',
     text: "Refer to the exhibit. On the basis of the output, which two statements about network connectivity are correct? (Choose two.)",
     multi: true,
     options: [
@@ -500,6 +506,7 @@ const QUESTIONS = [
   },
   {
     id: 47,
+    exhibit: 'exhibits/exhibit_015.png',
     text: "Refer to the exhibit. If PC1 is sending a packet to PC2 and routing has been configured between the two routers, what will R1 do with the Ethernet frame header attached by PC1?",
     multi: false,
     options: [
@@ -1026,6 +1033,7 @@ const QUESTIONS = [
   },
   {
     id: 92,
+    exhibit: 'exhibits/exhibit_017.jpg',
     text: "Refer to the exhibit. PC1 issues an ARP request because it needs to send a packet to PC2. In this scenario, what will happen next?",
     multi: false,
     options: [
@@ -1096,6 +1104,7 @@ const QUESTIONS = [
   },
   {
     id: 98,
+    exhibit: 'exhibits/exhibit_019.jpg',
     text: "Refer to the exhibit. What three facts can be determined from the viewable output of the show ip interface brief command? (Choose three.)",
     multi: true,
     options: [
@@ -1224,6 +1233,7 @@ const QUESTIONS = [
   },
   {
     id: 109,
+    exhibit: 'exhibits/exhibit_022.png',
     text: "Refer to the exhibit. What is wrong with the displayed termination?",
     multi: false,
     options: [
@@ -1272,6 +1282,7 @@ const QUESTIONS = [
   },
   {
     id: 113,
+    exhibit: 'exhibits/exhibit_024.png',
     text: "Refer to the exhibit. Which two network addresses can be assigned to the network containing 10 hosts, within the 10.18.10.0/24 range, wasting the fewest addresses? (Choose two.)",
     multi: true,
     options: [
@@ -1325,8 +1336,8 @@ let diffFilters  = new Set(); // empty = all; otherwise set of 'easy'|'medium'|'
 let difficultiesChanged = false;
 
 /* ── Matching state ── */
-let matchConnections = [];  // [{ sourceIdx, targetIdx }] for current question
-let matchDragging = null;   // { sourceIdx, sourceEl } while drag is in progress
+let matchConnections = [];    // [{ sourceIdx, targetIdx }] for current question
+let matchResizeHandler = null; // cleanup reference for window resize listener
 
 /* ─────────────────────────────────────────
    DOM REFS
@@ -1395,7 +1406,8 @@ function questionMatchesFilters(q) {
   if (diffFilters.size === 0) return true;
   for (const f of diffFilters) {
     if (f === 'exhibit' && isExhibit(q)) return true;
-    if (f !== 'exhibit' && difficulties[String(q.id)] === f) return true;
+    if (f === 'unseen' && !difficulties[String(q.id)]) return true;
+    if (f !== 'exhibit' && f !== 'unseen' && difficulties[String(q.id)] === f) return true;
   }
   return false;
 }
@@ -1861,137 +1873,111 @@ function startQuiz() {
    RENDER QUESTION
    ───────────────────────────────────────── */
 /* ─────────────────────────────────────────
-   MATCHING — helpers for drag-to-connect
+   MATCHING — click-to-connect UI
    ───────────────────────────────────────── */
+
+function normalizeMatchPairs(q) {
+  const leftTexts = q.match.leftTexts || q.match.pairs.filter(p => p.correct).map(p => p.left);
+  return q.match.pairs.filter(p => p.correct).map(p => {
+    if ('leftIdx' in p && 'rightIdx' in p) return { leftIdx: p.leftIdx, rightIdx: p.rightIdx };
+    return { leftIdx: leftTexts.indexOf(p.left), rightIdx: q.match.columns.indexOf(p.right) };
+  });
+}
+
 function renderMatchingQuestion(q) {
+  if (matchResizeHandler) {
+    window.removeEventListener('resize', matchResizeHandler);
+    matchResizeHandler = null;
+  }
+
+  const leftTexts = q.match.leftTexts || q.match.pairs.filter(p => p.correct).map(p => p.left);
+  let selectedLeftIdx = null;
+
   const wrap = document.createElement('div');
   wrap.className = 'matching-wrap';
 
-  // SVG overlay for lines
   const svgNS = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(svgNS, 'svg');
   svg.id = 'match-svg';
-  svg.setAttribute('class', 'match-svg');
-  svg.innerHTML = '<defs><filter id="glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>';
+  svg.className = 'matching-svg-overlay';
+  wrap.appendChild(svg);
 
   const leftCol = document.createElement('div');
-  leftCol.className = 'match-column match-left';
-
+  leftCol.className = 'matching-col';
   const rightCol = document.createElement('div');
-  rightCol.className = 'match-column match-right';
+  rightCol.className = 'matching-col';
 
-  const leftTexts = q.match.leftTexts || q.match.pairs.filter(p => p.correct).map(p => p.left);
-  const leftItems = leftTexts.map((text, i) => ({ text, idx: i }));
-
-  const rightItems = q.match.columns.map((c, i) => ({
-    text: c,
-    idx: i
-  }));
-
-  // Render left column (draggable items)
-  leftItems.forEach((item, i) => {
+  leftTexts.forEach((text, i) => {
     const el = document.createElement('div');
-    el.className = 'match-item match-left-item';
-    el.dataset.sourceIdx = i;
-    el.draggable = true;
-    el.innerHTML = `<span class="match-icon">☰</span> ${item.text}`;
-
-    // Drag events
-    el.addEventListener('dragstart', (e) => {
-      matchDragging = { sourceIdx: i, sourceEl: el };
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text/plain', i);
-      el.classList.add('dragging');
+    el.className = 'matching-item';
+    el.dataset.idx = i;
+    el.textContent = text;
+    el.addEventListener('click', () => {
+      if (answered) { advance(); return; }
+      if (selectedLeftIdx === i) {
+        selectedLeftIdx = null;
+        leftCol.querySelectorAll('.matching-item').forEach(e => e.classList.remove('matching-source'));
+        return;
+      }
+      selectedLeftIdx = i;
+      leftCol.querySelectorAll('.matching-item').forEach(e => e.classList.remove('matching-source'));
+      el.classList.add('matching-source');
     });
-    el.addEventListener('dragend', () => {
-      el.classList.remove('dragging');
-      matchDragging = null;
-    });
-
     leftCol.appendChild(el);
   });
 
-  // Render right column (drop zones)
-  rightItems.forEach((item, i) => {
+  q.match.columns.forEach((text, i) => {
     const el = document.createElement('div');
-    el.className = 'match-item match-right-item';
-    el.dataset.targetIdx = i;
-
-    el.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-      el.classList.add('match-drop-hover');
-    });
-    el.addEventListener('dragleave', () => {
-      el.classList.remove('match-drop-hover');
-    });
-    el.addEventListener('drop', (e) => {
-      e.preventDefault();
-      el.classList.remove('match-drop-hover');
-      const sourceIdx = parseInt(e.dataTransfer.getData('text/plain'));
+    el.className = 'matching-item matching-target';
+    el.dataset.idx = i;
+    el.textContent = text;
+    el.addEventListener('click', () => {
+      if (answered) { advance(); return; }
+      if (selectedLeftIdx === null) return;
+      const sourceIdx = selectedLeftIdx;
       const targetIdx = i;
-
-      // Check if this source is already connected
+      // Each left item connects to exactly one right item
       const existing = matchConnections.findIndex(c => c.sourceIdx === sourceIdx);
-      if (existing !== -1) {
-        matchConnections.splice(existing, 1);
-      }
-
-      // Check if this target already has a connection
-      const targetExisting = matchConnections.findIndex(c => c.targetIdx === targetIdx);
-      if (targetExisting !== -1) {
-        matchConnections.splice(targetExisting, 1);
-      }
-
+      if (existing !== -1) matchConnections.splice(existing, 1);
       matchConnections.push({ sourceIdx, targetIdx });
+      selectedLeftIdx = null;
+      leftCol.querySelectorAll('.matching-item').forEach(e => e.classList.remove('matching-source'));
       drawAllLines();
       nextBtn.disabled = false;
     });
-
-    el.innerHTML = `<span class="match-icon">⇋</span> ${item.text}`;
     rightCol.appendChild(el);
   });
 
-  wrap.appendChild(svg);
   wrap.appendChild(leftCol);
   wrap.appendChild(rightCol);
   optWrap.appendChild(wrap);
 
-  // Position SVG overlay
-  requestAnimationFrame(() => {
-    positionMatchSVG(wrap, svg);
-    drawAllLines();
-  });
-
-  window.addEventListener('resize', () => {
-    positionMatchSVG(wrap, svg);
-    drawAllLines();
-  });
-}
-
-function positionMatchSVG(wrap, svg) {
-  const rect = wrap.getBoundingClientRect();
-  svg.style.width = rect.width + 'px';
-  svg.style.height = rect.height + 'px';
+  matchResizeHandler = drawAllLines;
+  requestAnimationFrame(() => drawAllLines());
+  window.addEventListener('resize', matchResizeHandler);
 }
 
 function drawAllLines() {
   const svg = document.getElementById('match-svg');
   if (!svg) return;
-
-  // Remove old lines
-  svg.querySelectorAll('.match-line').forEach(l => l.remove());
-
   const wrap = svg.closest('.matching-wrap');
-  const leftItems = wrap.querySelectorAll('.match-left-item');
-  const rightItems = wrap.querySelectorAll('.match-right-item');
+  if (!wrap) return;
+
+  const wrapRect = wrap.getBoundingClientRect();
+  svg.setAttribute('width', wrapRect.width);
+  svg.setAttribute('height', wrapRect.height);
+  svg.querySelectorAll('line').forEach(l => l.remove());
+
+  const cols = wrap.querySelectorAll('.matching-col');
+  if (cols.length < 2) return;
+  const leftItems = cols[0].querySelectorAll('.matching-item');
+  const rightItems = cols[1].querySelectorAll('.matching-item');
 
   matchConnections.forEach(conn => {
     const leftEl = leftItems[conn.sourceIdx];
     const rightEl = rightItems[conn.targetIdx];
     if (!leftEl || !rightEl) return;
 
-    const wrapRect = wrap.getBoundingClientRect();
     const leftRect = leftEl.getBoundingClientRect();
     const rightRect = rightEl.getBoundingClientRect();
 
@@ -2000,79 +1986,68 @@ function drawAllLines() {
     const x2 = rightRect.left - wrapRect.left;
     const y2 = rightRect.top + rightRect.height / 2 - wrapRect.top;
 
-    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    const midX = (x1 + x2) / 2;
-    const d = `M ${x1} ${y1} C ${midX} ${y1}, ${midX} ${y2}, ${x2} ${y2}`;
-    path.setAttribute('d', d);
-    path.setAttribute('class', 'match-line');
-    path.setAttribute('fill', 'none');
-    path.setAttribute('stroke', '#00d4ff');
-    path.setAttribute('stroke-width', '2');
-    path.setAttribute('filter', 'url(#glow)');
-    svg.appendChild(path);
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', x1);
+    line.setAttribute('y1', y1);
+    line.setAttribute('x2', x2);
+    line.setAttribute('y2', y2);
+    svg.appendChild(line);
   });
 }
 
 function restoreMatchingState(q) {
-  // Restore saved connections
   const saved = userAnswers[current] || [];
   matchConnections = saved.map(c => ({ sourceIdx: c.sourceIdx, targetIdx: c.targetIdx }));
-
-  // Mark items as connected
-  const wrap = optWrap.querySelector('.matching-wrap');
-  if (!wrap) return;
-  const leftItems = wrap.querySelectorAll('.match-left-item');
-  const rightItems = wrap.querySelectorAll('.match-right-item');
-
-  matchConnections.forEach(conn => {
-    if (leftItems[conn.sourceIdx]) {
-      leftItems[conn.sourceIdx].classList.add('connected');
-    }
-    if (rightItems[conn.targetIdx]) {
-      rightItems[conn.targetIdx].classList.add('connected');
-    }
-  });
-
-  requestAnimationFrame(() => {
-    drawAllLines();
-  });
+  requestAnimationFrame(() => showMatchingResult(q, normalizeMatchPairs(q)));
 }
 
-function showMatchingResult(q, correctPairs, allCorrect) {
+function showMatchingResult(q, correctPairs) {
   const wrap = optWrap.querySelector('.matching-wrap');
   if (!wrap) return;
-  const leftItems = wrap.querySelectorAll('.match-left-item');
-  const rightItems = wrap.querySelectorAll('.match-right-item');
+  const cols = wrap.querySelectorAll('.matching-col');
+  if (cols.length < 2) return;
+  const leftItems = cols[0].querySelectorAll('.matching-item');
+  const rightItems = cols[1].querySelectorAll('.matching-item');
   const svg = document.getElementById('match-svg');
 
-  // Color the lines
   if (svg) {
-    const lines = svg.querySelectorAll('.match-line');
-    matchConnections.forEach((conn, i) => {
-      if (lines[i]) {
-        const isCorrect = correctPairs.some(p => p.leftIdx === conn.sourceIdx && p.rightIdx === conn.targetIdx);
-        lines[i].setAttribute('stroke', isCorrect ? '#00ff88' : '#ff4444');
-      }
+    const wrapRect = wrap.getBoundingClientRect();
+    svg.setAttribute('width', wrapRect.width);
+    svg.setAttribute('height', wrapRect.height);
+    svg.querySelectorAll('line').forEach(l => l.remove());
+
+    matchConnections.forEach(conn => {
+      const leftEl = leftItems[conn.sourceIdx];
+      const rightEl = rightItems[conn.targetIdx];
+      if (!leftEl || !rightEl) return;
+
+      const leftRect = leftEl.getBoundingClientRect();
+      const rightRect = rightEl.getBoundingClientRect();
+      const x1 = leftRect.right - wrapRect.left;
+      const y1 = leftRect.top + leftRect.height / 2 - wrapRect.top;
+      const x2 = rightRect.left - wrapRect.left;
+      const y2 = rightRect.top + rightRect.height / 2 - wrapRect.top;
+
+      const isCorrect = correctPairs.some(p => p.leftIdx === conn.sourceIdx && p.rightIdx === conn.targetIdx);
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', x1);
+      line.setAttribute('y1', y1);
+      line.setAttribute('x2', x2);
+      line.setAttribute('y2', y2);
+      line.className = isCorrect ? 'correct' : 'wrong';
+      svg.appendChild(line);
     });
   }
 
-  // Color the items
   correctPairs.forEach(p => {
-    const isCorrect = matchConnections.some(c => c.sourceIdx === p.leftIdx && c.targetIdx === p.rightIdx);
-    if (!isCorrect) {
-      if (leftItems[p.leftIdx]) leftItems[p.leftIdx].classList.add('incorrect');
-      if (rightItems[p.rightIdx]) rightItems[p.rightIdx].classList.add('incorrect');
+    const userConn = matchConnections.find(c => c.sourceIdx === p.leftIdx);
+    const isCorrect = userConn && userConn.targetIdx === p.rightIdx;
+    if (leftItems[p.leftIdx]) {
+      leftItems[p.leftIdx].classList.add(isCorrect ? 'correct' : 'incorrect');
+      leftItems[p.leftIdx].classList.add('locked');
     }
   });
-
-  // Show missing correct pairs
-  correctPairs.forEach(p => {
-    const isCorrect = matchConnections.some(c => c.sourceIdx === p.leftIdx && c.targetIdx === p.rightIdx);
-    if (!isCorrect) {
-      if (leftItems[p.leftIdx]) leftItems[p.leftIdx].classList.add('correct');
-      if (rightItems[p.rightIdx]) rightItems[p.rightIdx].classList.add('correct');
-    }
-  });
+  rightItems.forEach(el => el.classList.add('locked'));
 }
 
 function renderQuestion() {
@@ -2110,6 +2085,23 @@ function renderQuestion() {
   qText.textContent = `Q${q.id}. ${q.text}`;
   nextBtn.disabled = current < pool.length - 1;
   nextBtn.textContent = current < pool.length - 1 ? 'Confirm →' : 'Finish →';
+
+  // ── EXHIBIT IMAGE ──
+  const prevExhibit = document.getElementById('exhibit-display');
+  if (prevExhibit) prevExhibit.remove();
+  if (q.exhibit) {
+    const imgWrap = document.createElement('div');
+    imgWrap.id = 'exhibit-display';
+    imgWrap.className = 'exhibit-img-wrap';
+    const img = document.createElement('img');
+    img.src = q.exhibit;
+    img.className = 'exhibit-img';
+    img.alt = 'Exhibit';
+    img.title = 'Click to open full size';
+    img.addEventListener('click', () => window.open(img.src, '_blank'));
+    imgWrap.appendChild(img);
+    optWrap.before(imgWrap);
+  }
 
   // ── MATCHING QUESTION TYPE ──
   if (q.match) {
@@ -2213,9 +2205,7 @@ function confirmAnswer() {
   const q = pool[current];
 
   if (q.match) {
-    // Validate matching connections
-    const pairs = q.match.pairs;
-    const correctPairs = pairs.filter(p => p.correct);
+    const correctPairs = normalizeMatchPairs(q);
     const userConnSet = new Set(matchConnections.map(c => `${c.sourceIdx}-${c.targetIdx}`));
     const correctSet = new Set(correctPairs.map(p => `${p.leftIdx}-${p.rightIdx}`));
 
@@ -2312,13 +2302,12 @@ function advance() {
     for (let i = 0; i < pool.length; i++) {
       if (!answeredFlags[i]) {
         const q = pool[i];
-        const correctLetters = new Set(q.options.filter(o => o.c).map(o => o.l));
-        wrongItems.push({
-          question: q,
-          yourLetters: new Set(),
-          correctLetters: correctLetters,
-          skipped: true
-        });
+        if (q.match) {
+          wrongItems.push({ question: q, connections: [], correctConnections: normalizeMatchPairs(q), skipped: true });
+        } else {
+          const correctLetters = new Set(q.options.filter(o => o.c).map(o => o.l));
+          wrongItems.push({ question: q, yourLetters: new Set(), correctLetters, skipped: true });
+        }
       }
     }
     showResults();
@@ -2439,6 +2428,24 @@ function showResults(timeUp) {
 
     const txt = document.createTextNode(item.question.text);
     qDiv.append(num, txt);
+
+    // Matching question result display
+    if (item.question.match) {
+      const leftTexts = item.question.match.leftTexts || item.question.match.pairs.filter(p => p.correct).map(p => p.left);
+      const corrLabel = document.createElement('span');
+      corrLabel.className = 'answer-label';
+      corrLabel.textContent = 'Correct pairings:';
+      const corrPills = document.createElement('div');
+      (item.correctConnections || normalizeMatchPairs(item.question)).forEach(p => {
+        const pill = document.createElement('span');
+        pill.className = 'answer-pill pill-correct';
+        pill.textContent = `${leftTexts[p.leftIdx] || p.leftIdx} → ${item.question.match.columns[p.rightIdx] || p.rightIdx}`;
+        corrPills.appendChild(pill);
+      });
+      div.append(qDiv, corrLabel, corrPills);
+      wrongList.appendChild(div);
+      return;
+    }
 
     const optMap = Object.fromEntries(item.question.options.map(o => [o.l, o.t]));
 

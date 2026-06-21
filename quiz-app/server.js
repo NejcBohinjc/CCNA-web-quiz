@@ -16,6 +16,8 @@ const MIME = {
   '.js':   'application/javascript; charset=utf-8',
   '.ico':  'image/x-icon',
   '.png':  'image/png',
+  '.jpg':  'image/jpeg',
+  '.jpeg': 'image/jpeg',
 };
 
 // Reject requests whose Host/Origin headers don't match localhost:PORT.
