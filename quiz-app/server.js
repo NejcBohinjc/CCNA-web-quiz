@@ -50,17 +50,30 @@ function git(args, cb) {
   execFile('git', args, { cwd: DIR }, cb);
 }
 
-function gitSync(cb) {
-  git(['add', 'difficulty-data.js'], err => {
+function gitSync(files, message, cb) {
+  git(['add', ...files], err => {
     if (err) { cb(err); return; }
     git(['diff', '--cached', '--quiet'], diffErr => {
       if (!diffErr) { cb(null, 'nothing-to-commit'); return; }
-      git(['commit', '-m', 'Update difficulty ratings'], err2 => {
+      git(['commit', '-m', message], err2 => {
         if (err2) { cb(err2); return; }
         git(['push'], cb);
       });
     });
   });
+}
+
+function buildWrongFileContent(validated) {
+  const entries = Object.keys(validated)
+    .sort((a, b) => Number(a) - Number(b))
+    .map(k => `  "${k}": true`)
+    .join(',\n');
+  return (
+    `/* CCNA1 Wrong Answer Tracking\n` +
+    `   Questions answered incorrectly at some point and not yet corrected.\n` +
+    `   Commit this file to GitHub to sync across machines. */\n` +
+    `window.WRONG_DATA = {\n${entries}\n};\n`
+  );
 }
 
 const server = http.createServer((req, res) => {
@@ -100,7 +113,46 @@ const server = http.createServer((req, res) => {
         fs.writeFileSync(path.join(DIR, 'difficulty-data.js'), content, 'utf8');
         console.log('[quiz] difficulty-data.js saved');
 
-        gitSync((err, result) => {
+        gitSync(['difficulty-data.js'], 'Update difficulty ratings', (err, result) => {
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          if (err) {
+            console.warn('[quiz] git error:', err.message || err);
+            res.end(JSON.stringify({ ok: true, pushed: false }));
+          } else if (result === 'nothing-to-commit') {
+            res.end(JSON.stringify({ ok: true, pushed: false }));
+          } else {
+            console.log('[quiz] pushed to GitHub');
+            res.end(JSON.stringify({ ok: true, pushed: true }));
+          }
+        });
+      } catch (e) {
+        res.writeHead(400); res.end(JSON.stringify({ ok: false, error: e.message }));
+      }
+    });
+    return;
+  }
+
+  if (req.method === 'POST' && req.url === '/save-wrong') {
+    let body = '';
+    req.on('data', c => { body += c; if (body.length > 65536) req.destroy(); });
+    req.on('end', () => {
+      try {
+        const parsed = JSON.parse(body);
+        const raw = parsed.wrong;
+        if (!raw || typeof raw !== 'object' || Array.isArray(raw)) throw new Error('invalid payload');
+
+        const validated = {};
+        for (const [k, v] of Object.entries(raw)) {
+          if (!/^\d{1,4}$/.test(k)) throw new Error(`invalid id: ${k}`);
+          if (v !== true)           throw new Error(`invalid value for ${k}`);
+          validated[k] = true;
+        }
+
+        const content = buildWrongFileContent(validated);
+        fs.writeFileSync(path.join(DIR, 'wrong-data.js'), content, 'utf8');
+        console.log('[quiz] wrong-data.js saved');
+
+        gitSync(['wrong-data.js'], 'Update wrong answer data', (err, result) => {
           res.writeHead(200, { 'Content-Type': 'application/json' });
           if (err) {
             console.warn('[quiz] git error:', err.message || err);

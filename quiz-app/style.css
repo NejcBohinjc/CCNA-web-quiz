@@ -1024,6 +1024,8 @@ input[type="range"] {
   --diff-exhibit-ghost:   rgba(167, 139, 250, 0.12);
   --diff-unseen:          #60A5FA;
   --diff-unseen-ghost:    rgba(96, 165, 250, 0.12);
+  --diff-wrong:           #F87171;
+  --diff-wrong-ghost:     rgba(248, 113, 113, 0.12);
 }
 
 /* ── Start screen filter ── */
@@ -1069,6 +1071,9 @@ input[type="range"] {
 }
 .diff-filter-btn.active[data-diff="unseen"] {
   background: var(--diff-unseen-ghost); border-color: var(--diff-unseen); color: var(--diff-unseen);
+}
+.diff-filter-btn.active[data-diff="wrong"] {
+  background: var(--diff-wrong-ghost); border-color: var(--diff-wrong); color: var(--diff-wrong);
 }
 
 .diff-avail {
@@ -1144,6 +1149,19 @@ input[type="range"] {
   border: 1px solid var(--diff-unseen);
   border-radius: 6px;
   color: var(--diff-unseen);
+  padding: 5px 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.wrong-badge {
+  flex-shrink: 0;
+  background: var(--diff-wrong-ghost);
+  border: 1px solid var(--diff-wrong);
+  border-radius: 6px;
+  color: var(--diff-wrong);
   padding: 5px 8px;
   font-family: var(--font-mono);
   font-size: 0.72rem;

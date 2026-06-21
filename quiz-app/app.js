@@ -1332,8 +1332,10 @@ let postAnswerClicks = 0;
 let userAnswers = [];       // Set per question index
 let answeredFlags = [];     // true once confirmAnswer called
 let difficulties = {};         // questionId (string) -> 'easy'|'medium'|'hard'
-let diffFilters  = new Set(); // empty = all; otherwise set of 'easy'|'medium'|'hard'|'exhibit'
+let diffFilters  = new Set(); // empty = all; otherwise set of filter keys
 let difficultiesChanged = false;
+let wrongMap = {};             // questionId (string) -> true (answered wrong, not yet corrected)
+let wrongChanged = false;
 
 /* ── Matching state ── */
 let matchConnections = [];    // [{ sourceIdx, targetIdx }] for current question
@@ -1373,6 +1375,7 @@ const sessionHistoryList  = id('session-history-list');
 const diffAvailEl         = id('diff-avail');
 const exhibitBadge        = id('exhibit-badge');
 const unseenBadge         = id('unseen-badge');
+const wrongBadge          = id('wrong-badge');
 const resEyebrow          = id('res-eyebrow');
 const explanationWrap     = id('explanation-wrap');
 const explanationText     = id('explanation-text');
@@ -1393,6 +1396,39 @@ function loadDifficulties() {
   });
 }
 
+function loadWrongData() {
+  wrongMap = Object.assign({}, window.WRONG_DATA || {});
+  try {
+    const saved = localStorage.getItem('quiz-wrong');
+    if (saved) Object.assign(wrongMap, JSON.parse(saved));
+  } catch(e) {}
+}
+
+function markWrong(questionId) {
+  wrongMap[String(questionId)] = true;
+  wrongChanged = true;
+  localStorage.setItem('quiz-wrong', JSON.stringify(wrongMap));
+  syncWrong();
+}
+
+function markCorrect(questionId) {
+  if (!wrongMap[String(questionId)]) return;
+  delete wrongMap[String(questionId)];
+  wrongChanged = true;
+  localStorage.setItem('quiz-wrong', JSON.stringify(wrongMap));
+  syncWrong();
+}
+
+const WRONG_SAVE_URL = 'http://localhost:3001/save-wrong';
+
+function syncWrong() {
+  fetch(WRONG_SAVE_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ wrong: Object.assign({}, wrongMap) })
+  }).catch(() => {});
+}
+
 function setDifficulty(questionId, diff) {
   difficulties[String(questionId)] = diff;
   difficultiesChanged = true;
@@ -1407,8 +1443,9 @@ function questionMatchesFilters(q) {
   if (diffFilters.size === 0) return true;
   for (const f of diffFilters) {
     if (f === 'exhibit' && isExhibit(q)) return true;
-    if (f === 'unseen' && !difficulties[String(q.id)]) return true;
-    if (f !== 'exhibit' && f !== 'unseen' && difficulties[String(q.id)] === f) return true;
+    if (f === 'unseen'  && !difficulties[String(q.id)]) return true;
+    if (f === 'wrong'   && wrongMap[String(q.id)]) return true;
+    if (f !== 'exhibit' && f !== 'unseen' && f !== 'wrong' && difficulties[String(q.id)] === f) return true;
   }
   return false;
 }
@@ -1449,8 +1486,10 @@ function updateDiffRaterUI(questionId) {
   const q = QUESTIONS.find(q => q.id === questionId);
   const exhibit = q && isExhibit(q);
   const unseen = !difficulties[String(questionId)];
+  const wrong  = !!wrongMap[String(questionId)];
   exhibitBadge.style.display = exhibit ? '' : 'none';
-  unseenBadge.style.display = unseen ? '' : 'none';
+  unseenBadge.style.display  = unseen  ? '' : 'none';
+  wrongBadge.style.display   = wrong   ? '' : 'none';
   document.querySelectorAll('.diff-rate-btn').forEach(btn => {
     btn.style.display = exhibit ? 'none' : '';
     if (!exhibit) btn.classList.toggle('active', btn.dataset.diff === (difficulties[String(questionId)] || 'easy'));
@@ -1501,6 +1540,7 @@ window.addEventListener('beforeunload', () => {
 });
 
 loadDifficulties();
+loadWrongData();
 
 /* ─────────────────────────────────────────
    TIMER
@@ -2228,6 +2268,7 @@ function confirmAnswer() {
       score++;
       scoreLive.textContent = `✓ ${score}`;
       explanationWrap.style.display = 'none';
+      markCorrect(q.id);
     } else {
       wrongItems.push({ question: q, connections: [...matchConnections], correctConnections: correctPairs });
       const expl = window.EXPLANATIONS && window.EXPLANATIONS[String(q.id)];
@@ -2235,6 +2276,7 @@ function confirmAnswer() {
         explanationText.textContent = expl;
         explanationWrap.style.display = '';
       }
+      markWrong(q.id);
     }
 
     userAnswers[current] = [...matchConnections];
@@ -2268,6 +2310,7 @@ function confirmAnswer() {
     score++;
     scoreLive.textContent = `✓ ${score}`;
     explanationWrap.style.display = 'none';
+    markCorrect(q.id);
   } else {
     wrongItems.push({ question: q, yourLetters: selectedLetters, correctLetters });
     const expl = window.EXPLANATIONS && window.EXPLANATIONS[String(q.id)];
@@ -2275,6 +2318,7 @@ function confirmAnswer() {
       explanationText.textContent = expl;
       explanationWrap.style.display = '';
     }
+    markWrong(q.id);
   }
 
   userAnswers[current] = [...selectedLetters];
