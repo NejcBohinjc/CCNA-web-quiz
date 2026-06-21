@@ -1028,6 +1028,46 @@ input[type="range"] {
   --diff-wrong-ghost:     rgba(248, 113, 113, 0.12);
 }
 
+/* ── Custom timer input ── */
+.timer-limit-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.picker-label-hint {
+  font-size: 0.62rem;
+  opacity: 0.6;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.timer-limit-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#custom-time {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 6px 10px;
+  width: 80px;
+  text-align: center;
+  outline: none;
+  -moz-appearance: textfield;
+  transition: border-color var(--transition), color var(--transition);
+}
+#custom-time:focus { border-color: var(--accent); }
+#custom-time::placeholder { color: var(--text-muted); opacity: 0.5; }
+#custom-time::-webkit-outer-spin-button,
+#custom-time::-webkit-inner-spin-button { -webkit-appearance: none; }
+
 /* ── Start screen filter ── */
 .diff-filter-wrap {
   display: flex;

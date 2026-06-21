@@ -1368,6 +1368,7 @@ const themeBtn        = id('theme-toggle');
 const qTimer          = id('q-timer');
 const timerToggleBtn  = id('timer-toggle-btn');
 const timerPauseBtn   = id('timer-pause-btn');
+const customTimeInput = id('custom-time');
 const navPrevBtn      = id('nav-prev-btn');
 const navNextBtn      = id('nav-next-btn');
 const sessionHistorySection = id('session-history-section');
@@ -1437,13 +1438,21 @@ function isExhibit(q) {
 
 function questionMatchesFilters(q) {
   if (diffFilters.size === 0) return true;
-  for (const f of diffFilters) {
-    if (f === 'exhibit' && isExhibit(q)) return true;
-    if (f === 'unseen'  && !(window.DIFFICULTY_DATA && window.DIFFICULTY_DATA[String(q.id)])) return true;
-    if (f === 'wrong'   && wrongMap[String(q.id)]) return true;
-    if (f !== 'exhibit' && f !== 'unseen' && f !== 'wrong' && difficulties[String(q.id)] === f) return true;
-  }
-  return false;
+  const specialKeys = new Set(['exhibit', 'unseen', 'wrong']);
+  const diffLevels  = [...diffFilters].filter(f => !specialKeys.has(f));
+  const specials    = [...diffFilters].filter(f => specialKeys.has(f));
+
+  const matchesDiff = diffLevels.length === 0
+    || diffLevels.some(f => difficulties[String(q.id)] === f);
+
+  const matchesSpecial = specials.length === 0
+    || specials.some(f => {
+      if (f === 'exhibit') return isExhibit(q);
+      if (f === 'unseen')  return !(window.DIFFICULTY_DATA && window.DIFFICULTY_DATA[String(q.id)]);
+      if (f === 'wrong')   return !!wrongMap[String(q.id)];
+    });
+
+  return matchesDiff && matchesSpecial;
 }
 
 function getAvailableCount() {
@@ -1918,7 +1927,8 @@ function startQuiz() {
   timerPauseBtn.classList.remove('paused');
   timerPauseBtn.textContent = '❚❚';
   timerPauseBtn.title = 'Pause timer';
-  startTimer(pool.length * 60);
+  const customMins = parseInt(customTimeInput.value);
+  startTimer(customMins > 0 ? customMins * 60 : pool.length * 60);
   renderQuestion();
 }
 
@@ -2571,7 +2581,8 @@ retryBtn.addEventListener('click', () => {
   timerPauseBtn.classList.remove('paused');
   timerPauseBtn.textContent = '❚❚';
   timerPauseBtn.title = 'Pause timer';
-  startTimer(pool.length * 60);
+  const customMins = parseInt(customTimeInput.value);
+  startTimer(customMins > 0 ? customMins * 60 : pool.length * 60);
   renderQuestion();
 });
 
