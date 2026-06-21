@@ -1403,7 +1403,11 @@ let seenAtSessionStart = new Set();
 
 function loadDifficulties() {
   difficulties = Object.assign({}, window.DIFFICULTY_DATA || {});
-  seenAtSessionStart = new Set(Object.keys(window.DIFFICULTY_DATA || {}));
+  try {
+    const saved = localStorage.getItem('quiz-difficulties');
+    if (saved) Object.assign(difficulties, JSON.parse(saved));
+  } catch(e) {}
+  seenAtSessionStart = new Set(Object.keys(difficulties));
 }
 
 function loadWrongData() {
