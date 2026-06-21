@@ -1812,7 +1812,9 @@ window.addEventListener('popstate', () => {
 startBtn.addEventListener('click', startQuiz);
 nextBtn.addEventListener('click', () => {
   if (answered) { advance(); return; }
-  if (current === pool.length - 1) { tryFinish(); } else { confirmAnswer(); }
+  const q = pool[current];
+  const hasInput = q.match ? matchConnections.length > 0 : selectedLetters.size > 0;
+  if (current === pool.length - 1 && !hasInput) { tryFinish(); } else { confirmAnswer(); }
 });
 
 function startQuiz() {
