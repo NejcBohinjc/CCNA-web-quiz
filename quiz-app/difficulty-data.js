@@ -3,17 +3,35 @@
    Edit directly here, or use the Export button in the app and commit the downloaded file.
    Commit this file to GitHub to sync your ratings across machines. */
 window.DIFFICULTY_DATA = {
+  "7": "medium",
   "9": "medium",
   "11": "medium",
+  "16": "easy",
+  "20": "medium",
+  "27": "easy",
   "38": "hard",
+  "41": "medium",
   "45": "medium",
+  "49": "medium",
+  "50": "easy",
+  "57": "medium",
   "62": "hard",
+  "63": "medium",
+  "69": "medium",
   "75": "medium",
+  "76": "medium",
+  "77": "hard",
+  "78": "hard",
   "79": "medium",
   "81": "medium",
   "84": "medium",
+  "86": "hard",
   "90": "medium",
   "98": "medium",
+  "101": "medium",
   "105": "medium",
-  "113": "medium"
+  "111": "medium",
+  "112": "medium",
+  "113": "medium",
+  "114": "medium"
 };
