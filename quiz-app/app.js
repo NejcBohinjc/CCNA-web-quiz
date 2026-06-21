@@ -2376,6 +2376,7 @@ function confirmAnswer() {
 
 
 function advance() {
+  syncDifficulties();
   current++;
   if (current >= pool.length) {
     // Auto-submit any unanswered questions as incorrect
