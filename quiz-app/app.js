@@ -1388,8 +1388,11 @@ function id(s) { return document.getElementById(s); }
 /* ─────────────────────────────────────────
    DIFFICULTY
    ───────────────────────────────────────── */
+let seenAtSessionStart = new Set();
+
 function loadDifficulties() {
   difficulties = Object.assign({}, window.DIFFICULTY_DATA || {});
+  seenAtSessionStart = new Set(Object.keys(window.DIFFICULTY_DATA || {}));
 }
 
 function loadWrongData() {
@@ -1449,7 +1452,7 @@ function questionMatchesFilters(q) {
   const matchesSpecial = specials.length === 0
     || specials.some(f => {
       if (f === 'exhibit') return isExhibit(q);
-      if (f === 'unseen')  return !(window.DIFFICULTY_DATA && window.DIFFICULTY_DATA[String(q.id)]);
+      if (f === 'unseen')  return !seenAtSessionStart.has(String(q.id));
       if (f === 'wrong')   return !!wrongMap[String(q.id)];
     });
 
@@ -1491,8 +1494,7 @@ function updateDiffFilter(clicked) {
 function updateDiffRaterUI(questionId) {
   const q = QUESTIONS.find(q => q.id === questionId);
   const exhibit  = q && isExhibit(q);
-  const hasRated = !!(window.DIFFICULTY_DATA && window.DIFFICULTY_DATA[String(questionId)]);
-  const unseen   = !hasRated;
+  const unseen   = !seenAtSessionStart.has(String(questionId));
   const wrong    = !!wrongMap[String(questionId)];
   const diff     = difficulties[String(questionId)] || 'easy';
 
