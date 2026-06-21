@@ -1388,13 +1388,6 @@ function id(s) { return document.getElementById(s); }
    ───────────────────────────────────────── */
 function loadDifficulties() {
   difficulties = Object.assign({}, window.DIFFICULTY_DATA || {});
-  try {
-    const saved = localStorage.getItem('quiz-difficulties');
-    if (saved) Object.assign(difficulties, JSON.parse(saved));
-  } catch(e) {}
-  QUESTIONS.forEach(q => {
-    if (!difficulties[String(q.id)]) difficulties[String(q.id)] = 'easy';
-  });
 }
 
 function loadWrongData() {
@@ -1433,6 +1426,8 @@ function syncWrong() {
 function setDifficulty(questionId, diff) {
   difficulties[String(questionId)] = diff;
   difficultiesChanged = true;
+  if (!window.DIFFICULTY_DATA) window.DIFFICULTY_DATA = {};
+  window.DIFFICULTY_DATA[String(questionId)] = diff;
   localStorage.setItem('quiz-difficulties', JSON.stringify(difficulties));
 }
 
@@ -1515,7 +1510,8 @@ const SAVE_URL = 'http://localhost:3001/save-difficulties';
 function buildDiffContent() {
   const entries = QUESTIONS
     .slice().sort((a, b) => a.id - b.id)
-    .map(q => `  "${q.id}": "${difficulties[String(q.id)] || 'easy'}"`)
+    .filter(q => difficulties[String(q.id)])
+    .map(q => `  "${q.id}": "${difficulties[String(q.id)]}"`)
     .join(',\n');
   return (
     `/* CCNA1 Question Difficulty Ratings\n` +
@@ -1950,6 +1946,11 @@ function renderMatchingQuestion(q) {
   const leftTexts = q.match.leftTexts || q.match.pairs.filter(p => p.correct).map(p => p.left);
   let selectedLeftIdx = null;
 
+  const hint = document.createElement('p');
+  hint.className = 'matching-hint';
+  hint.textContent = 'Click an item on the left to select it, then click its match on the right.';
+  optWrap.appendChild(hint);
+
   const wrap = document.createElement('div');
   wrap.className = 'matching-wrap';
 
@@ -1957,6 +1958,7 @@ function renderMatchingQuestion(q) {
   const svg = document.createElementNS(svgNS, 'svg');
   svg.id = 'match-svg';
   svg.className = 'matching-svg-overlay';
+  svg.setAttribute('preserveAspectRatio', 'none');
   wrap.appendChild(svg);
 
   const leftCol = document.createElement('div');
@@ -2021,8 +2023,8 @@ function drawAllLines() {
   if (!wrap) return;
 
   const wrapRect = wrap.getBoundingClientRect();
-  svg.setAttribute('width', wrapRect.width);
-  svg.setAttribute('height', wrapRect.height);
+  if (!wrapRect.width || !wrapRect.height) return;
+  svg.setAttribute('viewBox', `0 0 ${wrapRect.width} ${wrapRect.height}`);
   svg.querySelectorAll('line').forEach(l => l.remove());
 
   const cols = wrap.querySelectorAll('.matching-col');
@@ -2069,31 +2071,32 @@ function showMatchingResult(q, correctPairs) {
 
   if (svg) {
     const wrapRect = wrap.getBoundingClientRect();
-    svg.setAttribute('width', wrapRect.width);
-    svg.setAttribute('height', wrapRect.height);
-    svg.querySelectorAll('line').forEach(l => l.remove());
+    if (wrapRect.width && wrapRect.height) {
+      svg.setAttribute('viewBox', `0 0 ${wrapRect.width} ${wrapRect.height}`);
+      svg.querySelectorAll('line').forEach(l => l.remove());
 
-    matchConnections.forEach(conn => {
-      const leftEl = leftItems[conn.sourceIdx];
-      const rightEl = rightItems[conn.targetIdx];
-      if (!leftEl || !rightEl) return;
+      matchConnections.forEach(conn => {
+        const leftEl = leftItems[conn.sourceIdx];
+        const rightEl = rightItems[conn.targetIdx];
+        if (!leftEl || !rightEl) return;
 
-      const leftRect = leftEl.getBoundingClientRect();
-      const rightRect = rightEl.getBoundingClientRect();
-      const x1 = leftRect.right - wrapRect.left;
-      const y1 = leftRect.top + leftRect.height / 2 - wrapRect.top;
-      const x2 = rightRect.left - wrapRect.left;
-      const y2 = rightRect.top + rightRect.height / 2 - wrapRect.top;
+        const leftRect = leftEl.getBoundingClientRect();
+        const rightRect = rightEl.getBoundingClientRect();
+        const x1 = leftRect.right - wrapRect.left;
+        const y1 = leftRect.top + leftRect.height / 2 - wrapRect.top;
+        const x2 = rightRect.left - wrapRect.left;
+        const y2 = rightRect.top + rightRect.height / 2 - wrapRect.top;
 
-      const isCorrect = correctPairs.some(p => p.leftIdx === conn.sourceIdx && p.rightIdx === conn.targetIdx);
-      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      line.setAttribute('x1', x1);
-      line.setAttribute('y1', y1);
-      line.setAttribute('x2', x2);
-      line.setAttribute('y2', y2);
-      line.className = isCorrect ? 'correct' : 'wrong';
-      svg.appendChild(line);
-    });
+        const isCorrect = correctPairs.some(p => p.leftIdx === conn.sourceIdx && p.rightIdx === conn.targetIdx);
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', x1);
+        line.setAttribute('y1', y1);
+        line.setAttribute('x2', x2);
+        line.setAttribute('y2', y2);
+        line.className = isCorrect ? 'correct' : 'wrong';
+        svg.appendChild(line);
+      });
+    }
   }
 
   correctPairs.forEach(p => {
