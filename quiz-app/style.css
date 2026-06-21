@@ -1130,6 +1130,20 @@ input[type="range"] {
   background: var(--diff-hard-ghost); border-color: var(--diff-hard); color: var(--diff-hard);
 }
 
+.diff-badge {
+  flex-shrink: 0;
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-align: center;
+  border: 1px solid transparent;
+}
+.diff-badge-easy   { background: var(--diff-easy-ghost);   border-color: var(--diff-easy);   color: var(--diff-easy);   }
+.diff-badge-medium { background: var(--diff-medium-ghost); border-color: var(--diff-medium); color: var(--diff-medium); }
+.diff-badge-hard   { background: var(--diff-hard-ghost);   border-color: var(--diff-hard);   color: var(--diff-hard);   }
+
 .exhibit-badge {
   flex-shrink: 0;
   background: var(--diff-exhibit-ghost);

@@ -1374,6 +1374,7 @@ const sessionHistorySection = id('session-history-section');
 const sessionHistoryList  = id('session-history-list');
 const diffAvailEl         = id('diff-avail');
 const exhibitBadge        = id('exhibit-badge');
+const diffBadge           = id('diff-badge');
 const unseenBadge         = id('unseen-badge');
 const wrongBadge          = id('wrong-badge');
 const resEyebrow          = id('res-eyebrow');
@@ -1443,7 +1444,7 @@ function questionMatchesFilters(q) {
   if (diffFilters.size === 0) return true;
   for (const f of diffFilters) {
     if (f === 'exhibit' && isExhibit(q)) return true;
-    if (f === 'unseen'  && !difficulties[String(q.id)]) return true;
+    if (f === 'unseen'  && !(window.DIFFICULTY_DATA && window.DIFFICULTY_DATA[String(q.id)])) return true;
     if (f === 'wrong'   && wrongMap[String(q.id)]) return true;
     if (f !== 'exhibit' && f !== 'unseen' && f !== 'wrong' && difficulties[String(q.id)] === f) return true;
   }
@@ -1484,15 +1485,28 @@ function updateDiffFilter(clicked) {
 
 function updateDiffRaterUI(questionId) {
   const q = QUESTIONS.find(q => q.id === questionId);
-  const exhibit = q && isExhibit(q);
-  const unseen = !difficulties[String(questionId)];
-  const wrong  = !!wrongMap[String(questionId)];
+  const exhibit  = q && isExhibit(q);
+  const hasRated = !!(window.DIFFICULTY_DATA && window.DIFFICULTY_DATA[String(questionId)]);
+  const unseen   = !hasRated;
+  const wrong    = !!wrongMap[String(questionId)];
+  const diff     = difficulties[String(questionId)] || 'easy';
+
+  // Difficulty badge — every non-exhibit question
+  if (!exhibit) {
+    diffBadge.textContent = diff.charAt(0).toUpperCase() + diff.slice(1);
+    diffBadge.className   = `diff-badge diff-badge-${diff}`;
+    diffBadge.style.display = '';
+  } else {
+    diffBadge.style.display = 'none';
+  }
+
   exhibitBadge.style.display = exhibit ? '' : 'none';
   unseenBadge.style.display  = unseen  ? '' : 'none';
   wrongBadge.style.display   = wrong   ? '' : 'none';
+
   document.querySelectorAll('.diff-rate-btn').forEach(btn => {
     btn.style.display = exhibit ? 'none' : '';
-    if (!exhibit) btn.classList.toggle('active', btn.dataset.diff === (difficulties[String(questionId)] || 'easy'));
+    if (!exhibit) btn.classList.toggle('active', btn.dataset.diff === diff);
   });
 }
 
