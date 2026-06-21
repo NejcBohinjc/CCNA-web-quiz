@@ -1372,6 +1372,7 @@ const sessionHistorySection = id('session-history-section');
 const sessionHistoryList  = id('session-history-list');
 const diffAvailEl         = id('diff-avail');
 const exhibitBadge        = id('exhibit-badge');
+const unseenBadge         = id('unseen-badge');
 const resEyebrow          = id('res-eyebrow');
 const explanationWrap     = id('explanation-wrap');
 const explanationText     = id('explanation-text');
@@ -1447,7 +1448,9 @@ function updateDiffFilter(clicked) {
 function updateDiffRaterUI(questionId) {
   const q = QUESTIONS.find(q => q.id === questionId);
   const exhibit = q && isExhibit(q);
+  const unseen = !difficulties[String(questionId)];
   exhibitBadge.style.display = exhibit ? '' : 'none';
+  unseenBadge.style.display = unseen ? '' : 'none';
   document.querySelectorAll('.diff-rate-btn').forEach(btn => {
     btn.style.display = exhibit ? 'none' : '';
     if (!exhibit) btn.classList.toggle('active', btn.dataset.diff === (difficulties[String(questionId)] || 'easy'));
