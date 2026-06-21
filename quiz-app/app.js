@@ -1415,12 +1415,13 @@ function updateDiffFilter(diff) {
 }
 
 function updateDiffRaterUI(questionId) {
-  const d = difficulties[String(questionId)] || 'easy';
-  document.querySelectorAll('.diff-rate-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.diff === d);
-  });
   const q = QUESTIONS.find(q => q.id === questionId);
-  exhibitBadge.style.display = (q && isExhibit(q)) ? '' : 'none';
+  const exhibit = q && isExhibit(q);
+  exhibitBadge.style.display = exhibit ? '' : 'none';
+  document.querySelectorAll('.diff-rate-btn').forEach(btn => {
+    btn.style.display = exhibit ? 'none' : '';
+    if (!exhibit) btn.classList.toggle('active', btn.dataset.diff === (difficulties[String(questionId)] || 'easy'));
+  });
 }
 
 const SAVE_URL = 'http://localhost:3001/save-difficulties';
