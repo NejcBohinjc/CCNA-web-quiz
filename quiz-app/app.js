@@ -2313,16 +2313,17 @@ function confirmAnswer() {
     if (allCorrect) {
       score++;
       scoreLive.textContent = `✓ ${score}`;
-      explanationWrap.style.display = 'none';
       markCorrect(q.id);
     } else {
       wrongItems.push({ question: q, connections: [...matchConnections], correctConnections: correctPairs });
-      const expl = window.EXPLANATIONS && window.EXPLANATIONS[String(q.id)];
-      if (expl) {
-        explanationText.textContent = expl;
-        explanationWrap.style.display = '';
-      }
       markWrong(q.id);
+    }
+    const expl = window.EXPLANATIONS && window.EXPLANATIONS[String(q.id)];
+    if (expl) {
+      explanationText.textContent = expl;
+      explanationWrap.style.display = '';
+    } else {
+      explanationWrap.style.display = 'none';
     }
 
     userAnswers[current] = [...matchConnections];
@@ -2355,16 +2356,18 @@ function confirmAnswer() {
   if (correct) {
     score++;
     scoreLive.textContent = `✓ ${score}`;
-    explanationWrap.style.display = 'none';
     markCorrect(q.id);
   } else {
     wrongItems.push({ question: q, yourLetters: selectedLetters, correctLetters });
-    const expl = window.EXPLANATIONS && window.EXPLANATIONS[String(q.id)];
-    if (expl) {
-      explanationText.textContent = expl;
-      explanationWrap.style.display = '';
-    }
     markWrong(q.id);
+  }
+
+  const expl = window.EXPLANATIONS && window.EXPLANATIONS[String(q.id)];
+  if (expl) {
+    explanationText.textContent = expl;
+    explanationWrap.style.display = '';
+  } else {
+    explanationWrap.style.display = 'none';
   }
 
   userAnswers[current] = [...selectedLetters];
