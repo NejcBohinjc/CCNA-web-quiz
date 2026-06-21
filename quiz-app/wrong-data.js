@@ -3,6 +3,7 @@
    Commit this file to GitHub to sync across machines. */
 window.WRONG_DATA = {
   "7": true,
+  "20": true,
   "57": true,
   "62": true,
   "78": true,
