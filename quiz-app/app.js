@@ -1118,14 +1118,21 @@ const QUESTIONS = [
   },
   {
     id: 99,
-    text: "Match each type of frame field to its function. (addressing / error detection / type / frame start) — Select ALL correct matches.",
-    multi: true,
-    options: [
-      { l: "A", t: "addressing → This field helps to direct the frame toward its destination.",             c: true },
-      { l: "B", t: "error detection → This field checks if the frame has been damaged during transfer.",    c: true },
-      { l: "C", t: "type → This field is used by the LLC to identify the Layer 3 protocol.",               c: true },
-      { l: "D", t: "frame start → This field identifies the beginning of a frame.",                        c: true }
-    ]
+    text: "Match each type of frame field to its function.",
+    match: {
+      columns: [
+        "helps direct the frame toward its destination",
+        "checks if the frame has been damaged during transfer",
+        "used by the LLC to identify the Layer 3 protocol",
+        "identifies the beginning of a frame"
+      ],
+      pairs: [
+        { left: "addressing",       right: "helps direct the frame toward its destination",          correct: true },
+        { left: "error detection",  right: "checks if the frame has been damaged during transfer",   correct: true },
+        { left: "type",             right: "used by the LLC to identify the Layer 3 protocol",       correct: true },
+        { left: "frame start",      right: "identifies the beginning of a frame",                    correct: true }
+      ]
+    }
   },
   {
     id: 100,
@@ -1247,16 +1254,18 @@ const QUESTIONS = [
   },
   {
     id: 110,
-    text: "Match the characteristic to the category. (IP address vs MAC address) — Select ALL correct matches.",
-    multi: true,
-    options: [
-      { l: "A", t: "IP address → contained in the Layer 3 header",                 c: true },
-      { l: "B", t: "MAC address → contained in the Layer 2 header",                c: true },
-      { l: "C", t: "IP address → separated into a network portion and a unique identifier", c: true },
-      { l: "D", t: "MAC address → separated into OUI and a unique identifier",     c: true },
-      { l: "E", t: "IP address → 32 or 128 bits",                                  c: true },
-      { l: "F", t: "MAC address → 48 bits",                                        c: true }
-    ]
+    text: "Match the characteristic to the category. (IP address vs MAC address)",
+    match: {
+      columns: ["IP address", "MAC address"],
+      pairs: [
+        { left: "contained in the Layer 3 header",                          right: "IP address",  correct: true },
+        { left: "contained in the Layer 2 header",                          right: "MAC address", correct: true },
+        { left: "separated into a network portion and a unique identifier",  right: "IP address",  correct: true },
+        { left: "separated into OUI and a unique identifier",               right: "MAC address", correct: true },
+        { left: "32 or 128 bits",                                           right: "IP address",  correct: true },
+        { left: "48 bits",                                                  right: "MAC address", correct: true }
+      ]
+    }
   },
   {
     id: 111,
