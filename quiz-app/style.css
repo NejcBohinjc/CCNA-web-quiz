@@ -1014,12 +1014,14 @@ input[type="range"] {
    DIFFICULTY — colours, filter, rater, export
    ═══════════════════════════════════════════ */
 :root {
-  --diff-easy:          var(--correct);
-  --diff-easy-ghost:    var(--correct-ghost);
-  --diff-medium:        #FBBF24;
-  --diff-medium-ghost:  rgba(251, 191, 36, 0.10);
-  --diff-hard:          var(--incorrect);
-  --diff-hard-ghost:    var(--incorrect-ghost);
+  --diff-easy:            var(--correct);
+  --diff-easy-ghost:      var(--correct-ghost);
+  --diff-medium:          #FBBF24;
+  --diff-medium-ghost:    rgba(251, 191, 36, 0.10);
+  --diff-hard:            var(--incorrect);
+  --diff-hard-ghost:      var(--incorrect-ghost);
+  --diff-exhibit:         #A78BFA;
+  --diff-exhibit-ghost:   rgba(167, 139, 250, 0.12);
 }
 
 /* ── Start screen filter ── */
@@ -1031,7 +1033,7 @@ input[type="range"] {
 
 .diff-filter-btns {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 6px;
 }
 
@@ -1059,6 +1061,9 @@ input[type="range"] {
 }
 .diff-filter-btn.active[data-diff="hard"] {
   background: var(--diff-hard-ghost); border-color: var(--diff-hard); color: var(--diff-hard);
+}
+.diff-filter-btn.active[data-diff="exhibit"] {
+  background: var(--diff-exhibit-ghost); border-color: var(--diff-exhibit); color: var(--diff-exhibit);
 }
 
 .diff-avail {
@@ -1113,6 +1118,35 @@ input[type="range"] {
 }
 .diff-rate-btn.active[data-diff="hard"] {
   background: var(--diff-hard-ghost); border-color: var(--diff-hard); color: var(--diff-hard);
+}
+
+.exhibit-badge {
+  flex-shrink: 0;
+  background: var(--diff-exhibit-ghost);
+  border: 1px solid var(--diff-exhibit);
+  border-radius: 6px;
+  color: var(--diff-exhibit);
+  padding: 5px 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* ── Explanation (shown on wrong answer) ── */
+.explanation-wrap {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.30);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
+.explanation-text {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text);
+  margin: 0;
 }
 
 /* ── Export button ── */

@@ -1360,6 +1360,10 @@ const navNextBtn      = id('nav-next-btn');
 const sessionHistorySection = id('session-history-section');
 const sessionHistoryList  = id('session-history-list');
 const diffAvailEl         = id('diff-avail');
+const exhibitBadge        = id('exhibit-badge');
+const resEyebrow          = id('res-eyebrow');
+const explanationWrap     = id('explanation-wrap');
+const explanationText     = id('explanation-text');
 
 function id(s) { return document.getElementById(s); }
 
@@ -1383,8 +1387,13 @@ function setDifficulty(questionId, diff) {
   localStorage.setItem('quiz-difficulties', JSON.stringify(difficulties));
 }
 
+function isExhibit(q) {
+  return /refer to the exhibit/i.test(q.text);
+}
+
 function getAvailableCount(diff) {
   if (diff === 'all') return QUESTIONS.length;
+  if (diff === 'exhibit') return QUESTIONS.filter(isExhibit).length || QUESTIONS.length;
   const n = QUESTIONS.filter(q => difficulties[String(q.id)] === diff).length;
   return n > 0 ? n : QUESTIONS.length;
 }
@@ -1410,6 +1419,8 @@ function updateDiffRaterUI(questionId) {
   document.querySelectorAll('.diff-rate-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.diff === d);
   });
+  const q = QUESTIONS.find(q => q.id === questionId);
+  exhibitBadge.style.display = (q && isExhibit(q)) ? '' : 'none';
 }
 
 const SAVE_URL = 'http://localhost:3001/save-difficulties';
@@ -1482,7 +1493,7 @@ function startTimer(totalSeconds) {
     if (!timerPaused) {
       timerSeconds--;
       renderTimer();
-      if (timerSeconds <= 0) stopTimer();
+      if (timerSeconds <= 0) { stopTimer(); showResults(true); }
     }
   }, 1000);
 }
@@ -1696,21 +1707,128 @@ id('export-btn').addEventListener('click', exportDifficulties);
 function showScreen(name) {
   Object.values(screens).forEach(s => s.classList.remove('active'));
   screens[name].classList.add('active');
+  const hashMap = { quiz: '#quiz', results: '#results', start: '#' };
+  history.replaceState(null, '', hashMap[name] || '#');
 }
+
+function saveQuizState() {
+  const state = {
+    poolIds: pool.map(q => q.id),
+    current,
+    score,
+    answered,
+    postAnswerClicks,
+    answeredFlags: [...answeredFlags],
+    userAnswers: userAnswers.map(a => a ? [...(Array.isArray(a) ? a : [...a])] : null),
+    wrongItemIds: wrongItems.map(w => ({
+      qid: w.question.id,
+      yourLetters: [...(w.yourLetters || [])],
+      correctLetters: [...(w.correctLetters || [])]
+    })),
+    timerSeconds,
+    timerVisible
+  };
+  localStorage.setItem('quiz-state', JSON.stringify(state));
+}
+
+function clearQuizState() {
+  localStorage.removeItem('quiz-state');
+}
+
+function restoreQuizState() {
+  const raw = localStorage.getItem('quiz-state');
+  if (!raw) return false;
+  try {
+    const s = JSON.parse(raw);
+    const restored = s.poolIds.map(id => QUESTIONS.find(q => q.id === id)).filter(Boolean);
+    if (!restored.length) return false;
+    pool           = restored;
+    current        = s.current || 0;
+    score          = s.score  || 0;
+    answered       = s.answered || false;
+    postAnswerClicks = s.postAnswerClicks || 0;
+    answeredFlags  = s.answeredFlags || [];
+    userAnswers    = (s.userAnswers || []).map(a => a || []);
+    wrongItems     = (s.wrongItemIds || []).map(w => {
+      const question = QUESTIONS.find(q => q.id === w.qid);
+      if (!question) return null;
+      return { question, yourLetters: new Set(w.yourLetters || []), correctLetters: new Set(w.correctLetters || []) };
+    }).filter(Boolean);
+    timerSeconds   = s.timerSeconds != null ? s.timerSeconds : pool.length * 60;
+    timerVisible   = s.timerVisible != null ? s.timerVisible : true;
+    selectedLetters = new Set(userAnswers[current] && !answeredFlags[current] ? [] : []);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function resumeTimer() {
+  clearInterval(timerInterval);
+  timerPaused = false;
+  renderTimer();
+  timerInterval = setInterval(() => {
+    if (!timerPaused) {
+      timerSeconds--;
+      renderTimer();
+      if (timerSeconds <= 0) { stopTimer(); showResults(true); }
+    }
+  }, 1000);
+}
+
+window.addEventListener('popstate', () => {
+  const hash = location.hash;
+  if (hash === '#quiz' && pool.length > 0) {
+    showScreen('quiz');
+  } else if (hash === '#results') {
+    // nothing to restore, go to start
+    clearQuizState();
+    showScreen('start');
+  } else {
+    clearQuizState();
+    stopTimer();
+    showScreen('start');
+  }
+});
+
+(function initFromHash() {
+  if (location.hash === '#quiz') {
+    if (restoreQuizState()) {
+      showScreen('quiz');
+      timerToggleBtn.classList.toggle('active', timerVisible);
+      qTimer.style.display = timerVisible ? '' : 'none';
+      timerPauseBtn.style.display = '';
+      renderQuestion();
+      if (timerSeconds > 0) resumeTimer();
+      return;
+    }
+    history.replaceState(null, '', '#');
+  }
+})();
 
 /* ─────────────────────────────────────────
    START QUIZ
    ───────────────────────────────────────── */
 startBtn.addEventListener('click', startQuiz);
+nextBtn.addEventListener('click', () => {
+  if (answered) { advance(); return; }
+  if (current === pool.length - 1) { tryFinish(); } else { confirmAnswer(); }
+});
 
 function startQuiz() {
-  const filtered = diffFilter === 'all'
-    ? [...QUESTIONS]
-    : QUESTIONS.filter(q => difficulties[String(q.id)] === diffFilter);
+  let filtered;
+  if (diffFilter === 'all') {
+    filtered = [...QUESTIONS];
+  } else if (diffFilter === 'exhibit') {
+    filtered = QUESTIONS.filter(isExhibit);
+  } else {
+    filtered = QUESTIONS.filter(q => difficulties[String(q.id)] === diffFilter);
+  }
   const questionPool = filtered.length > 0 ? filtered : [...QUESTIONS];
   const n = Math.max(1, Math.min(questionPool.length, parseInt(qCount.value) || 10));
   syncCount(n);
 
+  clearQuizState();
   pool = shuffle(questionPool).slice(0, n);
   current = 0; score = 0; wrongItems = [];
   userAnswers = []; answeredFlags = [];
@@ -1953,6 +2071,9 @@ function renderQuestion() {
     selectedLetters = new Set();
   }
   postAnswerClicks = 0;
+  explanationWrap.style.display = 'none';
+
+  saveQuizState();
 
   // topbar
   qCounter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(pool.length).padStart(2, '0')}`;
@@ -1961,9 +2082,13 @@ function renderQuestion() {
   const pct = ((current + 1) / pool.length) * 100;
   progress.style.width = pct + '%';
 
-  // hint
+  // hint — show "Choose N" or "Select all"
   if (q.multi) {
     multiHint.classList.remove('hidden');
+    const limit = getSelectLimit(q);
+    multiHint.textContent = limit === q.options.length
+      ? 'Select all that apply'
+      : `Choose ${limit} options`;
   } else {
     multiHint.classList.add('hidden');
   }
@@ -2009,7 +2134,7 @@ function renderQuestion() {
     label.addEventListener('click', (e) => {
       e.preventDefault();
       if (answered) {
-        if (++postAnswerClicks >= 3) advance();
+        advance();
         return;
       }
       if (selectedLetters.has(opt.l) && !q.multi) {
@@ -2045,6 +2170,31 @@ function renderQuestion() {
   updateDiffRaterUI(q.id);
 }
 
+function getSelectLimit(q) {
+  if (!q.multi) return 1;
+  return q.options.filter(o => o.c).length;
+}
+
+function handleSelect(letter, multi) {
+  const q = pool[current];
+  const limit = getSelectLimit(q);
+  if (multi) {
+    if (selectedLetters.has(letter)) {
+      selectedLetters.delete(letter);
+    } else {
+      if (selectedLetters.size >= limit) return;
+      selectedLetters.add(letter);
+    }
+  } else {
+    selectedLetters.clear();
+    selectedLetters.add(letter);
+  }
+  optWrap.querySelectorAll('.option-label').forEach(lbl => {
+    lbl.classList.toggle('selected', selectedLetters.has(lbl.dataset.letter));
+  });
+  nextBtn.disabled = selectedLetters.size === 0;
+}
+
 function confirmAnswer() {
   const q = pool[current];
 
@@ -2070,13 +2220,20 @@ function confirmAnswer() {
     if (allCorrect) {
       score++;
       scoreLive.textContent = `✓ ${score}`;
+      explanationWrap.style.display = 'none';
     } else {
       wrongItems.push({ question: q, connections: [...matchConnections], correctConnections: correctPairs });
+      const expl = window.EXPLANATIONS && window.EXPLANATIONS[String(q.id)];
+      if (expl) {
+        explanationText.textContent = expl;
+        explanationWrap.style.display = '';
+      }
     }
 
     userAnswers[current] = [...matchConnections];
     answeredFlags[current] = true;
     answered = true;
+    saveQuizState();
 
     // Show result visual feedback
     showMatchingResult(q, correctPairs, allCorrect);
@@ -2088,7 +2245,6 @@ function confirmAnswer() {
   if (selectedLetters.size === 0) return;
 
   // standard answer validation
-  const q = pool[current];
   const correctLetters = new Set(q.options.filter(o => o.c).map(o => o.l));
   const userSet = new Set(selectedLetters);
 
@@ -2104,13 +2260,20 @@ function confirmAnswer() {
   if (correct) {
     score++;
     scoreLive.textContent = `✓ ${score}`;
+    explanationWrap.style.display = 'none';
   } else {
     wrongItems.push({ question: q, yourLetters: selectedLetters, correctLetters });
+    const expl = window.EXPLANATIONS && window.EXPLANATIONS[String(q.id)];
+    if (expl) {
+      explanationText.textContent = expl;
+      explanationWrap.style.display = '';
+    }
   }
 
   userAnswers[current] = [...selectedLetters];
   answeredFlags[current] = true;
   answered = true;
+  saveQuizState();
 
   // lock options
   optWrap.querySelectorAll('.option-label').forEach(lbl => {
@@ -2169,12 +2332,15 @@ function tryFinish() {
 /* ─────────────────────────────────────────
    RESULTS
    ───────────────────────────────────────── */
-function showResults() {
+function showResults(timeUp) {
   syncDifficulties();
+  clearQuizState();
   progress.style.width = '100%';
   stopTimer();
   timerPauseBtn.style.display = 'none';
   showScreen('results');
+
+  resEyebrow.textContent = timeUp ? "Time's up!" : 'Session complete';
 
   const pct = Math.round((score / pool.length) * 100);
   resPct.textContent = pct + '%';
@@ -2188,7 +2354,11 @@ function showResults() {
     : `<span class="pass-badge fail">FAILED</span>`;
 
   let detail;
-  if (passed) {
+  if (timeUp) {
+    detail = passed
+      ? `Time ran out — but you still scored above the ${PASS_PCT}% pass mark.`
+      : `Time ran out — you needed ${Math.ceil(pool.length * PASS_PCT / 100) - score} more correct answer${Math.ceil(pool.length * PASS_PCT / 100) - score !== 1 ? 's' : ''} to pass.`;
+  } else if (passed) {
     if (pct === 100)    detail = 'Perfect score!';
     else if (pct >= 90) detail = 'Excellent work!';
     else                detail = `You scored above the ${PASS_PCT}% pass mark.`;
@@ -2299,6 +2469,7 @@ function showResults() {
    ───────────────────────────────────────── */
 exitBtn.addEventListener('click', () => {
   syncDifficulties();
+  clearQuizState();
   stopTimer();
   timerPauseBtn.style.display = 'none';
   showScreen('start');

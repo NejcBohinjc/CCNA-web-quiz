@@ -83,6 +83,7 @@
             <button class="diff-filter-btn" data-diff="easy">Easy</button>
             <button class="diff-filter-btn" data-diff="medium">Medium</button>
             <button class="diff-filter-btn" data-diff="hard">Hard</button>
+            <button class="diff-filter-btn" data-diff="exhibit">Exhibit</button>
           </div>
           <span id="diff-avail" class="diff-avail">111 total available</span>
         </div>
@@ -116,11 +117,15 @@
       <p id="multi-hint" class="multi-hint hidden">Select all that apply</p>
       <h2 id="q-text" class="q-text"></h2>
       <div id="options-wrap" class="options-wrap"></div>
+      <div id="explanation-wrap" class="explanation-wrap" style="display:none;">
+        <p id="explanation-text" class="explanation-text"></p>
+      </div>
       <div id="diff-rate-wrap" class="diff-rate-wrap">
         <span class="diff-rate-label">Difficulty</span>
         <button class="diff-rate-btn" data-diff="easy">Easy</button>
         <button class="diff-rate-btn" data-diff="medium">Medium</button>
         <button class="diff-rate-btn" data-diff="hard">Hard</button>
+        <span id="exhibit-badge" class="exhibit-badge" style="display:none;">Exhibit</span>
       </div>
       <button id="next-btn" class="btn-primary" disabled>Confirm →</button>
     </div>
@@ -129,7 +134,7 @@
   <!-- ── RESULTS SCREEN ── -->
   <main id="screen-results" class="screen">
     <div class="card results-card">
-      <p class="results-eyebrow">Session complete</p>
+      <p id="res-eyebrow" class="results-eyebrow">Session complete</p>
       <div class="score-ring-wrap">
         <svg class="score-ring" viewBox="0 0 120 120">
           <circle class="ring-track" cx="60" cy="60" r="52" />
@@ -155,6 +160,7 @@
   </main>
 
   <script src="difficulty-data.js"></script>
+  <script src="explanations.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
