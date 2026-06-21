@@ -463,8 +463,8 @@ const QUESTIONS = [
     options: [
       { l: "A", t: "This host does not have a default gateway configured.",                       c: false },
       { l: "B", t: "There are 4 hops between this device and the device at 192.168.100.1.",       c: true  },
-      { l: "C", t: "There is connectivity between this device and the device at 192.168.100.1.",  c: true  },
-      { l: "D", t: "The connectivity allows for videoconferencing calls.",                        c: false },
+      { l: "C", t: "The connectivity allows for videoconferencing calls.",                        c: false },
+      { l: "D", t: "There is connectivity between this device and the device at 192.168.100.1.",  c: true  },
       { l: "E", t: "The average transmission time between the two hosts is 2 milliseconds.",       c: false }
     ]
   },
@@ -1976,7 +1976,7 @@ function renderMatchingQuestion(q) {
 
   const hint = document.createElement('p');
   hint.className = 'matching-hint';
-  hint.textContent = 'Click an item on the left to select it, then click its match on the right.';
+  hint.textContent = `Click an item on the left, then click its match on the right. Connect all ${leftTexts.length} items.`;
   optWrap.appendChild(hint);
 
   const wrap = document.createElement('div');
@@ -2028,9 +2028,12 @@ function renderMatchingQuestion(q) {
       if (existing !== -1) matchConnections.splice(existing, 1);
       matchConnections.push({ sourceIdx, targetIdx });
       selectedLeftIdx = null;
-      leftCol.querySelectorAll('.matching-item').forEach(e => e.classList.remove('matching-source'));
+      leftCol.querySelectorAll('.matching-item').forEach((el, idx) => {
+        el.classList.remove('matching-source');
+        el.classList.toggle('matched', matchConnections.some(c => c.sourceIdx === idx));
+      });
       drawAllLines();
-      nextBtn.disabled = false;
+      nextBtn.disabled = matchConnections.length < leftTexts.length;
     });
     rightCol.appendChild(el);
   });
