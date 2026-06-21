@@ -2321,6 +2321,7 @@ function confirmAnswer() {
     const expl = window.EXPLANATIONS && window.EXPLANATIONS[String(q.id)];
     if (expl) {
       explanationText.textContent = expl;
+      explanationWrap.classList.toggle('correct', allCorrect);
       explanationWrap.style.display = '';
     } else {
       explanationWrap.style.display = 'none';
@@ -2365,6 +2366,7 @@ function confirmAnswer() {
   const expl = window.EXPLANATIONS && window.EXPLANATIONS[String(q.id)];
   if (expl) {
     explanationText.textContent = expl;
+    explanationWrap.classList.toggle('correct', correct);
     explanationWrap.style.display = '';
   } else {
     explanationWrap.style.display = 'none';
