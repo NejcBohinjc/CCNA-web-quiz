@@ -1331,6 +1331,7 @@ let answered = false;
 let postAnswerClicks = 0;
 let userAnswers = [];       // Set per question index
 let answeredFlags = [];     // true once confirmAnswer called
+let optionShuffles = [];    // shuffled options array per pool index
 let difficulties = {};         // questionId (string) -> 'easy'|'medium'|'hard'
 let diffFilters  = new Set(); // empty = all; otherwise set of filter keys
 let difficultiesChanged = false;
@@ -1919,7 +1920,7 @@ function startQuiz() {
   clearQuizState();
   pool = shuffle(questionPool).slice(0, n);
   current = 0; score = 0; wrongItems = [];
-  userAnswers = []; answeredFlags = [];
+  userAnswers = []; answeredFlags = []; optionShuffles = [];
   showScreen('quiz');
   timerToggleBtn.classList.toggle('active', timerVisible);
   qTimer.style.display = timerVisible ? '' : 'none';
@@ -2187,9 +2188,10 @@ function renderQuestion() {
     return;
   }
 
-  // render options (standard)
+  // render options (standard) — shuffled once per position, stable on revisit
+  if (!optionShuffles[current]) optionShuffles[current] = shuffle([...q.options]);
   optWrap.innerHTML = '';
-  q.options.forEach(opt => {
+  optionShuffles[current].forEach(opt => {
     const label = document.createElement('label');
     label.className = 'option-label';
     label.dataset.letter = opt.l;
@@ -2572,7 +2574,7 @@ exitBtn.addEventListener('click', () => {
 
 retryBtn.addEventListener('click', () => {
   current = 0; score = 0; wrongItems = [];
-  userAnswers = []; answeredFlags = [];
+  userAnswers = []; answeredFlags = []; optionShuffles = [];
   pool = shuffle(pool);
   ringFill.style.strokeDashoffset = 327;
   ringFill.style.stroke = 'var(--accent)';
