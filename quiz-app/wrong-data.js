@@ -11,5 +11,6 @@ window.WRONG_DATA = {
   "78": true,
   "96": true,
   "108": true,
-  "111": true
+  "111": true,
+  "112": true
 };
