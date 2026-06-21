@@ -1448,3 +1448,15 @@ input[type="range"] {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
+
+/* ── Footer ── */
+.site-footer {
+  text-align: center;
+  padding: 20px 16px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  border-top: 1px solid var(--border);
+  opacity: 0.6;
+}

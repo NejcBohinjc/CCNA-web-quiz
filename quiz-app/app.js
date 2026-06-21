@@ -2765,3 +2765,5 @@ function launchConfetti() {
   }
   frame();
 }
+
+document.getElementById('footer-year').textContent = new Date().getFullYear();
