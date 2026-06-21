@@ -1321,7 +1321,7 @@ let postAnswerClicks = 0;
 let userAnswers = [];       // Set per question index
 let answeredFlags = [];     // true once confirmAnswer called
 let difficulties = {};         // questionId (string) -> 'easy'|'medium'|'hard'
-let diffFilter   = 'all';     // 'all'|'easy'|'medium'|'hard'
+let diffFilters  = new Set(); // empty = all; otherwise set of 'easy'|'medium'|'hard'|'exhibit'
 let difficultiesChanged = false;
 
 /* ── Matching state ── */
@@ -1391,26 +1391,44 @@ function isExhibit(q) {
   return /refer to the exhibit/i.test(q.text);
 }
 
-function getAvailableCount(diff) {
-  if (diff === 'all') return QUESTIONS.length;
-  if (diff === 'exhibit') return QUESTIONS.filter(isExhibit).length || QUESTIONS.length;
-  const n = QUESTIONS.filter(q => difficulties[String(q.id)] === diff).length;
+function questionMatchesFilters(q) {
+  if (diffFilters.size === 0) return true;
+  for (const f of diffFilters) {
+    if (f === 'exhibit' && isExhibit(q)) return true;
+    if (f !== 'exhibit' && difficulties[String(q.id)] === f) return true;
+  }
+  return false;
+}
+
+function getAvailableCount() {
+  if (diffFilters.size === 0) return QUESTIONS.length;
+  const n = QUESTIONS.filter(questionMatchesFilters).length;
   return n > 0 ? n : QUESTIONS.length;
 }
 
-function updateDiffFilter(diff) {
-  diffFilter = diff;
-  const avail = getAvailableCount(diff);
+function updateDiffFilter(clicked) {
+  if (clicked === 'all') {
+    diffFilters.clear();
+  } else {
+    if (diffFilters.has(clicked)) diffFilters.delete(clicked);
+    else diffFilters.add(clicked);
+  }
+  const avail = getAvailableCount();
   qSlider.max = avail;
   qCount.max  = avail;
   const cur = Math.max(1, Math.min(parseInt(qCount.value) || 10, avail));
   syncCount(cur);
   document.querySelectorAll('.diff-filter-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.diff === diff);
+    if (b.dataset.diff === 'all') b.classList.toggle('active', diffFilters.size === 0);
+    else b.classList.toggle('active', diffFilters.has(b.dataset.diff));
   });
   if (diffAvailEl) {
-    const label = diff === 'all' ? 'total' : diff;
-    diffAvailEl.textContent = `${avail} ${label} available`;
+    if (diffFilters.size === 0) {
+      diffAvailEl.textContent = `${avail} total available`;
+    } else {
+      const labels = [...diffFilters].join(', ');
+      diffAvailEl.textContent = `${avail} available (${labels})`;
+    }
   }
 }
 
@@ -1574,7 +1592,7 @@ qCount.addEventListener('input', () => {
     timeEstimate.textContent = '~ — min';
     return;
   }
-  const v = Math.max(1, Math.min(getAvailableCount(diffFilter), parseInt(raw) || 1));
+  const v = Math.max(1, Math.min(getAvailableCount(), parseInt(raw) || 1));
   qCount.value = v;
   syncCount(v);
 });
@@ -1588,7 +1606,7 @@ qCount.addEventListener('blur', () => {
 
 document.querySelectorAll('.pick-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    const avail = getAvailableCount(diffFilter);
+    const avail = getAvailableCount();
     syncCount(Math.min(parseInt(btn.dataset.n), avail));
   });
 });
@@ -1819,14 +1837,7 @@ nextBtn.addEventListener('click', () => {
 });
 
 function startQuiz() {
-  let filtered;
-  if (diffFilter === 'all') {
-    filtered = [...QUESTIONS];
-  } else if (diffFilter === 'exhibit') {
-    filtered = QUESTIONS.filter(isExhibit);
-  } else {
-    filtered = QUESTIONS.filter(q => difficulties[String(q.id)] === diffFilter);
-  }
+  const filtered = QUESTIONS.filter(questionMatchesFilters);
   const questionPool = filtered.length > 0 ? filtered : [...QUESTIONS];
   const n = Math.max(1, Math.min(questionPool.length, parseInt(qCount.value) || 10));
   syncCount(n);
