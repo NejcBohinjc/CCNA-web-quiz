@@ -2,7 +2,6 @@
    Questions answered incorrectly at some point and not yet corrected.
    Commit this file to GitHub to sync across machines. */
 window.WRONG_DATA = {
-  "65": true,
   "78": true,
   "86": true,
   "95": true,
