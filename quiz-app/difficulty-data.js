@@ -37,6 +37,7 @@ window.DIFFICULTY_DATA = {
   "44": "easy",
   "45": "medium",
   "46": "easy",
+  "47": "easy",
   "48": "easy",
   "49": "medium",
   "50": "easy",
