@@ -11,6 +11,7 @@ window.WRONG_DATA = {
   "63": true,
   "78": true,
   "86": true,
+  "95": true,
   "96": true,
   "111": true,
   "112": true
