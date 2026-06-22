@@ -1,0 +1,46 @@
+name: Deploy quiz app to GitHub Pages
+
+# The playable app lives in quiz-app/. GitHub Pages serves the gh-pages
+# branch, so this workflow copies the web files (no server.js / scripts)
+# to gh-pages whenever quiz-app/ changes on main.
+
+on:
+  push:
+    branches: [main]
+    paths: ['quiz-app/**']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Stage site files
+        run: |
+          rm -rf dist && mkdir -p dist
+          cp quiz-app/index.html quiz-app/style.css quiz-app/app.js \
+             quiz-app/difficulty-data.js quiz-app/wrong-data.js \
+             quiz-app/explanations.js dist/
+          cp -r quiz-app/exhibits dist/exhibits
+          touch dist/.nojekyll
+
+      - name: Publish to gh-pages
+        run: |
+          cd dist
+          git init -q
+          git checkout -q -b gh-pages
+          git add -A
+          git -c user.name="github-actions[bot]" \
+              -c user.email="github-actions[bot]@users.noreply.github.com" \
+              commit -q -m "Deploy ${GITHUB_SHA::7}"
+          git push -q --force \
+            "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" \
+            gh-pages
