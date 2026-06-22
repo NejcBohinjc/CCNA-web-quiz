@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=2" />
+  <link rel="stylesheet" href="style.css?v=3" />
 </head>
 <body>
   <canvas id="bg-canvas"></canvas>
@@ -37,10 +37,10 @@
       <div class="start-info">
         <span class="course-tag">CCNA 1 · ITN · v7.0</span>
         <h1>Introduction<br>to <em>Networks</em></h1>
-        <p class="start-desc">111 exam-style questions covering the full ITN syllabus. Pick your session size and go.</p>
+        <p class="start-desc">154 exam-style questions covering the full ITN syllabus. Pick your session size and go.</p>
         <div class="start-stats">
           <div class="start-stat">
-            <span class="stat-num">111</span>
+            <span class="stat-num">154</span>
             <span class="stat-lbl">questions</span>
           </div>
           <div class="stat-divider"></div>
@@ -65,16 +65,16 @@
       <div class="start-picker card">
         <p class="picker-label">Questions per session</p>
         <div class="big-count-wrap">
-          <input type="number" id="q-count" min="1" max="111" value="10" />
+          <input type="number" id="q-count" min="1" max="154" value="10" />
           <span class="big-count-unit">questions</span>
           <span id="time-estimate" class="time-estimate">~ 10 min</span>
         </div>
-        <input type="range" id="q-slider" min="1" max="111" value="10" />
+        <input type="range" id="q-slider" min="1" max="154" value="10" />
         <div class="quick-picks">
           <button class="pick-btn" data-n="10">10</button>
           <button class="pick-btn" data-n="25">25</button>
           <button class="pick-btn" data-n="50">50</button>
-          <button class="pick-btn" data-n="111">All</button>
+          <button class="pick-btn" data-n="154">All</button>
         </div>
         <div class="timer-limit-wrap">
           <p class="picker-label">Time limit <span class="picker-label-hint">(leave blank for default: 1 min / question)</span></p>
@@ -94,7 +94,7 @@
             <button class="diff-filter-btn" data-diff="unseen">Unseen</button>
             <button class="diff-filter-btn" data-diff="wrong">Wrong</button>
           </div>
-          <span id="diff-avail" class="diff-avail">111 total available</span>
+          <span id="diff-avail" class="diff-avail">154 total available</span>
         </div>
         <button id="start-btn" class="btn-primary">Begin session →</button>
       </div>
@@ -180,9 +180,9 @@
     <p>&copy; <span id="footer-year"></span> Nejc Bohinjc. All rights reserved. Not for commercial use without permission.</p>
   </footer>
 
-  <script src="difficulty-data.js?v=2"></script>
-  <script src="wrong-data.js?v=2"></script>
-  <script src="explanations.js?v=2"></script>
-  <script src="app.js?v=2"></script>
+  <script src="difficulty-data.js?v=3"></script>
+  <script src="wrong-data.js?v=3"></script>
+  <script src="explanations.js?v=3"></script>
+  <script src="app.js?v=3"></script>
 </body>
 </html>

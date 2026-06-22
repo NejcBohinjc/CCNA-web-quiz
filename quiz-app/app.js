@@ -1985,7 +1985,13 @@ function markCorrect(questionId) {
 
 const WRONG_SAVE_URL = 'http://localhost:3001/save-wrong';
 
+// Server-side sync only applies when running against the local server.
+// On a static host (e.g. GitHub Pages) data persists via localStorage only,
+// and reaching http://localhost would just throw mixed-content errors.
+const IS_LOCAL = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
 function syncWrong() {
+  if (!IS_LOCAL) return;
   fetch(WRONG_SAVE_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -2100,6 +2106,7 @@ function buildDiffContent() {
 }
 
 function syncDifficulties() {
+  if (!IS_LOCAL) return;
   if (!difficultiesChanged) return;
   difficultiesChanged = false;
   fetch(SAVE_URL, {
@@ -2119,6 +2126,7 @@ function exportDifficulties() {
 }
 
 window.addEventListener('beforeunload', () => {
+  if (!IS_LOCAL) return;
   if (!difficultiesChanged) return;
   navigator.sendBeacon(SAVE_URL, new Blob(
     [JSON.stringify({ difficulties: Object.assign({}, difficulties) })],
