@@ -4,6 +4,7 @@
    Commit this file to GitHub to sync your ratings across machines. */
 window.DIFFICULTY_DATA = {
   "3": "medium",
+  "4": "easy",
   "5": "easy",
   "7": "medium",
   "9": "medium",
