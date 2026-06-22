@@ -24,6 +24,7 @@ window.DIFFICULTY_DATA = {
   "26": "medium",
   "27": "easy",
   "28": "easy",
+  "29": "easy",
   "31": "easy",
   "32": "medium",
   "33": "easy",
