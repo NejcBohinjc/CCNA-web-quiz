@@ -3,6 +3,7 @@
    Edit directly here, or use the Export button in the app and commit the downloaded file.
    Commit this file to GitHub to sync your ratings across machines. */
 window.DIFFICULTY_DATA = {
+  "1": "medium",
   "2": "easy",
   "3": "medium",
   "4": "easy",
