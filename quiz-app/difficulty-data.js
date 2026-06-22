@@ -107,5 +107,6 @@ window.DIFFICULTY_DATA = {
   "111": "medium",
   "112": "medium",
   "113": "medium",
-  "114": "medium"
+  "114": "medium",
+  "115": "easy"
 };
