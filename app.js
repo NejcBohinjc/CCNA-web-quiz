@@ -1,0 +1,3384 @@
+/* ─────────────────────────────────────────
+   CCNA1 ITN Quiz — Questions Data + Logic
+   ───────────────────────────────────────── */
+
+const QUESTIONS = [
+  {
+    id: 1,
+    text: "Which two traffic types use the Real-Time Transport Protocol (RTP)? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "video",           c: true  },
+      { l: "B", t: "web",             c: false },
+      { l: "C", t: "file transfer",   c: false },
+      { l: "D", t: "voice",           c: true  },
+      { l: "E", t: "peer to peer",    c: false }
+    ]
+  },
+  {
+    id: 2,
+    text: "Which wireless technology has low-power and data rate requirements making it popular in home automation applications?",
+    multi: false,
+    options: [
+      { l: "A", t: "ZigBee",   c: true  },
+      { l: "B", t: "LoRaWAN",  c: false },
+      { l: "C", t: "5G",       c: false },
+      { l: "D", t: "Wi-Fi",    c: false }
+    ]
+  },
+  {
+    id: 3,
+    text: "Which layer of the TCP/IP model provides a route to forward messages through an internetwork?",
+    multi: false,
+    options: [
+      { l: "A", t: "application",    c: false },
+      { l: "B", t: "network access", c: false },
+      { l: "C", t: "internet",       c: true  },
+      { l: "D", t: "transport",      c: false }
+    ]
+  },
+  {
+    id: 4,
+    text: "Which type of server relies on record types such as A, NS, AAAA, and MX in order to provide services?",
+    multi: false,
+    options: [
+      { l: "A", t: "DNS",   c: true  },
+      { l: "B", t: "email", c: false },
+      { l: "C", t: "file",  c: false },
+      { l: "D", t: "web",   c: false }
+    ]
+  },
+  {
+    id: 5,
+    text: "What are proprietary protocols?",
+    multi: false,
+    options: [
+      { l: "A", t: "protocols developed by private organizations to operate on any vendor hardware",     c: false },
+      { l: "B", t: "protocols that can be freely used by any organization or vendor",                   c: false },
+      { l: "C", t: "protocols developed by organizations who have control over their definition and operation", c: true },
+      { l: "D", t: "a collection of protocols known as the TCP/IP protocol suite",                      c: false }
+    ]
+  },
+  {
+    id: 6,
+    text: "What service is provided by DNS?",
+    multi: false,
+    options: [
+      { l: "A", t: "Resolves domain names, such as cisco.com, into IP addresses.",                                                  c: true  },
+      { l: "B", t: "A basic set of rules for exchanging text, graphic images, sound, video, and other multimedia files on the web.", c: false },
+      { l: "C", t: "Allows for data transfers between a client and a file server.",                                                  c: false },
+      { l: "D", t: "Uses encryption to secure the exchange of text, graphic images, sound, and video on the web.",                  c: false }
+    ]
+  },
+  {
+    id: 7,
+    text: "A client packet is received by a server. The packet has a destination port number of 110. What service is the client requesting?",
+    multi: false,
+    options: [
+      { l: "A", t: "DNS",   c: false },
+      { l: "B", t: "DHCP",  c: false },
+      { l: "C", t: "SMTP",  c: false },
+      { l: "D", t: "POP3",  c: true  }
+    ]
+  },
+  {
+    id: 8,
+    text: "What command can be used on a Windows PC to see the IP configuration of that computer?",
+    multi: false,
+    options: [
+      { l: "A", t: "show ip interface brief", c: false },
+      { l: "B", t: "ping",                   c: false },
+      { l: "C", t: "show interfaces",        c: false },
+      { l: "D", t: "ipconfig",               c: true  }
+    ]
+  },
+  {
+    id: 9,
+    text: "A wired laser printer is attached to a home computer. That printer has been shared so that other computers on the home network can also use the printer. What networking model is in use?",
+    multi: false,
+    options: [
+      { l: "A", t: "client-based",       c: false },
+      { l: "B", t: "master-slave",       c: false },
+      { l: "C", t: "point-to-point",     c: false },
+      { l: "D", t: "peer-to-peer (P2P)", c: true  }
+    ]
+  },
+  {
+    id: 10,
+    text: "What characteristic describes a virus?",
+    multi: false,
+    options: [
+      { l: "A", t: "a network device that filters access and traffic coming into a network",  c: false },
+      { l: "B", t: "the use of stolen credentials to access private data",                   c: false },
+      { l: "C", t: "an attack that slows or crashes a device or network service",            c: false },
+      { l: "D", t: "malicious software or code running on an end device",                   c: true  }
+    ]
+  },
+  {
+    id: 11,
+    text: "Three bank employees are using the corporate network. One uses a web browser to view a company web page. Another accesses the corporate database for financial transactions. The third participates in an important live audio conference. If QoS is implemented, what will be the priorities from highest to lowest of the different data types?",
+    multi: false,
+    options: [
+      { l: "A", t: "financial transactions, web page, audio conference",   c: false },
+      { l: "B", t: "audio conference, financial transactions, web page",   c: true  },
+      { l: "C", t: "financial transactions, audio conference, web page",   c: false },
+      { l: "D", t: "audio conference, web page, financial transactions",   c: false }
+    ]
+  },
+  {
+    id: 13,
+    exhibit: 'exhibits/exhibit_003.png',
+    text: "Refer to the exhibit. If Host1 were to transfer a file to the server, what layers of the TCP/IP model would be used?",
+    multi: false,
+    options: [
+      { l: "A", t: "only application and Internet layers",                                         c: false },
+      { l: "B", t: "only Internet and network access layers",                                      c: false },
+      { l: "C", t: "only application, Internet, and network access layers",                        c: false },
+      { l: "D", t: "application, transport, Internet, and network access layers",                  c: true  },
+      { l: "E", t: "only application, transport, network, data link, and physical layers",         c: false },
+      { l: "F", t: "application, session, transport, network, data link, and physical layers",     c: false }
+    ]
+  },
+  {
+    id: 15,
+    exhibit: 'exhibits/exhibit_005.jpg',
+    text: "Refer to the exhibit. The IP address of which device interface should be used as the default gateway setting of host H1?",
+    multi: false,
+    options: [
+      { l: "A", t: "R1: S0/0/0",  c: false },
+      { l: "B", t: "R2: S0/0/1",  c: false },
+      { l: "C", t: "R1: G0/0",    c: true  },
+      { l: "D", t: "R2: S0/0/0",  c: false }
+    ]
+  },
+  {
+    id: 16,
+    text: "What service is provided by Internet Messenger?",
+    multi: false,
+    options: [
+      { l: "A", t: "An application that allows real-time chatting among remote users.",    c: true  },
+      { l: "B", t: "Allows remote access to network devices and servers.",                 c: false },
+      { l: "C", t: "Resolves domain names, such as cisco.com, into IP addresses.",        c: false },
+      { l: "D", t: "Uses encryption to provide secure remote access to network devices.", c: false }
+    ]
+  },
+  {
+    id: 17,
+    text: "Match the network with the correct IP address and prefix.",
+    match: {
+      columns: ["Network A", "Network B", "Network C", "Network D"],
+      pairs: [
+        { leftIdx: 0, rightIdx: 0, correct: true },
+        { leftIdx: 1, rightIdx: 1, correct: true },
+        { leftIdx: 2, rightIdx: 2, correct: true },
+        { leftIdx: 3, rightIdx: 3, correct: true }
+      ],
+      leftTexts: [
+        "192.168.0.128/25",
+        "192.168.0.0/26",
+        "192.168.0.96/27",
+        "192.168.0.80/30"
+      ]
+    }
+  },
+  {
+    id: 18,
+    exhibit: 'exhibits/exhibit_008.jpg',
+    text: "Refer to the exhibit. Which protocol was responsible for building the table that is shown? (Output of arp -a)",
+    multi: false,
+    options: [
+      { l: "A", t: "DHCP",  c: false },
+      { l: "B", t: "ARP",   c: true  },
+      { l: "C", t: "DNS",   c: false },
+      { l: "D", t: "ICMP",  c: false }
+    ]
+  },
+  {
+    id: 19,
+    text: "A network administrator notices that some newly installed Ethernet cabling is carrying corrupt and distorted data signals. The new cabling was installed close to fluorescent lights and electrical equipment. Which two factors may interfere with the copper cabling and result in signal distortion? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "crosstalk",          c: false },
+      { l: "B", t: "extended length of cabling", c: false },
+      { l: "C", t: "RFI",                c: true  },
+      { l: "D", t: "EMI",                c: true  },
+      { l: "E", t: "signal attenuation", c: false }
+    ]
+  },
+  {
+    id: 20,
+    text: "A host is trying to send a packet to a device on a remote LAN segment, but there are currently no mappings in its ARP cache. How will the device obtain a destination MAC address?",
+    multi: false,
+    options: [
+      { l: "A", t: "It will send the frame and use its own MAC address as the destination.",       c: false },
+      { l: "B", t: "It will send an ARP request for the MAC address of the destination device.",    c: false },
+      { l: "C", t: "It will send the frame with a broadcast MAC address.",                         c: false },
+      { l: "D", t: "It will send a request to the DNS server for the destination MAC address.",    c: false },
+      { l: "E", t: "It will send an ARP request for the MAC address of the default gateway.",      c: true  }
+    ]
+  },
+  {
+    id: 22,
+    text: "A client packet is received by a server. The packet has a destination port number of 53. What service is the client requesting?",
+    multi: false,
+    options: [
+      { l: "A", t: "DNS",             c: true  },
+      { l: "B", t: "NetBIOS (NetBT)", c: false },
+      { l: "C", t: "POP3",            c: false },
+      { l: "D", t: "IMAP",            c: false }
+    ]
+  },
+  {
+    id: 23,
+    text: "A network administrator is adding a new LAN to a branch office. The new LAN must support 25 connected devices. What is the smallest network mask that the administrator can use for the new network?",
+    multi: false,
+    options: [
+      { l: "A", t: "255.255.255.128", c: false },
+      { l: "B", t: "255.255.255.192", c: false },
+      { l: "C", t: "255.255.255.224", c: true  },
+      { l: "D", t: "255.255.255.240", c: false }
+    ]
+  },
+  {
+    id: 24,
+    text: "What characteristic describes a Trojan horse?",
+    multi: false,
+    options: [
+      { l: "A", t: "malicious software or code running on an end device",                   c: true  },
+      { l: "B", t: "an attack that slows or crashes a device or network service",           c: false },
+      { l: "C", t: "the use of stolen credentials to access private data",                  c: false },
+      { l: "D", t: "a network device that filters access and traffic coming into a network", c: false }
+    ]
+  },
+  {
+    id: 25,
+    text: "What service is provided by HTTPS?",
+    multi: false,
+    options: [
+      { l: "A", t: "Uses encryption to provide secure remote access to network devices and servers.",              c: false },
+      { l: "B", t: "Resolves domain names, such as cisco.com, into IP addresses.",                                c: false },
+      { l: "C", t: "Uses encryption to secure the exchange of text, graphic images, sound, and video on the web.", c: true  },
+      { l: "D", t: "Allows remote access to network devices and servers.",                                         c: false }
+    ]
+  },
+  {
+    id: 26,
+    text: "A technician with a PC is using multiple applications while connected to the Internet. How is the PC able to keep track of the data flow between multiple application sessions and have each application receive the correct packet flows?",
+    multi: false,
+    options: [
+      { l: "A", t: "The data flow is tracked based on the destination MAC address of the PC.",                      c: false },
+      { l: "B", t: "The data flow is tracked based on the source port number used by each application.",            c: true  },
+      { l: "C", t: "The data flow is tracked based on the source IP address used by the PC.",                       c: false },
+      { l: "D", t: "The data flow is tracked based on the destination IP address used by the PC.",                  c: false }
+    ]
+  },
+  {
+    id: 27,
+    text: "A network administrator is adding a new LAN to a branch office. The new LAN must support 61 connected devices. What is the smallest network mask that the administrator can use?",
+    multi: false,
+    options: [
+      { l: "A", t: "255.255.255.240", c: false },
+      { l: "B", t: "255.255.255.224", c: false },
+      { l: "C", t: "255.255.255.192", c: true  },
+      { l: "D", t: "255.255.255.128", c: false }
+    ]
+  },
+  {
+    id: 28,
+    text: "Match the network with the correct IP address and prefix.",
+    match: {
+      columns: ["Network A", "Network B", "Network C", "Network D"],
+      pairs: [
+        { leftIdx: 0, rightIdx: 0, correct: true },
+        { leftIdx: 1, rightIdx: 1, correct: true },
+        { leftIdx: 2, rightIdx: 2, correct: true },
+        { leftIdx: 3, rightIdx: 3, correct: true }
+      ],
+      leftTexts: [
+        "192.168.0.0/25",
+        "192.168.0.128/26",
+        "192.168.0.192/27",
+        "192.168.0.224/30"
+      ]
+    }
+  },
+  {
+    id: 29,
+    text: "What characteristic describes a DoS attack?",
+    multi: false,
+    options: [
+      { l: "A", t: "the use of stolen credentials to access private data",                   c: false },
+      { l: "B", t: "a network device that filters access and traffic coming into a network", c: false },
+      { l: "C", t: "software that is installed on a user device and collects information",   c: false },
+      { l: "D", t: "an attack that slows or crashes a device or network service",            c: true  }
+    ]
+  },
+  {
+    id: 31,
+    text: "What service is provided by SMTP?",
+    multi: false,
+    options: [
+      { l: "A", t: "Allows clients to send email to a mail server and the servers to send email to other servers.", c: true  },
+      { l: "B", t: "Allows remote access to network devices and servers.",                                          c: false },
+      { l: "C", t: "Uses encryption to provide secure remote access to network devices and servers.",               c: false },
+      { l: "D", t: "An application that allows real-time chatting among remote users.",                             c: false }
+    ]
+  },
+  {
+    id: 32,
+    text: "Which scenario describes a function provided by the transport layer?",
+    multi: false,
+    options: [
+      { l: "A", t: "A student uses a VoIP phone; the unique identifier burned into the phone is a transport layer address.",    c: false },
+      { l: "B", t: "A student plays a web-based movie; the movie and sound are encoded within the transport layer header.",     c: false },
+      { l: "C", t: "A student has two web browser windows open; the transport layer ensures the correct web page is delivered to the correct browser window.", c: true },
+      { l: "D", t: "A worker accesses a web server; the transport layer formats the screen so the page appears properly.",      c: false }
+    ]
+  },
+  {
+    id: 33,
+    exhibit: 'exhibits/exhibit_012.png',
+    text: "Refer to the exhibit. Host B on subnet Teachers transmits a packet to host D on subnet Students. Which Layer 2 and Layer 3 addresses are contained in the PDUs transmitted from host B to the router?",
+    multi: false,
+    options: [
+      { l: "A", t: "L2 dest=00-00-0c-94-36-ab, L2 src=00-00-0c-94-36-bb, L3 dest=172.16.20.200, L3 src=172.16.10.200",   c: true  },
+      { l: "B", t: "L2 dest=00-00-0c-94-36-dd, L2 src=00-00-0c-94-36-bb, L3 dest=172.16.20.200, L3 src=172.16.10.200",   c: false },
+      { l: "C", t: "L2 dest=00-00-0c-94-36-cd, L2 src=00-00-0c-94-36-bb, L3 dest=172.16.20.99, L3 src=172.16.10.200",    c: false },
+      { l: "D", t: "L2 dest=00-00-0c-94-36-ab, L2 src=00-00-0c-94-36-bb, L3 dest=172.16.20.200, L3 src=172.16.100.200",  c: false }
+    ]
+  },
+  {
+    id: 34,
+    text: "What does the term \"attenuation\" mean in data communications?",
+    multi: false,
+    options: [
+      { l: "A", t: "strengthening of a signal by a networking device",   c: false },
+      { l: "B", t: "leakage of signals from one cable pair to another",  c: false },
+      { l: "C", t: "time for a signal to reach its destination",         c: false },
+      { l: "D", t: "loss of signal strength as distance increases",      c: true  }
+    ]
+  },
+  {
+    id: 35,
+    exhibit: 'exhibits/exhibit_013.png',
+    text: "Refer to the exhibit. An administrator is trying to configure the switch but receives an error message. What is the problem?",
+    multi: false,
+    options: [
+      { l: "A", t: "The entire command, configure terminal, must be used.",                               c: false },
+      { l: "B", t: "The administrator is already in global configuration mode.",                          c: false },
+      { l: "C", t: "The administrator must first enter privileged EXEC mode before issuing the command.", c: true  },
+      { l: "D", t: "The administrator must connect via the console port to access global configuration.", c: false }
+    ]
+  },
+  {
+    id: 36,
+    text: "Which two protocols operate at the top layer of the TCP/IP protocol suite? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "TCP",      c: false },
+      { l: "B", t: "IP",       c: false },
+      { l: "C", t: "UDP",      c: false },
+      { l: "D", t: "POP",      c: true  },
+      { l: "E", t: "DNS",      c: true  },
+      { l: "F", t: "Ethernet", c: false }
+    ]
+  },
+  {
+    id: 37,
+    text: "A company has a file server that shares a folder named Public. The security policy specifies that Read-Only rights are assigned to anyone who can log in, while Edit rights are assigned only to the network admin group. Which component is addressed in the AAA network service framework?",
+    multi: false,
+    options: [
+      { l: "A", t: "automation",    c: false },
+      { l: "B", t: "accounting",    c: false },
+      { l: "C", t: "authentication", c: false },
+      { l: "D", t: "authorization",  c: true  }
+    ]
+  },
+  {
+    id: 38,
+    text: "What three requirements are defined by protocols used in network communications to allow message transmission across a network? (Choose three.)",
+    multi: true,
+    options: [
+      { l: "A", t: "message size",             c: true  },
+      { l: "B", t: "message encoding",         c: true  },
+      { l: "C", t: "connector specifications", c: false },
+      { l: "D", t: "media selection",          c: false },
+      { l: "E", t: "delivery options",         c: true  },
+      { l: "F", t: "end-device installation",  c: false }
+    ]
+  },
+  {
+    id: 39,
+    text: "What are two characteristics of IP? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "does not require a dedicated end-to-end connection",                   c: true  },
+      { l: "B", t: "operates independently of the network media",                          c: true  },
+      { l: "C", t: "retransmits packets if errors occur",                                  c: false },
+      { l: "D", t: "re-assembles out of order packets into the correct order at receiver", c: false },
+      { l: "E", t: "guarantees delivery of packets",                                       c: false }
+    ]
+  },
+  {
+    id: 40,
+    text: "An employee remotely logs into the company to attend a video conference. The connection to the ISP failed but a secondary connection activated within seconds, unnoticed. What three network characteristics are described in this scenario? (Choose three.)",
+    multi: true,
+    options: [
+      { l: "A", t: "security",           c: true  },
+      { l: "B", t: "quality of service", c: true  },
+      { l: "C", t: "scalability",        c: false },
+      { l: "D", t: "powerline networking", c: false },
+      { l: "E", t: "integrity",          c: false },
+      { l: "F", t: "fault tolerance",    c: true  }
+    ]
+  },
+  {
+    id: 41,
+    text: "What are two common causes of signal degradation when using UTP cabling? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "improper termination",             c: true  },
+      { l: "B", t: "low-quality shielding in cable",   c: false },
+      { l: "C", t: "installing cables in conduit",     c: false },
+      { l: "D", t: "low-quality cable or connectors",  c: true  },
+      { l: "E", t: "loss of light over long distances", c: false }
+    ]
+  },
+  {
+    id: 42,
+    text: "Which subnet would include the address 192.168.1.96 as a usable host address?",
+    multi: false,
+    options: [
+      { l: "A", t: "192.168.1.64/26",  c: true  },
+      { l: "B", t: "192.168.1.32/27",  c: false },
+      { l: "C", t: "192.168.1.32/28",  c: false },
+      { l: "D", t: "192.168.1.64/29",  c: false }
+    ]
+  },
+  {
+    id: 43,
+    exhibit: 'exhibits/exhibit_014.jpg',
+    text: "Refer to the exhibit. On the basis of the output, which two statements about network connectivity are correct? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "This host does not have a default gateway configured.",                       c: false },
+      { l: "B", t: "There are 4 hops between this device and the device at 192.168.100.1.",       c: true  },
+      { l: "C", t: "The connectivity allows for videoconferencing calls.",                        c: false },
+      { l: "D", t: "There is connectivity between this device and the device at 192.168.100.1.",  c: true  },
+      { l: "E", t: "The average transmission time between the two hosts is 2 milliseconds.",       c: false }
+    ]
+  },
+  {
+    id: 44,
+    text: "Which two statements describe how to assess traffic flow patterns and network traffic types using a protocol analyzer? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "Capture traffic on the weekends when most employees are off work.",                                               c: false },
+      { l: "B", t: "Capture traffic during peak utilization times to get a good representation of the different traffic types.",       c: true  },
+      { l: "C", t: "Only capture traffic in the areas of the network that receive most of the traffic such as the data center.",      c: false },
+      { l: "D", t: "Perform the capture on different network segments.",                                                              c: true  },
+      { l: "E", t: "Only capture WAN traffic because traffic to the web is responsible for the largest amount of traffic on a network.", c: false }
+    ]
+  },
+  {
+    id: 45,
+    text: "What is the consequence of configuring a router with the ipv6 unicast-routing global configuration command?",
+    multi: false,
+    options: [
+      { l: "A", t: "All router interfaces will be automatically activated.",                                        c: false },
+      { l: "B", t: "The IPv6 enabled router interfaces begin sending ICMPv6 Router Advertisement messages.",        c: true  },
+      { l: "C", t: "Each router interface will generate an IPv6 link-local address.",                              c: false },
+      { l: "D", t: "It statically creates a global unicast address on this router.",                               c: false }
+    ]
+  },
+  {
+    id: 46,
+    text: "Which three layers of the OSI model map to the application layer of the TCP/IP model? (Choose three.)",
+    multi: true,
+    options: [
+      { l: "A", t: "application",  c: true  },
+      { l: "B", t: "network",      c: false },
+      { l: "C", t: "data link",    c: false },
+      { l: "D", t: "session",      c: true  },
+      { l: "E", t: "presentation", c: true  },
+      { l: "F", t: "transport",    c: false }
+    ]
+  },
+  {
+    id: 47,
+    exhibit: 'exhibits/exhibit_015.png',
+    text: "Refer to the exhibit. If PC1 is sending a packet to PC2 and routing has been configured between the two routers, what will R1 do with the Ethernet frame header attached by PC1?",
+    multi: false,
+    options: [
+      { l: "A", t: "nothing, because the router has a route to the destination network",                                     c: false },
+      { l: "B", t: "open the header and use it to determine whether the data is to be sent out S0/0/0",                     c: false },
+      { l: "C", t: "open the header and replace the destination MAC address with a new one",                                 c: false },
+      { l: "D", t: "remove the Ethernet header and configure a new Layer 2 header before sending it out S0/0/0",            c: true  }
+    ]
+  },
+  {
+    id: 48,
+    text: "What will happen if the default gateway address is incorrectly configured on a host?",
+    multi: false,
+    options: [
+      { l: "A", t: "The host cannot communicate with other hosts in the local network.",                          c: false },
+      { l: "B", t: "The host cannot communicate with hosts in other networks.",                                   c: true  },
+      { l: "C", t: "A ping from the host to 127.0.0.1 would not be successful.",                                 c: false },
+      { l: "D", t: "The host will have to use ARP to determine the correct address of the default gateway.",     c: false },
+      { l: "E", t: "The switch will not forward packets initiated by the host.",                                  c: false }
+    ]
+  },
+  {
+    id: 49,
+    text: "What are two features of ARP? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "When encapsulating a packet, a host refers to the MAC address table to map IP to MAC addresses.",                          c: false },
+      { l: "B", t: "An ARP request is sent to all devices and contains the IP address of the destination and its multicast MAC address.",      c: false },
+      { l: "C", t: "If a host needs to send to a local destination and has the IP but not the MAC address, it generates an ARP broadcast.",    c: true  },
+      { l: "D", t: "If no device responds to the ARP request, the originating node will broadcast the data packet to all devices.",            c: false },
+      { l: "E", t: "If a device receiving an ARP request has the destination IPv4 address, it responds with an ARP reply.",                    c: true  }
+    ]
+  },
+  {
+    id: 50,
+    text: "A network administrator is adding a new LAN to a branch office. The new LAN must support 90 connected devices. What is the smallest network mask the administrator can use?",
+    multi: false,
+    options: [
+      { l: "A", t: "255.255.255.128", c: true  },
+      { l: "B", t: "255.255.255.240", c: false },
+      { l: "C", t: "255.255.255.248", c: false },
+      { l: "D", t: "255.255.255.224", c: false }
+    ]
+  },
+  {
+    id: 51,
+    text: "What are two ICMPv6 messages that are not present in ICMP for IPv4? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "Neighbor Solicitation",   c: true  },
+      { l: "B", t: "Destination Unreachable", c: false },
+      { l: "C", t: "Host Confirmation",       c: false },
+      { l: "D", t: "Time Exceeded",           c: false },
+      { l: "E", t: "Router Advertisement",    c: true  },
+      { l: "F", t: "Route Redirection",       c: false }
+    ]
+  },
+  {
+    id: 52,
+    text: "A client packet is received by a server. The packet has a destination port number of 80. What service is the client requesting?",
+    multi: false,
+    options: [
+      { l: "A", t: "DHCP", c: false },
+      { l: "B", t: "SMTP", c: false },
+      { l: "C", t: "DNS",  c: false },
+      { l: "D", t: "HTTP", c: true  }
+    ]
+  },
+  {
+    id: 53,
+    text: "What is an advantage for small organizations of adopting IMAP instead of POP?",
+    multi: false,
+    options: [
+      { l: "A", t: "POP only allows the client to store messages in a centralized way, while IMAP allows distributed storage.",  c: false },
+      { l: "B", t: "Messages are kept in the mail servers until they are manually deleted from the email client.",               c: true  },
+      { l: "C", t: "When the user connects to a POP server, copies of messages are kept on the server for a short time, but IMAP keeps them for a long time.", c: false },
+      { l: "D", t: "IMAP sends and retrieves email, but POP only retrieves email.",                                             c: false }
+    ]
+  },
+  {
+    id: 54,
+    text: "A technician can ping the IP address of a web server but cannot successfully ping the URL address of the same server. Which software utility can the technician use to diagnose the problem?",
+    multi: false,
+    options: [
+      { l: "A", t: "tracert",   c: false },
+      { l: "B", t: "ipconfig",  c: false },
+      { l: "C", t: "netstat",   c: false },
+      { l: "D", t: "nslookup",  c: true  }
+    ]
+  },
+  {
+    id: 55,
+    text: "Which two functions are performed at the LLC sublayer of the OSI Data Link Layer to facilitate Ethernet communication? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "implements CSMA/CD over legacy shared half-duplex media",                                                   c: false },
+      { l: "B", t: "enables IPv4 and IPv6 to utilize the same physical medium",                                                 c: true  },
+      { l: "C", t: "integrates Layer 2 flows between 10 Gigabit Ethernet over fiber and 1 Gigabit Ethernet over copper",       c: false },
+      { l: "D", t: "implements a process to delimit fields within an Ethernet 2 frame",                                         c: false },
+      { l: "E", t: "places information in the Ethernet frame that identifies which network layer protocol is being encapsulated", c: true  }
+    ]
+  },
+  {
+    id: 56,
+    text: "The global configuration command ip default-gateway 172.16.100.1 is applied to a switch. What is the effect of this command?",
+    multi: false,
+    options: [
+      { l: "A", t: "The switch can communicate with other hosts on the 172.16.100.0 network.",                  c: false },
+      { l: "B", t: "The switch can be remotely managed from a host on another network.",                         c: true  },
+      { l: "C", t: "The switch is limited to sending and receiving frames to and from the gateway 172.16.100.1.", c: false },
+      { l: "D", t: "The switch will have a management interface with the address 172.16.100.1.",                 c: false }
+    ]
+  },
+  {
+    id: 57,
+    text: "What happens when the transport input ssh command is entered on the switch vty lines?",
+    multi: false,
+    options: [
+      { l: "A", t: "The SSH client on the switch is enabled.",                                                  c: false },
+      { l: "B", t: "The switch requires a username/password combination for remote access.",                    c: false },
+      { l: "C", t: "Communication between the switch and remote users is encrypted.",                           c: true  },
+      { l: "D", t: "The switch requires remote connections via a proprietary client software.",                 c: false }
+    ]
+  },
+  {
+    id: 58,
+    text: "Match the type of threat with the cause.",
+    match: {
+      columns: ["Electrical", "Hardware", "Environmental", "Maintenance"],
+      pairs: [
+        { leftIdx: 0, rightIdx: 0, correct: true },
+        { leftIdx: 1, rightIdx: 1, correct: true },
+        { leftIdx: 2, rightIdx: 2, correct: true },
+        { leftIdx: 3, rightIdx: 3, correct: true }
+      ],
+      leftTexts: [
+        "voltage spikes, insufficient supply voltage (brownouts), unconditioned power (noise), and total power loss",
+        "physical damage to servers, routers, switches, cabling plant, and workstations",
+        "temperature extremes or humidity extremes",
+        "poor handling of key electrical components (ESD), lack of critical spare parts, poor cabling and labeling"
+      ]
+    }
+  },
+  {
+    id: 59,
+    text: "A disgruntled employee is using free wireless networking tools to determine information about the enterprise wireless networks, planning to use this information to hack it. What type of attack is this?",
+    multi: false,
+    options: [
+      { l: "A", t: "DoS",           c: false },
+      { l: "B", t: "access",        c: false },
+      { l: "C", t: "reconnaissance", c: true  },
+      { l: "D", t: "Trojan horse",   c: false }
+    ]
+  },
+  {
+    id: 60,
+    text: "What service is provided by HTTP?",
+    multi: false,
+    options: [
+      { l: "A", t: "Uses encryption to secure the exchange of text, graphic images, sound, and video on the web.",                    c: false },
+      { l: "B", t: "Allows for data transfers between a client and a file server.",                                                   c: false },
+      { l: "C", t: "An application that allows real-time chatting among remote users.",                                               c: false },
+      { l: "D", t: "A basic set of rules for exchanging text, graphic images, sound, video, and other multimedia files on the web.",  c: true  }
+    ]
+  },
+  {
+    id: 61,
+    text: "A client packet is received by a server. The packet has a destination port number of 67. What service is the client requesting?",
+    multi: false,
+    options: [
+      { l: "A", t: "FTP",    c: false },
+      { l: "B", t: "DHCP",   c: true  },
+      { l: "C", t: "Telnet", c: false },
+      { l: "D", t: "SSH",    c: false }
+    ]
+  },
+  {
+    id: 62,
+    text: "What are two problems that can be caused by a large number of ARP request and reply messages? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "Switches become overloaded because they concentrate all the traffic from attached subnets.",                              c: false },
+      { l: "B", t: "The ARP request is sent as a broadcast, and will flood the entire subnet.",                                              c: true  },
+      { l: "C", t: "The network may become overloaded because ARP reply messages have a very large payload due to the MAC and IP addresses.", c: false },
+      { l: "D", t: "A large number of ARP messages may slow down the switching process, causing the switch to make many MAC table changes.",  c: false },
+      { l: "E", t: "All ARP request messages must be processed by all nodes on the local network.",                                          c: true  }
+    ]
+  },
+  {
+    id: 63,
+    text: "A group of Windows PCs in a new subnet can access local network resources but not the Internet. Which three Windows CLI commands and utilities will provide the necessary information? (Choose three.)",
+    multi: true,
+    options: [
+      { l: "A", t: "netsh interface ipv6 show neighbor", c: false },
+      { l: "B", t: "arp -a",    c: false },
+      { l: "C", t: "tracert",   c: false },
+      { l: "D", t: "ping",      c: true  },
+      { l: "E", t: "ipconfig",  c: true  },
+      { l: "F", t: "nslookup",  c: true  },
+      { l: "G", t: "telnet",    c: false }
+    ]
+  },
+  {
+    id: 64,
+    text: "During the process of forwarding traffic, what will the router do immediately after matching the destination IP address to a network on a directly connected routing table entry?",
+    multi: false,
+    options: [
+      { l: "A", t: "analyze the destination IP address",                       c: false },
+      { l: "B", t: "switch the packet to the directly connected interface",    c: true  },
+      { l: "C", t: "look up the next-hop address for the packet",              c: false },
+      { l: "D", t: "discard the traffic after consulting the route table",     c: false }
+    ]
+  },
+  {
+    id: 65,
+    text: "What characteristic describes antispyware?",
+    multi: false,
+    options: [
+      { l: "A", t: "applications that protect end devices from becoming infected with malicious software",     c: true  },
+      { l: "B", t: "a network device that filters access and traffic coming into a network",                  c: false },
+      { l: "C", t: "software on a router that filters traffic based on IP addresses or applications",         c: false },
+      { l: "D", t: "a tunneling protocol that provides remote users with secure access into the network",     c: false }
+    ]
+  },
+  {
+    id: 66,
+    text: "A network administrator needs to keep the user ID, password, and session contents private when establishing remote CLI connectivity with a switch to manage it. Which access method should be chosen?",
+    multi: false,
+    options: [
+      { l: "A", t: "Telnet",  c: false },
+      { l: "B", t: "AUX",    c: false },
+      { l: "C", t: "SSH",    c: true  },
+      { l: "D", t: "Console", c: false }
+    ]
+  },
+  {
+    id: 67,
+    text: "What are the two most effective ways to defend against malware? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "Implement a VPN.",                                           c: false },
+      { l: "B", t: "Implement network firewalls.",                               c: false },
+      { l: "C", t: "Implement RAID.",                                            c: false },
+      { l: "D", t: "Implement strong passwords.",                                c: false },
+      { l: "E", t: "Update the operating system and other application software.", c: true  },
+      { l: "F", t: "Install and update antivirus software.",                     c: true  }
+    ]
+  },
+  {
+    id: 68,
+    text: "Which type of security threat would be responsible if a spreadsheet add-on disables the local software firewall?",
+    multi: false,
+    options: [
+      { l: "A", t: "brute-force attack", c: false },
+      { l: "B", t: "Trojan horse",       c: true  },
+      { l: "C", t: "DoS",               c: false },
+      { l: "D", t: "buffer overflow",   c: false }
+    ]
+  },
+  {
+    id: 69,
+    text: "Which frame field is created by a source node and used by a destination node to ensure that a transmitted data signal has not been altered by interference, distortion, or signal loss?",
+    multi: false,
+    options: [
+      { l: "A", t: "User Datagram Protocol field",    c: false },
+      { l: "B", t: "transport layer error check field", c: false },
+      { l: "C", t: "flow control field",              c: false },
+      { l: "D", t: "frame check sequence field",      c: true  },
+      { l: "E", t: "error correction process field",  c: false }
+    ]
+  },
+  {
+    id: 70,
+    text: "A network administrator is adding a new LAN to a branch office. The new LAN must support 4 connected devices. What is the smallest network mask the administrator can use?",
+    multi: false,
+    options: [
+      { l: "A", t: "255.255.255.248", c: true  },
+      { l: "B", t: "255.255.255.0",   c: false },
+      { l: "C", t: "255.255.255.128", c: false },
+      { l: "D", t: "255.255.255.192", c: false }
+    ]
+  },
+  {
+    id: 71,
+    text: "What service is provided by POP3?",
+    multi: false,
+    options: [
+      { l: "A", t: "Retrieves email from the server by downloading the email to the local mail application of the client.", c: true  },
+      { l: "B", t: "An application that allows real-time chatting among remote users.",                                    c: false },
+      { l: "C", t: "Allows remote access to network devices and servers.",                                                 c: false },
+      { l: "D", t: "Uses encryption to provide secure remote access to network devices and servers.",                      c: false }
+    ]
+  },
+  {
+    id: 72,
+    text: "What two security solutions are most likely to be used only in a corporate environment? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "antispyware",                c: false },
+      { l: "B", t: "virtual private networks",   c: true  },
+      { l: "C", t: "intrusion prevention systems", c: true },
+      { l: "D", t: "strong passwords",            c: false },
+      { l: "E", t: "antivirus software",          c: false }
+    ]
+  },
+  {
+    id: 73,
+    text: "What characteristic describes antivirus software?",
+    multi: false,
+    options: [
+      { l: "A", t: "applications that protect end devices from becoming infected with malicious software",  c: true  },
+      { l: "B", t: "a network device that filters access and traffic coming into a network",               c: false },
+      { l: "C", t: "a tunneling protocol that provides remote users with secure access into the network",  c: false },
+      { l: "D", t: "software on a router that filters traffic based on IP addresses or applications",      c: false }
+    ]
+  },
+  {
+    id: 74,
+    text: "What mechanism is used by a router to prevent a received IPv4 packet from traveling endlessly on a network?",
+    multi: false,
+    options: [
+      { l: "A", t: "It checks the TTL field and if it is 0, discards the packet and sends a Destination Unreachable message.",         c: false },
+      { l: "B", t: "It checks the TTL field and if it is 100, discards the packet and sends a Destination Unreachable message.",       c: false },
+      { l: "C", t: "It decrements the TTL field by 1; if the result is 0, it discards the packet and sends a Time Exceeded message.", c: true  },
+      { l: "D", t: "It increments the TTL field by 1; if the result is 100, it discards the packet and sends a Parameter Problem message.", c: false }
+    ]
+  },
+  {
+    id: 75,
+    text: "A client packet is received by a server. The packet has a destination port number of 69. What service is the client requesting?",
+    multi: false,
+    options: [
+      { l: "A", t: "DNS",  c: false },
+      { l: "B", t: "DHCP", c: false },
+      { l: "C", t: "SMTP", c: false },
+      { l: "D", t: "TFTP", c: true  }
+    ]
+  },
+  {
+    id: 76,
+    text: "An administrator defined a local user account with a secret password on router R1 for use with SSH. Which three additional steps are required to configure R1 to accept only encrypted SSH connections? (Choose three.)",
+    multi: true,
+    options: [
+      { l: "A", t: "Configure DNS on the router.",                 c: false },
+      { l: "B", t: "Generate two-way pre-shared keys.",            c: false },
+      { l: "C", t: "Configure the IP domain name on the router.",  c: true  },
+      { l: "D", t: "Generate the SSH keys.",                       c: true  },
+      { l: "E", t: "Enable inbound vty SSH sessions.",             c: true  },
+      { l: "F", t: "Enable inbound vty Telnet sessions.",          c: false }
+    ]
+  },
+  {
+    id: 77,
+    text: "Which two functions are performed at the MAC sublayer of the OSI Data Link Layer to facilitate Ethernet communication? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "handles communication between upper layer networking software and Ethernet NIC hardware",  c: false },
+      { l: "B", t: "implements trailer with frame check sequence for error detection",                         c: true  },
+      { l: "C", t: "places information in the frame that identifies which network layer protocol is encapsulated", c: false },
+      { l: "D", t: "implements a process to delimit fields within an Ethernet 2 frame",                        c: true  },
+      { l: "E", t: "adds Ethernet control information to network protocol data",                               c: false }
+    ]
+  },
+  {
+    id: 78,
+    text: "An IPv6 enabled device sends a data packet with the destination address of FF02::2. What is the target of this packet?",
+    multi: false,
+    options: [
+      { l: "A", t: "all IPv6 enabled devices on the local link",    c: false },
+      { l: "B", t: "all IPv6 DHCP servers",                         c: false },
+      { l: "C", t: "all IPv6 enabled devices across the network",   c: false },
+      { l: "D", t: "all IPv6 configured routers on the local link", c: true  }
+    ]
+  },
+  {
+    id: 79,
+    text: "What are the three parts of an IPv6 global unicast address? (Choose three.)",
+    multi: true,
+    options: [
+      { l: "A", t: "subnet ID",           c: true  },
+      { l: "B", t: "subnet mask",         c: false },
+      { l: "C", t: "broadcast address",   c: false },
+      { l: "D", t: "global routing prefix", c: true },
+      { l: "E", t: "interface ID",        c: true  }
+    ]
+  },
+  {
+    id: 80,
+    text: "A network administrator is designing the layout of a new wireless network. Which three areas of concern should be accounted for when building a wireless network? (Choose three.)",
+    multi: true,
+    options: [
+      { l: "A", t: "extensive cabling",   c: false },
+      { l: "B", t: "mobility options",    c: false },
+      { l: "C", t: "packet collision",    c: false },
+      { l: "D", t: "interference",        c: true  },
+      { l: "E", t: "security",            c: true  },
+      { l: "F", t: "coverage area",       c: true  }
+    ]
+  },
+  {
+    id: 81,
+    text: "A new network administrator has been asked to enter a banner message on a Cisco device. What is the fastest way to test whether the banner is properly configured?",
+    multi: false,
+    options: [
+      { l: "A", t: "Enter CTRL-Z at the privileged mode prompt.",           c: false },
+      { l: "B", t: "Exit global configuration mode.",                       c: false },
+      { l: "C", t: "Power cycle the device.",                               c: false },
+      { l: "D", t: "Reboot the device.",                                    c: false },
+      { l: "E", t: "Exit privileged EXEC mode and press Enter.",            c: true  }
+    ]
+  },
+  {
+    id: 82,
+    text: "What method is used to manage contention-based access on a wireless network?",
+    multi: false,
+    options: [
+      { l: "A", t: "token passing",    c: false },
+      { l: "B", t: "CSMA/CA",         c: true  },
+      { l: "C", t: "priority ordering", c: false },
+      { l: "D", t: "CSMA/CD",         c: false }
+    ]
+  },
+  {
+    id: 83,
+    text: "What is a function of the data link layer?",
+    multi: false,
+    options: [
+      { l: "A", t: "provides the formatting of data",                              c: false },
+      { l: "B", t: "provides end-to-end delivery of data between hosts",           c: false },
+      { l: "C", t: "provides delivery of data between two applications",           c: false },
+      { l: "D", t: "provides for the exchange of frames over a common local media", c: true }
+    ]
+  },
+  {
+    id: 84,
+    text: "What is the purpose of the TCP sliding window?",
+    multi: false,
+    options: [
+      { l: "A", t: "to ensure that segments arrive in order at the destination",  c: false },
+      { l: "B", t: "to end communication when data transmission is complete",      c: false },
+      { l: "C", t: "to inform a source to retransmit data from a specific point forward", c: false },
+      { l: "D", t: "to request that a source decrease the rate at which it transmits data", c: true }
+    ]
+  },
+  {
+    id: 85,
+    text: "What characteristic describes spyware?",
+    multi: false,
+    options: [
+      { l: "A", t: "a network device that filters access and traffic coming into a network", c: false },
+      { l: "B", t: "software that is installed on a user device and collects information about the user", c: true },
+      { l: "C", t: "an attack that slows or crashes a device or network service",            c: false },
+      { l: "D", t: "the use of stolen credentials to access private data",                   c: false }
+    ]
+  },
+  {
+    id: 86,
+    text: "Which switching method drops frames that fail the FCS check?",
+    multi: false,
+    options: [
+      { l: "A", t: "store-and-forward switching", c: true  },
+      { l: "B", t: "borderless switching",        c: false },
+      { l: "C", t: "ingress port buffering",       c: false },
+      { l: "D", t: "cut-through switching",        c: false }
+    ]
+  },
+  {
+    id: 87,
+    text: "Which range of link-local addresses can be assigned to an IPv6-enabled interface?",
+    multi: false,
+    options: [
+      { l: "A", t: "FEC0::/10", c: false },
+      { l: "B", t: "FDEE::/7",  c: false },
+      { l: "C", t: "FE80::/10", c: true  },
+      { l: "D", t: "FF00::/8",  c: false }
+    ]
+  },
+  {
+    id: 88,
+    text: "What service is provided by FTP?",
+    multi: false,
+    options: [
+      { l: "A", t: "A basic set of rules for exchanging text, graphic images, sound, video, and other multimedia files on the web.", c: false },
+      { l: "B", t: "An application that allows real-time chatting among remote users.",                                              c: false },
+      { l: "C", t: "Allows for data transfers between a client and a file server.",                                                  c: true  },
+      { l: "D", t: "Uses encryption to secure the exchange of text, graphic images, sound, and video on the web.",                  c: false }
+    ]
+  },
+  {
+    id: 89,
+    text: "A user is attempting to access http://www.cisco.com/ without success. Which two configuration values must be set on the host to allow this access? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "DNS server",         c: true  },
+      { l: "B", t: "source port number", c: false },
+      { l: "C", t: "HTTP server",        c: false },
+      { l: "D", t: "source MAC address", c: false },
+      { l: "E", t: "default gateway",    c: true  }
+    ]
+  },
+  {
+    id: 90,
+    text: "Which two statements accurately describe an advantage or a disadvantage when deploying NAT for IPv4 in a network? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "NAT adds authentication capability to IPv4.",                                              c: false },
+      { l: "B", t: "NAT introduces problems for some applications that require end-to-end connectivity.",      c: true  },
+      { l: "C", t: "NAT will impact negatively on switch performance.",                                        c: false },
+      { l: "D", t: "NAT provides a solution to slow down the IPv4 address depletion.",                        c: true  },
+      { l: "E", t: "NAT improves packet handling.",                                                            c: false },
+      { l: "F", t: "NAT causes routing tables to include more information.",                                   c: false }
+    ]
+  },
+  {
+    id: 91,
+    text: "What would be the interface ID of an IPv6 enabled interface with a MAC address of 1C-6F-65-C2-BD-F8 when the interface ID is generated by using the EUI-64 process?",
+    multi: false,
+    options: [
+      { l: "A", t: "0C6F:65FF:FEC2:BDF8", c: false },
+      { l: "B", t: "1E6F:65FF:FEC2:BDF8", c: true  },
+      { l: "C", t: "C16F:65FF:FEC2:BDF8", c: false },
+      { l: "D", t: "106F:65FF:FEC2:BDF8", c: false }
+    ]
+  },
+  {
+    id: 92,
+    exhibit: 'exhibits/exhibit_017.jpg',
+    text: "Refer to the exhibit. PC1 issues an ARP request because it needs to send a packet to PC2. In this scenario, what will happen next?",
+    multi: false,
+    options: [
+      { l: "A", t: "SW1 will send an ARP reply with the SW1 Fa0/1 MAC address.",   c: false },
+      { l: "B", t: "SW1 will send an ARP reply with the PC2 MAC address.",          c: false },
+      { l: "C", t: "PC2 will send an ARP reply with the PC2 MAC address.",          c: true  },
+      { l: "D", t: "RT1 will send an ARP reply with the RT1 Fa0/0 MAC address.",    c: false },
+      { l: "E", t: "RT1 will send an ARP reply with the PC2 MAC address.",          c: false }
+    ]
+  },
+  {
+    id: 93,
+    text: "What service is provided by BOOTP?",
+    multi: false,
+    options: [
+      { l: "A", t: "Uses encryption to secure the exchange of text, graphic images, sound, and video on the web.", c: false },
+      { l: "B", t: "Allows for data transfers between a client and a file server.",                                c: false },
+      { l: "C", t: "Legacy application that enables a diskless workstation to discover its own IP address and find a BOOTP server on the network.", c: true },
+      { l: "D", t: "A basic set of rules for exchanging text, graphic images, sound, video, and other multimedia files on the web.", c: false }
+    ]
+  },
+  {
+    id: 94,
+    text: "What characteristic describes adware?",
+    multi: false,
+    options: [
+      { l: "A", t: "a network device that filters access and traffic coming into a network",             c: false },
+      { l: "B", t: "software that is installed on a user device and collects information about the user", c: true  },
+      { l: "C", t: "the use of stolen credentials to access private data",                               c: false },
+      { l: "D", t: "an attack that slows or crashes a device or network service",                        c: false }
+    ]
+  },
+  {
+    id: 95,
+    text: "When a switch configuration includes a user-defined error threshold on a per-port basis, to which switching method will the switch revert when the error threshold is reached?",
+    multi: false,
+    options: [
+      { l: "A", t: "cut-through",     c: false },
+      { l: "B", t: "store-and-forward", c: true },
+      { l: "C", t: "fast-forward",    c: false },
+      { l: "D", t: "fragment-free",   c: false }
+    ]
+  },
+  {
+    id: 96,
+    text: "Match each statement to the related network model.",
+    match: {
+      columns: ["Peer-to-peer NETWORK", "Peer-to-peer APPLICATION"],
+      pairs: [
+        { left: "no dedicated server is required",                 right: "Peer-to-peer NETWORK",  correct: true  },
+        { left: "client and server roles are set on a per request basis", right: "Peer-to-peer NETWORK", correct: true  },
+        { left: "requires a specific user interface",              right: "Peer-to-peer APPLICATION", correct: true },
+        { left: "a background service is required",                right: "Peer-to-peer APPLICATION", correct: true }
+      ]
+    }
+  },
+  {
+    id: 97,
+    text: "What are two primary responsibilities of the Ethernet MAC sublayer? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "error detection",     c: false },
+      { l: "B", t: "frame delimiting",    c: false },
+      { l: "C", t: "accessing the media", c: true  },
+      { l: "D", t: "data encapsulation",  c: true  },
+      { l: "E", t: "logical addressing",  c: false }
+    ]
+  },
+  {
+    id: 98,
+    exhibit: 'exhibits/exhibit_019.jpg',
+    text: "Refer to the exhibit. What three facts can be determined from the viewable output of the show ip interface brief command? (Choose three.)",
+    multi: true,
+    options: [
+      { l: "A", t: "Two physical interfaces have been configured.",        c: false },
+      { l: "B", t: "The switch can be remotely managed.",                  c: true  },
+      { l: "C", t: "One device is attached to a physical interface.",      c: true  },
+      { l: "D", t: "Passwords have been configured on the switch.",        c: false },
+      { l: "E", t: "Two devices are attached to the switch.",              c: false },
+      { l: "F", t: "The default SVI has been configured.",                 c: true  }
+    ]
+  },
+  {
+    id: 99,
+    text: "Match each type of frame field to its function.",
+    match: {
+      columns: [
+        "helps direct the frame toward its destination",
+        "checks if the frame has been damaged during transfer",
+        "used by the LLC to identify the Layer 3 protocol",
+        "identifies the beginning of a frame"
+      ],
+      pairs: [
+        { left: "addressing",       right: "helps direct the frame toward its destination",          correct: true },
+        { left: "error detection",  right: "checks if the frame has been damaged during transfer",   correct: true },
+        { left: "type",             right: "used by the LLC to identify the Layer 3 protocol",       correct: true },
+        { left: "frame start",      right: "identifies the beginning of a frame",                    correct: true }
+      ]
+    }
+  },
+  {
+    id: 100,
+    text: "What is the subnet ID associated with the IPv6 address 2001:DA48:FC5:A4:3D1B::1/64?",
+    multi: false,
+    options: [
+      { l: "A", t: "2001:DA48::/64",       c: false },
+      { l: "B", t: "2001:DA48:FC5::A4:/64", c: false },
+      { l: "C", t: "2001:DA48:FC5:A4::/64", c: true  },
+      { l: "D", t: "2001::/64",             c: false }
+    ]
+  },
+  {
+    id: 101,
+    text: "Match the firewall function to the type of threat protection it provides.",
+    match: {
+      columns: ["application filtering", "packet filtering", "stateful packet inspection", "URL filtering"],
+      pairs: [
+        { left: "prevents access by port number",          right: "application filtering",          correct: true },
+        { left: "prevents access based on IP or MAC address", right: "packet filtering",            correct: true },
+        { left: "prevents unsolicited incoming sessions",  right: "stateful packet inspection",     correct: true },
+        { left: "prevents access to websites",             right: "URL filtering",                  correct: true }
+      ]
+    }
+  },
+  {
+    id: 102,
+    text: "Users are reporting longer delays in authentication and in accessing network resources during certain time periods. What kind of information should network engineers check to find out if this is part of a normal network behavior?",
+    multi: false,
+    options: [
+      { l: "A", t: "syslog records and messages",          c: false },
+      { l: "B", t: "the network performance baseline",     c: true  },
+      { l: "C", t: "debug output and packet captures",     c: false },
+      { l: "D", t: "network configuration files",          c: false }
+    ]
+  },
+  {
+    id: 103,
+    text: "How does the service password-encryption command enhance password security on Cisco routers and switches?",
+    multi: false,
+    options: [
+      { l: "A", t: "It requires encrypted passwords to be used when connecting remotely with Telnet.",  c: false },
+      { l: "B", t: "It encrypts passwords that are stored in router or switch configuration files.",    c: true  },
+      { l: "C", t: "It requires that a user type encrypted passwords to gain console access.",          c: false },
+      { l: "D", t: "It encrypts passwords as they are sent across the network.",                       c: false }
+    ]
+  },
+  {
+    id: 104,
+    text: "Which two statements are correct in a comparison of IPv4 and IPv6 packet headers? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "The Source Address field name from IPv4 is kept in IPv6.",                             c: true  },
+      { l: "B", t: "The Version field from IPv4 is not kept in IPv6.",                                    c: false },
+      { l: "C", t: "The Destination Address field is new in IPv6.",                                       c: false },
+      { l: "D", t: "The Header Checksum field name from IPv4 is kept in IPv6.",                           c: false },
+      { l: "E", t: "The Time-to-Live field from IPv4 has been replaced by the Hop Limit field in IPv6.", c: true  }
+    ]
+  },
+  {
+    id: 105,
+    text: "A network administrator wants to have the same network mask for all networks at a particular small site (IP phones - 22 hosts, PCs - 20 hosts, Printers - 2 hosts, Scanners - 2 hosts). The site uses 192.168.10.0/24. Which single subnet mask would make the most efficient use of the available addresses for the four subnetworks?",
+    multi: false,
+    options: [
+      { l: "A", t: "255.255.255.192", c: false },
+      { l: "B", t: "255.255.255.252", c: false },
+      { l: "C", t: "255.255.255.240", c: false },
+      { l: "D", t: "255.255.255.248", c: false },
+      { l: "E", t: "255.255.255.0",   c: false },
+      { l: "F", t: "255.255.255.224", c: true  }
+    ]
+  },
+  {
+    id: 106,
+    text: "What characteristic describes identity theft?",
+    multi: false,
+    options: [
+      { l: "A", t: "the use of stolen credentials to access private data",                          c: true  },
+      { l: "B", t: "software on a router that filters traffic based on IP addresses or applications", c: false },
+      { l: "C", t: "software that identifies fast-spreading threats",                               c: false },
+      { l: "D", t: "a tunneling protocol that provides remote users with secure access into the network", c: false }
+    ]
+  },
+  {
+    id: 107,
+    text: "A network administrator is adding a new LAN to a branch office. The new LAN must support 200 connected devices. What is the smallest network mask the administrator can use?",
+    multi: false,
+    options: [
+      { l: "A", t: "255.255.255.240", c: false },
+      { l: "B", t: "255.255.255.0",   c: true  },
+      { l: "C", t: "255.255.255.248", c: false },
+      { l: "D", t: "255.255.255.224", c: false }
+    ]
+  },
+  {
+    id: 108,
+    text: "What are three commonly followed standards for constructing and installing cabling? (Choose three.)",
+    multi: true,
+    options: [
+      { l: "A", t: "cost per meter (foot)",                 c: false },
+      { l: "B", t: "cable lengths",                         c: true  },
+      { l: "C", t: "connector color",                       c: false },
+      { l: "D", t: "pinouts",                               c: true  },
+      { l: "E", t: "connector types",                       c: true  },
+      { l: "F", t: "tensile strength of plastic insulator", c: false }
+    ]
+  },
+  {
+    id: 109,
+    exhibit: 'exhibits/exhibit_022.png',
+    text: "Refer to the exhibit. What is wrong with the displayed termination?",
+    multi: false,
+    options: [
+      { l: "A", t: "The woven copper braid should not have been removed.",   c: false },
+      { l: "B", t: "The wrong type of connector is being used.",              c: false },
+      { l: "C", t: "The untwisted length of each wire is too long.",         c: true  },
+      { l: "D", t: "The wires are too thick for the connector that is used.", c: false }
+    ]
+  },
+  {
+    id: 110,
+    text: "Match the characteristic to the category. (IP address vs MAC address)",
+    match: {
+      columns: ["IP address", "MAC address"],
+      pairs: [
+        { left: "contained in the Layer 3 header",                          right: "IP address",  correct: true },
+        { left: "contained in the Layer 2 header",                          right: "MAC address", correct: true },
+        { left: "separated into a network portion and a unique identifier",  right: "IP address",  correct: true },
+        { left: "separated into OUI and a unique identifier",               right: "MAC address", correct: true },
+        { left: "32 or 128 bits",                                           right: "IP address",  correct: true },
+        { left: "48 bits",                                                  right: "MAC address", correct: true }
+      ]
+    }
+  },
+  {
+    id: 111,
+    text: "A client packet is received by a server. The packet has a destination port number of 143. What service is the client requesting?",
+    multi: false,
+    options: [
+      { l: "A", t: "IMAP",   c: true  },
+      { l: "B", t: "FTP",    c: false },
+      { l: "C", t: "SSH",    c: false },
+      { l: "D", t: "Telnet", c: false }
+    ]
+  },
+  {
+    id: 112,
+    text: "What are two characteristics shared by TCP and UDP? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "default window size",           c: false },
+      { l: "B", t: "connectionless communication",  c: false },
+      { l: "C", t: "port numbering",                c: true  },
+      { l: "D", t: "3-way handshake",               c: false },
+      { l: "E", t: "ability to carry digitized voice", c: false },
+      { l: "F", t: "use of checksum",               c: true  }
+    ]
+  },
+  {
+    id: 113,
+    exhibit: 'exhibits/exhibit_024.png',
+    text: "Refer to the exhibit. Which two network addresses can be assigned to the network containing 10 hosts, within the 10.18.10.0/24 range, wasting the fewest addresses? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "10.18.10.200/28", c: false },
+      { l: "B", t: "10.18.10.208/28", c: true  },
+      { l: "C", t: "10.18.10.240/27", c: false },
+      { l: "D", t: "10.18.10.200/27", c: false },
+      { l: "E", t: "10.18.10.224/27", c: false },
+      { l: "F", t: "10.18.10.224/28", c: true  }
+    ]
+  },
+  {
+    id: 114,
+    text: "A client packet is received by a server. The packet has a destination port number of 21. What service is the client requesting?",
+    multi: false,
+    options: [
+      { l: "A", t: "FTP",  c: true  },
+      { l: "B", t: "LDAP", c: false },
+      { l: "C", t: "SLP",  c: false },
+      { l: "D", t: "SNMP", c: false }
+    ]
+  },
+  {
+    id: 115,
+    text: "What attribute of a NIC would place it at the data link layer of the OSI model?",
+    multi: false,
+    options: [
+      { l: "A", t: "attached Ethernet cable",  c: false },
+      { l: "B", t: "IP address",              c: false },
+      { l: "C", t: "MAC address",             c: true  },
+      { l: "D", t: "RJ-45 port",              c: false },
+      { l: "E", t: "TCP/IP protocol stack",   c: false }
+    ]
+  },
+  {
+    id: 116,
+    text: "Match the description to the IPv6 addressing component. (Not all options are used.)",
+    match: {
+      columns: ["global routing", "subnet ID", "interface ID"],
+      pairs: [
+        { left: "This network portion of the address is assigned by the provider.", right: "global routing", correct: true },
+        { left: "This part of the address is used by an organization to identify subnets.", right: "subnet ID", correct: true },
+        { left: "This part of the address is the equivalent to the host portion of an IPv4 address.", right: "interface ID", correct: true }
+      ]
+    }
+  },
+  {
+    id: 117,
+    text: "Match the characteristic to the forwarding method. (Not all options are used.)",
+    match: {
+      columns: ["Cut-through", "Store-and-forward"],
+      pairs: [
+        { left: "low latency", right: "Cut-through", correct: true },
+        { left: "always stores the entire frame", right: "Store-and-forward", correct: true },
+        { left: "may forward runt frames", right: "Cut-through", correct: true },
+        { left: "checks the CRC before forwarding", right: "Store-and-forward", correct: true },
+        { left: "begins forwarding when the destination address is received", right: "Cut-through", correct: true },
+        { left: "checks the frame length before forwarding", right: "Store-and-forward", correct: true }
+      ]
+    }
+  },
+  {
+    id: 118,
+    text: "What three requirements are defined by the protocols used in network communcations to allow message transmission across a network? (Choose three.)",
+    multi: true,
+    options: [
+      { l: "A", t: "message size", c: true },
+      { l: "B", t: "message encoding", c: true },
+      { l: "C", t: "connector specifications", c: false },
+      { l: "D", t: "media selection", c: false },
+      { l: "E", t: "delivery options", c: true },
+      { l: "F", t: "end-device installation", c: false }
+    ]
+  },
+  {
+    id: 119,
+    text: "An employee of a large corporation remotely logs into the company using the appropriate username and password. The employee is attending an important video conference with a customer concerning a large sale. It is important for the video quality to be excellent during the meeting. The employee is unaware that after a successful login, the connection to the company ISP failed. The secondary connection, however, activated within seconds. The disruption was not noticed by the employee or other employees. What three network characteristics are described in this scenario? (Choose three.)",
+    multi: true,
+    options: [
+      { l: "A", t: "security", c: true },
+      { l: "B", t: "quality of service", c: true },
+      { l: "C", t: "scalability", c: false },
+      { l: "D", t: "powerline networking", c: false },
+      { l: "E", t: "integrity", c: false },
+      { l: "F", t: "fault tolerance", c: true }
+    ]
+  },
+  {
+    id: 120,
+    text: "A disgruntled employee is using some free wireless networking tools to determine information about the enterprise wireless networks. This person is planning on using this information to hack the wireless network. What type of attack is this?",
+    multi: false,
+    options: [
+      { l: "A", t: "DoS", c: false },
+      { l: "B", t: "access", c: false },
+      { l: "C", t: "reconnaissance", c: true },
+      { l: "D", t: "Trojan horse", c: false }
+    ]
+  },
+  {
+    id: 121,
+    text: "A group of Windows PCs in a new subnet has been added to an Ethernet network. When testing the connectivity, a technician finds that these PCs can access local network resources but not the Internet resources. To troubleshoot the problem, the technician wants to initially confirm the IP address and DNS configurations on the PCs, and also verify connectivity to the local router. Which three Windows CLI commands and utilities will provide the necessary information? (Choose three.)",
+    multi: true,
+    options: [
+      { l: "A", t: "netsh interface ipv6 show neighbor", c: false },
+      { l: "B", t: "arp -a", c: false },
+      { l: "C", t: "tracert", c: false },
+      { l: "D", t: "ping", c: true },
+      { l: "E", t: "ipconfig", c: true },
+      { l: "F", t: "nslookup", c: true },
+      { l: "G", t: "telnet", c: false }
+    ]
+  },
+  {
+    id: 122,
+    text: "What technique is used with UTP cable to help protect against signal interference from crosstalk?",
+    multi: false,
+    options: [
+      { l: "A", t: "wrapping a foil shield around the wire pairs", c: false },
+      { l: "B", t: "twisting the wires together into pairs", c: true },
+      { l: "C", t: "terminating the cable with special grounded connectors", c: false },
+      { l: "D", t: "encasing the cables within a flexible plastic sheath", c: false }
+    ]
+  },
+  {
+    id: 123,
+    exhibit: "exhibits/exhibit_q118.jpg",
+    text: "Refer to the exhibit. The network administrator has assigned the LAN of LBMISS an address range of 192.168.10.0. This address range has been subnetted using a /29 prefix. In order to accommodate a new building, the technician has decided to use the fifth subnet for configuring the new network (subnet zero is the first subnet). By company policies, the router interface is always assigned the first usable host address and the workgroup server is given the last usable host address. Which configuration should be entered into the properties of the workgroup server to allow connectivity to the Internet?",
+    multi: false,
+    options: [
+      { l: "A", t: "IP address: 192.168.10.65 subnet mask: 255.255.255.240, default gateway: 192.168.10.76", c: false },
+      { l: "B", t: "IP address: 192.168.10.38 subnet mask: 255.255.255.240, default gateway: 192.168.10.33", c: false },
+      { l: "C", t: "IP address: 192.168.10.38 subnet mask: 255.255.255.248, default gateway: 192.168.10.33", c: true },
+      { l: "D", t: "IP address: 192.168.10.41 subnet mask: 255.255.255.248, default gateway: 192.168.10.46", c: false },
+      { l: "E", t: "IP address: 192.168.10.254 subnet mask: 255.255.255.0, default gateway: 192.168.10.1", c: false }
+    ]
+  },
+  {
+    id: 124,
+    exhibit: "exhibits/exhibit_q119.jpg",
+    text: "Refer to the exhibit. The switches are in their default configuration. Host A needs to communicate with host D, but host A does not have the MAC address for its default gateway. Which network hosts will receive the ARP request sent by host A?",
+    multi: false,
+    options: [
+      { l: "A", t: "only host D", c: false },
+      { l: "B", t: "only router R1", c: false },
+      { l: "C", t: "only hosts A, B, and C", c: false },
+      { l: "D", t: "only hosts A, B, C, and D", c: false },
+      { l: "E", t: "only hosts B and C", c: false },
+      { l: "F", t: "only hosts B, C, and router R1", c: true }
+    ]
+  },
+  {
+    id: 125,
+    exhibit: "exhibits/exhibit_q121.png",
+    text: "Refer to the exhibit. A network engineer has been given the network address of 192.168.99.0 and a subnet mask of 255.255.255.192 to subnet across the four networks shown. How many total host addresses are unused across all four subnets?",
+    multi: false,
+    options: [
+      { l: "A", t: "88", c: false },
+      { l: "B", t: "200", c: true },
+      { l: "C", t: "72", c: false },
+      { l: "D", t: "224", c: false },
+      { l: "E", t: "158", c: false }
+    ]
+  },
+  {
+    id: 126,
+    text: "What characteristic describes an IPS?",
+    multi: false,
+    options: [
+      { l: "A", t: "a tunneling protocol that provides remote users with secure access into the network of an organization", c: false },
+      { l: "B", t: "a network device that filters access and traffic coming into a network", c: false },
+      { l: "C", t: "software that identifies fast-spreading threats", c: true },
+      { l: "D", t: "software on a router that filters traffic based on IP addresses or applications", c: false }
+    ]
+  },
+  {
+    id: 127,
+    text: "What service is provided by DHCP?",
+    multi: false,
+    options: [
+      { l: "A", t: "An application that allows real-time chatting among remote users.", c: false },
+      { l: "B", t: "Allows remote access to network devices and servers.", c: false },
+      { l: "C", t: "Dynamically assigns IP addresses to end and intermediary devices.", c: true },
+      { l: "D", t: "Uses encryption to provide secure remote access to network devices and servers.", c: false }
+    ]
+  },
+  {
+    id: 128,
+    text: "Match the header field with the appropriate layer of the OSI model. (Not all options are used.)",
+    match: {
+      columns: ["Layer 2", "Layer 3", "Layer 4"],
+      pairs: [
+        { left: "802.2 header", right: "Layer 2", correct: true },
+        { left: "source IP address", right: "Layer 3", correct: true },
+        { left: "destination port number", right: "Layer 4", correct: true },
+        { left: "FCS (frame check sequence)", right: "Layer 2", correct: true },
+        { left: "TTL", right: "Layer 3", correct: true },
+        { left: "Acknowledgement number", right: "Layer 4", correct: true },
+        { left: "destination MAC address", right: "Layer 2", correct: true }
+      ]
+    }
+  },
+  {
+    id: 129,
+    exhibit: "exhibits/exhibit_q127.png",
+    text: "Refer to the exhibit. The switches have a default configuration. Host A needs to communicate with host D, but host A does not have the MAC address for the default gateway. Which network devices will receive the ARP request sent by host A?",
+    multi: false,
+    options: [
+      { l: "A", t: "only host D", c: false },
+      { l: "B", t: "only hosts A, B, C, and D", c: false },
+      { l: "C", t: "only hosts B and C", c: false },
+      { l: "D", t: "only hosts B, C, and router R1", c: true },
+      { l: "E", t: "only hosts A, B, and C", c: false },
+      { l: "F", t: "only router R1", c: false }
+    ]
+  },
+  {
+    id: 130,
+    text: "What two ICMPv6 message types must be permitted through IPv6 access control lists to allow resolution of Layer 3 addresses to Layer 2 MAC addresses? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "neighbor solicitations", c: true },
+      { l: "B", t: "echo requests", c: false },
+      { l: "C", t: "neighbor advertisements", c: true },
+      { l: "D", t: "echo replies", c: false },
+      { l: "E", t: "router solicitations", c: false },
+      { l: "F", t: "router advertisements", c: false }
+    ]
+  },
+  {
+    id: 131,
+    text: "A client is using SLAAC to obtain an IPv6 address for its interface. After an address has been generated and applied to the interface, what must the client do before it can begin to use this IPv6 address?",
+    multi: false,
+    options: [
+      { l: "A", t: "It must send a DHCPv6 INFORMATION-REQUEST message to request the address of the DNS server.", c: false },
+      { l: "B", t: "It must send a DHCPv6 REQUEST message to the DHCPv6 server to request permission to use this address.", c: false },
+      { l: "C", t: "It must send an ICMPv6 Router Solicitation message to determine what default gateway it should use.", c: false },
+      { l: "D", t: "It must send an ICMPv6 Neighbor Solicitation message to ensure that the address is not already in use on the network.", c: true }
+    ]
+  },
+  {
+    id: 132,
+    text: "Two pings were issued from a host on a local network. The first ping was issued to the IP address of the default gateway of the host and it failed. The second ping was issued to the IP address of a host outside the local network and it was successful. What is a possible cause for the failed ping?",
+    multi: false,
+    options: [
+      { l: "A", t: "The default gateway is not operational.", c: false },
+      { l: "B", t: "The default gateway device is configured with the wrong IP address.", c: false },
+      { l: "C", t: "Security rules are applied to the default gateway device, preventing it from processing ping requests.", c: true },
+      { l: "D", t: "The TCP/IP stack on the default gateway is not working properly.", c: false }
+    ]
+  },
+  {
+    id: 133,
+    text: "An organization is assigned an IPv6 address block of 2001:db8:0:ca00::/56. How many subnets can be created without using bits in the interface ID space?",
+    multi: false,
+    options: [
+      { l: "A", t: "256", c: true },
+      { l: "B", t: "512", c: false },
+      { l: "C", t: "1024", c: false },
+      { l: "D", t: "4096", c: false }
+    ]
+  },
+  {
+    id: 134,
+    text: "What subnet mask is needed if an IPv4 network has 40 devices that need IP addresses and address space is not to be wasted?",
+    multi: false,
+    options: [
+      { l: "A", t: "255.255.255.0", c: false },
+      { l: "B", t: "255.255.255.240", c: false },
+      { l: "C", t: "255.255.255.128", c: false },
+      { l: "D", t: "255.255.255.192", c: true },
+      { l: "E", t: "255.255.255.224", c: false }
+    ]
+  },
+  {
+    id: 135,
+    exhibit: "exhibits/exhibit_q134.png",
+    text: "Refer to the exhibit. If host A sends an IP packet to host B, what will the destination address be in the frame when it leaves host A?",
+    multi: false,
+    options: [
+      { l: "A", t: "DD:DD:DD:DD:DD:DD", c: false },
+      { l: "B", t: "172.168.10.99", c: false },
+      { l: "C", t: "CC:CC:CC:CC:CC:CC", c: false },
+      { l: "D", t: "172.168.10.65", c: false },
+      { l: "E", t: "BB:BB:BB:BB:BB:BB", c: true },
+      { l: "F", t: "AA:AA:AA:AA:AA:AA", c: false }
+    ]
+  },
+  {
+    id: 136,
+    text: "What is a benefit of using cloud computing in networking?",
+    multi: false,
+    options: [
+      { l: "A", t: "Technology is integrated into every-day appliances allowing them to interconnect with other devices, making them more ‘smart’ or automated.", c: false },
+      { l: "B", t: "Network capabilities are extended without requiring investment in new infrastructure, personnel, or software.", c: true },
+      { l: "C", t: "End users have the freedom to use personal tools to access information and communicate across a business network.", c: false },
+      { l: "D", t: "Home networking uses existing electrical wiring to connect devices to the network wherever there is an electrical outlet, saving the cost of installing data cables.", c: false }
+    ]
+  },
+  {
+    id: 137,
+    text: "Which two statements are correct about MAC and IP addresses during data transmission if NAT is not involved? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "Destination IP addresses in a packet header remain constant along the entire path to a target host.", c: true },
+      { l: "B", t: "Destination MAC addresses will never change in a frame that goes across seven routers.", c: false },
+      { l: "C", t: "Every time a frame is encapsulated with a new destination MAC address, a new destination IP address is needed.", c: false },
+      { l: "D", t: "Destination and source MAC addresses have local significance and change every time a frame goes from one LAN to another.", c: true },
+      { l: "E", t: "A packet that has crossed four routers has changed the destination IP address four times.", c: false }
+    ]
+  },
+  {
+    id: 138,
+    text: "What is one main characteristic of the data link layer?",
+    multi: false,
+    options: [
+      { l: "A", t: "It generates the electrical or optical signals that represent the 1 and 0 on the media.", c: false },
+      { l: "B", t: "It converts a stream of data bits into a predefined code.", c: false },
+      { l: "C", t: "It shields the upper layer protocol from being aware of the physical medium to be used in the communication.", c: true },
+      { l: "D", t: "It accepts Layer 3 packets and decides the path by which to forward the packet to a remote network.", c: false }
+    ]
+  },
+  {
+    id: 139,
+    text: "What are three characteristics of the CSMA/CD process? (Choose three.)",
+    multi: true,
+    options: [
+      { l: "A", t: "The device with the electronic token is the only one that can transmit after a collision.", c: false },
+      { l: "B", t: "A device listens and waits until the media is not busy before transmitting.", c: true },
+      { l: "C", t: "After detecting a collision, hosts can attempt to resume transmission after a random time delay has expired.", c: true },
+      { l: "D", t: "All of the devices on a segment see data that passes on the network medium.", c: true },
+      { l: "E", t: "A jam signal indicates that the collision has cleared and the media is not busy.", c: false },
+      { l: "F", t: "Devices can be configured with a higher transmission priority.", c: false }
+    ]
+  },
+  {
+    id: 140,
+    text: "Which information does the show startup-config command display?",
+    multi: false,
+    options: [
+      { l: "A", t: "the IOS image copied into RAM", c: false },
+      { l: "B", t: "the bootstrap program in the ROM", c: false },
+      { l: "C", t: "the contents of the current running configuration file in the RAM", c: false },
+      { l: "D", t: "the contents of the saved configuration file in the NVRAM", c: true }
+    ]
+  },
+  {
+    id: 141,
+    text: "Which two commands can be used on a Windows host to display the routing table? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "netstat -s", c: false },
+      { l: "B", t: "route print", c: true },
+      { l: "C", t: "show ip route", c: false },
+      { l: "D", t: "netstat -r", c: true },
+      { l: "E", t: "tracert", c: false }
+    ]
+  },
+  {
+    id: 142,
+    text: "What are two functions that are provided by the network layer? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "directing data packets to destination hosts on other networks", c: true },
+      { l: "B", t: "placing data on the network medium", c: false },
+      { l: "C", t: "carrying data between processes that are running on source and destination hosts", c: false },
+      { l: "D", t: "providing dedicated end-to-end connections", c: false },
+      { l: "E", t: "providing end devices with a unique network identifier", c: true }
+    ]
+  },
+  {
+    id: 143,
+    text: "Which two statements describe features of an IPv4 routing table on a router? (Choose two.)​",
+    multi: true,
+    options: [
+      { l: "A", t: "Directly connected interfaces will have two route source codes in the routing table: C and S .", c: false },
+      { l: "B", t: "If there are two or more possible routes to the same destination, the route associated with the higher metric value is included in the routing table.", c: false },
+      { l: "C", t: "The netstat -r command can be used to display the routing table of a router.​", c: false },
+      { l: "D", t: "The routing table lists the MAC addresses of each active interface.", c: false },
+      { l: "E", t: "It stores information about routes derived from the active router interfaces.", c: true },
+      { l: "F", t: "If a default static route is configured in the router, an entry will be included in the routing table with source code S .", c: true }
+    ]
+  },
+  {
+    id: 144,
+    text: "What characteristic describes a VPN?",
+    multi: false,
+    options: [
+      { l: "A", t: "software on a router that filters traffic based on IP addresses or applications", c: false },
+      { l: "B", t: "software that identifies fast-spreading threats", c: false },
+      { l: "C", t: "a tunneling protocol that provides remote users with secure access into the network of an organization", c: true },
+      { l: "D", t: "a network device that filters access and traffic coming into a network", c: false }
+    ]
+  },
+  {
+    id: 145,
+    text: "Why would a Layer 2 switch need an IP address?",
+    multi: false,
+    options: [
+      { l: "A", t: "to enable the switch to send broadcast frames to attached PCs", c: false },
+      { l: "B", t: "to enable the switch to function as a default gateway", c: false },
+      { l: "C", t: "to enable the switch to be managed remotely", c: true },
+      { l: "D", t: "to enable the switch to receive frames from attached PCs", c: false }
+    ]
+  },
+  {
+    id: 146,
+    text: "Match each description to its corresponding term. (Not all options are used.)",
+    match: {
+      columns: ["the process of placing one message format inside another message format", "the process of breaking up a long message into individual pieces before being sent over the network", "the process of converting information from one format into another acceptable for transmission"],
+      pairs: [
+        { left: "message encapsulation", right: "the process of placing one message format inside another message format", correct: true },
+        { left: "message sizing", right: "the process of breaking up a long message into individual pieces before being sent over the network", correct: true },
+        { left: "message encoding", right: "the process of converting information from one format into another acceptable for transmission", correct: true }
+      ]
+    }
+  },
+  {
+    id: 147,
+    text: "A user sends an HTTP request to a web server on a remote network. During encapsulation for this request, what information is added to the address field of a frame to indicate the destination?",
+    multi: false,
+    options: [
+      { l: "A", t: "the network domain of the destination host", c: false },
+      { l: "B", t: "the IP address of the default gateway", c: false },
+      { l: "C", t: "the MAC address of the destination host", c: false },
+      { l: "D", t: "the MAC address of the default gateway", c: true }
+    ]
+  },
+  {
+    id: 148,
+    text: "What is an advantage to using a protocol that is defined by an open standard?",
+    multi: false,
+    options: [
+      { l: "A", t: "A company can monopolize the market.", c: false },
+      { l: "B", t: "The protocol can only be run on equipment from a specific vendor.", c: false },
+      { l: "C", t: "An open standard protocol is not controlled or regulated by standards organizations.", c: false },
+      { l: "D", t: "It encourages competition and promotes choices.", c: true }
+    ]
+  },
+  {
+    id: 149,
+    text: "Data is being sent from a source PC to a destination server. Which three statements correctly describe the function of TCP or UDP in this situation? (Choose three.)",
+    multi: true,
+    options: [
+      { l: "A", t: "The source port field identifies the running application or service that will handle data returning to the PC.", c: true },
+      { l: "B", t: "The TCP process running on the PC randomly selects the destination port when establishing a session with the server.", c: false },
+      { l: "C", t: "UDP segments are encapsulated within IP packets for transport across the network.", c: true },
+      { l: "D", t: "The UDP destination port number identifies the application or service on the server which will handle the data.", c: true },
+      { l: "E", t: "TCP is the preferred protocol when a function requires lower network overhead.", c: false },
+      { l: "F", t: "The TCP source port number identifies the sending host on the network.", c: false }
+    ]
+  },
+  {
+    id: 150,
+    exhibit: "exhibits/exhibit_q150.png",
+    text: "Refer to the exhibit. A company uses the address block of 128.107.0.0/16 for its network. What subnet mask would provide the maximum number of equal size subnets while providing enough host addresses for each subnet in the exhibit?",
+    multi: false,
+    options: [
+      { l: "A", t: "255.255.255.192", c: false },
+      { l: "B", t: "255.255.255.0", c: false },
+      { l: "C", t: "255.255.255.128", c: true },
+      { l: "D", t: "255.255.255.240", c: false },
+      { l: "E", t: "255.255.255.224", c: false }
+    ]
+  },
+  {
+    id: 151,
+    text: "Match each item to the type of topology diagram on which it is typically identified. (Not all options are used.)",
+    match: {
+      columns: ["physical topology diagram", "logical topology diagram"],
+      pairs: [
+        { left: "location of a desktop PC in a classroom", right: "physical topology diagram", correct: true },
+        { left: "IP address of a server", right: "logical topology diagram", correct: true },
+        { left: "path of cables that connect rooms to wiring closets", right: "physical topology diagram", correct: true }
+      ]
+    }
+  },
+  {
+    id: 152,
+    text: "What two pieces of information are displayed in the output of the show ip interface brief command? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "IP addresses", c: true },
+      { l: "B", t: "interface descriptions", c: false },
+      { l: "C", t: "MAC addresses", c: false },
+      { l: "D", t: "next-hop addresses", c: false },
+      { l: "E", t: "Layer 1 statuses", c: true },
+      { l: "F", t: "speed and duplex settings", c: false }
+    ]
+  },
+  {
+    id: 153,
+    text: "A user is complaining that an external web page is taking longer than normal to load.The web page does eventually load on the user machine. Which tool should the technician use with administrator privileges in order to locate where the issue is in the network?",
+    multi: false,
+    options: [
+      { l: "A", t: "ping", c: false },
+      { l: "B", t: "nslookup", c: false },
+      { l: "C", t: "tracert", c: true },
+      { l: "D", t: "ipconfig /displaydns", c: false }
+    ]
+  },
+  {
+    id: 154,
+    text: "Which value, that is contained in an IPv4 header field, is decremented by each router that receives a packet?",
+    multi: false,
+    options: [
+      { l: "A", t: "Header Length", c: false },
+      { l: "B", t: "Differentiated Services", c: false },
+      { l: "C", t: "Time-to-Live", c: true },
+      { l: "D", t: "Fragment Offset", c: false }
+    ]
+  },
+  {
+    id: 155,
+    text: "A network technician is researching the use of fiber optic cabling in a new technology center. Which two issues should be considered before implementing fiber optic media? (Choose two.)",
+    multi: true,
+    options: [
+      { l: "A", t: "Fiber optic cabling requires different termination and splicing expertise from what copper cabling requires.", c: true },
+      { l: "B", t: "Fiber optic cabling requires specific grounding to be immune to EMI.", c: false },
+      { l: "C", t: "Fiber optic cabling is susceptible to loss of signal due to RFI.", c: false },
+      { l: "D", t: "Fiber optic cable is able to withstand rough handling.", c: false },
+      { l: "E", t: "Fiber optic provides higher data capacity but is more expensive than copper cabling.", c: true }
+    ]
+  },
+  {
+    id: 156,
+    text: "Match each description with an appropriate IP address. (Not all options are used.)",
+    match: {
+      columns: ["240.2.6.255", "169.254.1.5", "198.133.219.2", "127.0.0.1"],
+      pairs: [
+        { left: "an experimental address", right: "240.2.6.255", correct: true },
+        { left: "a link-local address", right: "169.254.1.5", correct: true },
+        { left: "a public address", right: "198.133.219.2", correct: true },
+        { left: "a loopback address", right: "127.0.0.1", correct: true }
+      ]
+    }
+  },
+  {
+    id: 157,
+    text: "A user is executing a tracert to a remote device. At what point would a router, which is in the path to the destination device, stop forwarding the packet?",
+    multi: false,
+    options: [
+      { l: "A", t: "when the router receives an ICMP Time Exceeded message", c: false },
+      { l: "B", t: "when the RTT value reaches zero", c: false },
+      { l: "C", t: "when the host responds with an ICMP Echo Reply message", c: false },
+      { l: "D", t: "when the value in the TTL field reaches zero", c: true },
+      { l: "E", t: "when the values of both the Echo Request and Echo Reply messages reach zero", c: false }
+    ]
+  },
+  {
+    id: 158,
+    text: "Users report that the network access is slow. After questioning the employees, the network administrator learned that one employee downloaded a third-party scanning program for the printer. What type of malware might be introduced that causes slow performance of the network?",
+    multi: false,
+    options: [
+      { l: "A", t: "virus", c: false },
+      { l: "B", t: "worm", c: true },
+      { l: "C", t: "phishing", c: false },
+      { l: "D", t: "spam", c: false }
+    ]
+  }
+];
+
+/* ─────────────────────────────────────────
+   QUIZ STATE
+   ───────────────────────────────────────── */
+let pool = [];         // shuffled subset for this session
+let current = 0;       // index into pool
+let score = 0;
+let wrongItems = [];   // { question, yourLetters, correctLetters }
+let selectedLetters = new Set();
+let answered = false;
+let postAnswerClicks = 0;
+let userAnswers = [];       // Set per question index
+let answeredFlags = [];     // true once confirmAnswer called
+let optionShuffles = [];    // shuffled options array per pool index
+let matchShuffles  = [];    // { left:[...], right:[...] } shuffled display order per pool index
+let difficulties = {};         // questionId (string) -> 'easy'|'medium'|'hard'
+let diffFilters  = new Set(); // empty = all; otherwise set of filter keys
+let difficultiesChanged = false;
+let wrongMap = {};             // questionId (string) -> true (answered wrong, not yet corrected)
+let wrongChanged = false;
+
+/* ── Matching state ── */
+let matchConnections = [];    // [{ sourceIdx, targetIdx }] for current question
+let matchResizeHandler = null; // cleanup reference for window resize listener
+
+/* ─────────────────────────────────────────
+   DOM REFS
+   ───────────────────────────────────────── */
+const screens    = { start: id('screen-start'), quiz: id('screen-quiz'), results: id('screen-results') };
+const startBtn   = id('start-btn');
+const nextBtn    = id('next-btn');
+const retryBtn   = id('retry-btn');
+const newBtn     = id('new-btn');
+const exitBtn    = id('exit-btn');
+const qCount     = id('q-count');
+const qSlider    = id('q-slider');
+const qCounter   = id('q-counter');
+const progress   = id('progress-fill');
+const scoreLive  = id('q-score-live');
+const wrongLive  = id('q-wrong-live');
+const multiHint  = id('multi-hint');
+const qText      = id('q-text');
+const optWrap    = id('options-wrap');
+const resPct     = id('res-pct');
+const resFrac    = id('res-fraction');
+const resMsg     = id('res-message');
+const wrongList  = id('wrong-list');
+const ringFill        = id('ring-fill');
+const themeBtn        = id('theme-toggle');
+const qTimer          = id('q-timer');
+const timerToggleBtn  = id('timer-toggle-btn');
+const timerPauseBtn   = id('timer-pause-btn');
+const customTimeInput = id('custom-time');
+const navPrevBtn      = id('nav-prev-btn');
+const navNextBtn      = id('nav-next-btn');
+const sessionHistorySection = id('session-history-section');
+const sessionHistoryList  = id('session-history-list');
+const diffAvailEl         = id('diff-avail');
+const exhibitBadge        = id('exhibit-badge');
+const diffBadge           = id('diff-badge');
+const unseenBadge         = id('unseen-badge');
+const wrongBadge          = id('wrong-badge');
+const resEyebrow          = id('res-eyebrow');
+const explanationWrap     = id('explanation-wrap');
+const explanationText     = id('explanation-text');
+
+function id(s) { return document.getElementById(s); }
+
+/* ─────────────────────────────────────────
+   DIFFICULTY
+   ───────────────────────────────────────── */
+let seenSet = new Set();
+
+// Original question set — all marked as already "seen" so that only newly
+// added questions surface under the "unseen" filter.
+const PRESEEN_IDS = [
+  1,2,3,4,5,6,7,8,9,10,11,13,15,16,17,18,19,20,22,23,24,25,26,27,28,29,31,32,33,
+  34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,
+  60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,
+  86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,
+  109,110,111,112,113,114,115
+];
+
+function loadDifficulties() {
+  difficulties = Object.assign({}, window.DIFFICULTY_DATA || {});
+  try {
+    const saved = localStorage.getItem('quiz-difficulties');
+    if (saved) Object.assign(difficulties, JSON.parse(saved));
+  } catch(e) {}
+  // seed seen from the original question set + difficulty-rated questions,
+  // then merge persisted seen set
+  seenSet = new Set(PRESEEN_IDS.map(String));
+  Object.keys(difficulties).forEach(id => seenSet.add(String(id)));
+  try {
+    const savedSeen = localStorage.getItem('quiz-seen');
+    if (savedSeen) JSON.parse(savedSeen).forEach(id => seenSet.add(String(id)));
+  } catch(e) {}
+}
+
+function markSeen(questionId) {
+  const key = String(questionId);
+  if (seenSet.has(key)) return;
+  seenSet.add(key);
+  localStorage.setItem('quiz-seen', JSON.stringify([...seenSet]));
+}
+
+function loadWrongData() {
+  wrongMap = Object.assign({}, window.WRONG_DATA || {});
+  try {
+    const saved = localStorage.getItem('quiz-wrong');
+    if (saved) Object.assign(wrongMap, JSON.parse(saved));
+  } catch(e) {}
+}
+
+function markWrong(questionId) {
+  wrongMap[String(questionId)] = true;
+  wrongChanged = true;
+  localStorage.setItem('quiz-wrong', JSON.stringify(wrongMap));
+  syncWrong();
+}
+
+function markCorrect(questionId) {
+  if (!wrongMap[String(questionId)]) return;
+  delete wrongMap[String(questionId)];
+  wrongChanged = true;
+  localStorage.setItem('quiz-wrong', JSON.stringify(wrongMap));
+  syncWrong();
+}
+
+const WRONG_SAVE_URL = 'http://localhost:3001/save-wrong';
+
+// Server-side sync only applies when running against the local server.
+// On a static host (e.g. GitHub Pages) data persists via localStorage only,
+// and reaching http://localhost would just throw mixed-content errors.
+const IS_LOCAL = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
+function syncWrong() {
+  if (!IS_LOCAL) return;
+  fetch(WRONG_SAVE_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ wrong: Object.assign({}, wrongMap) })
+  }).catch(() => {});
+}
+
+function setDifficulty(questionId, diff) {
+  difficulties[String(questionId)] = diff;
+  difficultiesChanged = true;
+  if (!window.DIFFICULTY_DATA) window.DIFFICULTY_DATA = {};
+  window.DIFFICULTY_DATA[String(questionId)] = diff;
+  localStorage.setItem('quiz-difficulties', JSON.stringify(difficulties));
+}
+
+function isExhibit(q) {
+  return /refer to the exhibit/i.test(q.text);
+}
+
+function questionMatchesFilters(q) {
+  if (diffFilters.size === 0) return true;
+  const specialKeys = new Set(['exhibit', 'unseen', 'wrong']);
+  const diffLevels  = [...diffFilters].filter(f => !specialKeys.has(f));
+  const specials    = [...diffFilters].filter(f => specialKeys.has(f));
+
+  const matchesDiff = diffLevels.length === 0
+    || diffLevels.some(f => difficulties[String(q.id)] === f);
+
+  const matchesSpecial = specials.length === 0
+    || specials.some(f => {
+      if (f === 'exhibit') return isExhibit(q);
+      if (f === 'unseen')  return !seenSet.has(String(q.id));
+      if (f === 'wrong')   return !!wrongMap[String(q.id)];
+    });
+
+  return matchesDiff && matchesSpecial;
+}
+
+function getAvailableCount() {
+  if (diffFilters.size === 0) return QUESTIONS.length;
+  return QUESTIONS.filter(questionMatchesFilters).length;
+}
+
+function updateDiffFilter(clicked) {
+  if (clicked === 'all') {
+    diffFilters.clear();
+  } else {
+    if (diffFilters.has(clicked)) diffFilters.delete(clicked);
+    else diffFilters.add(clicked);
+  }
+  const avail = getAvailableCount();
+  const sliderMax = Math.max(1, avail);  // keep the control usable even at 0 available
+  qSlider.max = sliderMax;
+  qCount.max  = sliderMax;
+  const cur = Math.max(1, Math.min(parseInt(qCount.value) || 10, sliderMax));
+  syncCount(cur);
+  document.querySelectorAll('.diff-filter-btn').forEach(b => {
+    if (b.dataset.diff === 'all') b.classList.toggle('active', diffFilters.size === 0);
+    else b.classList.toggle('active', diffFilters.has(b.dataset.diff));
+  });
+  if (diffAvailEl) {
+    if (diffFilters.size === 0) {
+      diffAvailEl.textContent = `${avail} total available`;
+    } else {
+      const labels = [...diffFilters].join(', ');
+      diffAvailEl.textContent = `${avail} available (${labels})`;
+    }
+  }
+}
+
+function updateDiffRaterUI(questionId) {
+  const q = QUESTIONS.find(q => q.id === questionId);
+  const exhibit  = q && isExhibit(q);
+  const unseen   = !seenSet.has(String(questionId));
+  const wrong    = !!wrongMap[String(questionId)];
+  const diff     = difficulties[String(questionId)] || 'easy';
+
+  // Difficulty badge — every non-exhibit question
+  if (!exhibit) {
+    diffBadge.textContent = diff.charAt(0).toUpperCase() + diff.slice(1);
+    diffBadge.className   = `diff-badge diff-badge-${diff}`;
+    diffBadge.style.display = '';
+  } else {
+    diffBadge.style.display = 'none';
+  }
+
+  exhibitBadge.style.display = exhibit ? '' : 'none';
+  unseenBadge.style.display  = unseen  ? '' : 'none';
+  wrongBadge.style.display   = wrong   ? '' : 'none';
+
+  document.querySelectorAll('.diff-rate-btn').forEach(btn => {
+    btn.style.display = exhibit ? 'none' : '';
+    if (!exhibit) btn.classList.toggle('active', btn.dataset.diff === diff);
+  });
+}
+
+const SAVE_URL = 'http://localhost:3001/save-difficulties';
+
+function buildDiffContent() {
+  const entries = QUESTIONS
+    .slice().sort((a, b) => a.id - b.id)
+    .filter(q => difficulties[String(q.id)])
+    .map(q => `  "${q.id}": "${difficulties[String(q.id)]}"`)
+    .join(',\n');
+  return (
+    `/* CCNA1 Question Difficulty Ratings\n` +
+    `   Values: "easy" | "medium" | "hard"\n` +
+    `   Edit directly here, or use the Export button in the app and commit the downloaded file.\n` +
+    `   Commit this file to GitHub to sync your ratings across machines. */\n` +
+    `window.DIFFICULTY_DATA = {\n${entries}\n};\n`
+  );
+}
+
+function syncDifficulties() {
+  if (!IS_LOCAL) return;
+  if (!difficultiesChanged) return;
+  difficultiesChanged = false;
+  fetch(SAVE_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ difficulties: Object.assign({}, difficulties) })
+  }).catch(() => {});
+}
+
+function exportDifficulties() {
+  const content = buildDiffContent();
+  const blob = new Blob([content], { type: 'application/javascript' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = 'difficulty-data.js'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+window.addEventListener('beforeunload', () => {
+  if (!IS_LOCAL) return;
+  if (!difficultiesChanged) return;
+  navigator.sendBeacon(SAVE_URL, new Blob(
+    [JSON.stringify({ difficulties: Object.assign({}, difficulties) })],
+    { type: 'application/json' }
+  ));
+});
+
+loadDifficulties();
+loadWrongData();
+
+/* ─────────────────────────────────────────
+   TIMER
+   ───────────────────────────────────────── */
+let timerInterval = null;
+let timerSeconds  = 0;
+let timerVisible  = true;
+let timerPaused   = false;
+
+function renderTimer() {
+  const s = Math.max(0, timerSeconds);
+  const m = String(Math.floor(s / 60)).padStart(2, '0');
+  const sec = String(s % 60).padStart(2, '0');
+  qTimer.textContent = `${m}:${sec}`;
+  qTimer.classList.toggle('expired', timerSeconds <= 0);
+}
+
+function startTimer(totalSeconds) {
+  clearInterval(timerInterval);
+  timerSeconds = totalSeconds;
+  timerPaused = false;
+  renderTimer();
+  timerInterval = setInterval(() => {
+    if (!timerPaused) {
+      timerSeconds--;
+      renderTimer();
+      if (timerSeconds <= 0) { stopTimer(); showResults(true); }
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+}
+
+function togglePauseTimer() {
+  timerPaused = !timerPaused;
+  timerPauseBtn.classList.toggle('paused', timerPaused);
+  timerPauseBtn.textContent = timerPaused ? '▶' : '❚❚';
+  timerPauseBtn.title = timerPaused ? 'Resume timer' : 'Pause timer';
+}
+
+timerToggleBtn.addEventListener('click', () => {
+  timerVisible = !timerVisible;
+  timerToggleBtn.classList.toggle('active', timerVisible);
+  qTimer.style.display = timerVisible ? '' : 'none';
+});
+
+timerPauseBtn.addEventListener('click', togglePauseTimer);
+
+navPrevBtn.addEventListener('click', () => {
+  if (current > 0) {
+    current--;
+    renderQuestion();
+  }
+});
+
+navNextBtn.addEventListener('click', () => {
+  if (current < pool.length - 1) {
+    current++;
+    renderQuestion();
+  }
+});
+
+/* ─────────────────────────────────────────
+   THEME TOGGLE
+   ───────────────────────────────────────── */
+themeBtn.addEventListener('click', () => {
+  const html = document.documentElement;
+  html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('quiz-theme', html.dataset.theme);
+});
+
+// Restore saved theme
+(function restoreTheme() {
+  const saved = localStorage.getItem('quiz-theme');
+  if (saved) document.documentElement.dataset.theme = saved;
+})();
+
+/* ─────────────────────────────────────────
+   SLIDER ↔ NUMBER SYNC
+   ───────────────────────────────────────── */
+const timeEstimate = id('time-estimate');
+
+function formatTime(n) {
+  const mins = n;
+  if (mins < 60) return `~ ${mins} min`;
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  return m === 0 ? `~ ${h}h` : `~ ${h}h ${m}min`;
+}
+
+function syncCount(v) {
+  qCount.value = v;
+  qSlider.value = v;
+  timeEstimate.textContent = formatTime(v);
+}
+
+qSlider.addEventListener('input', () => syncCount(parseInt(qSlider.value)));
+qCount.addEventListener('input', () => {
+  const raw = qCount.value.trim();
+  if (raw === '') {
+    timeEstimate.textContent = '~ — min';
+    return;
+  }
+  const v = Math.max(1, Math.min(getAvailableCount(), parseInt(raw) || 1));
+  qCount.value = v;
+  syncCount(v);
+});
+qCount.addEventListener('blur', () => {
+  const raw = qCount.value.trim();
+  if (raw === '') {
+    qCount.value = 1;
+    syncCount(1);
+  }
+});
+
+document.querySelectorAll('.pick-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const avail = getAvailableCount();
+    syncCount(Math.min(parseInt(btn.dataset.n), avail));
+  });
+});
+
+document.querySelectorAll('.diff-filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => updateDiffFilter(btn.dataset.diff));
+});
+updateDiffFilter('all');
+
+document.querySelectorAll('.diff-rate-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (pool.length > 0 && current < pool.length) {
+      setDifficulty(pool[current].id, btn.dataset.diff);
+      updateDiffRaterUI(pool[current].id);
+    }
+  });
+});
+
+id('export-btn').addEventListener('click', exportDifficulties);
+
+/* ─────────────────────────────────────────
+   CANVAS BACKGROUND — animated nodes/packets
+   ───────────────────────────────────────── */
+(function initCanvas() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+
+  const nodes = [];
+  const edges = [];
+  const packets = [];
+  const NODE_COUNT = 40;
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function rand(a, b) { return a + Math.random() * (b - a); }
+
+  function buildGraph() {
+    nodes.length = 0; edges.length = 0; packets.length = 0;
+    for (let i = 0; i < NODE_COUNT; i++) {
+      nodes.push({ x: rand(0.02, 0.98), y: rand(0.02, 0.98) });
+    }
+    for (let i = 0; i < NODE_COUNT; i++) {
+      const dists = nodes.map((n, j) => ({ j, d: Math.hypot(n.x - nodes[i].x, n.y - nodes[i].y) }))
+        .filter(e => e.j !== i).sort((a, b) => a.d - b.d).slice(0, 3);
+      dists.forEach(e => {
+        if (!edges.find(ed => (ed.a === i && ed.b === e.j) || (ed.a === e.j && ed.b === i)))
+          edges.push({ a: i, b: e.j });
+      });
+    }
+  }
+  buildGraph();
+
+  function spawnPacket() {
+    const edge = edges[Math.floor(Math.random() * edges.length)];
+    const rev  = Math.random() < 0.5;
+    packets.push({ edge, t: 0, speed: rand(0.003, 0.008), rev });
+  }
+  for (let i = 0; i < 15; i++) spawnPacket();
+
+  let raf;
+  function draw() {
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    const dark = document.documentElement.dataset.theme !== 'light';
+    const edgeColor  = dark ? 'rgba(79,142,247,0.10)'  : 'rgba(29,95,232,0.08)';
+    const nodeColor  = dark ? 'rgba(79,142,247,0.07)'  : 'rgba(29,95,232,0.06)';
+    const pktColor   = dark ? '#4F8EF7'                : '#1D5FE8';
+
+    // edges
+    ctx.strokeStyle = edgeColor;
+    ctx.lineWidth = 1.5;
+    edges.forEach(e => {
+      const a = nodes[e.a], b = nodes[e.b];
+      ctx.beginPath();
+      ctx.moveTo(a.x * W, a.y * H);
+      ctx.lineTo(b.x * W, b.y * H);
+      ctx.stroke();
+    });
+
+    // nodes
+    nodes.forEach(n => {
+      ctx.beginPath();
+      ctx.arc(n.x * W, n.y * H, 3, 0, Math.PI * 2);
+      ctx.fillStyle = nodeColor;
+      ctx.fill();
+    });
+
+    // packets
+    ctx.fillStyle = pktColor;
+    for (let i = packets.length - 1; i >= 0; i--) {
+      const p = packets[i];
+      const a = nodes[p.rev ? p.edge.b : p.edge.a];
+      const b = nodes[p.rev ? p.edge.a : p.edge.b];
+      p.t += p.speed;
+      if (p.t >= 1) { packets.splice(i, 1); spawnPacket(); continue; }
+      const x = (a.x + (b.x - a.x) * p.t) * W;
+      const y = (a.y + (b.y - a.y) * p.t) * H;
+      ctx.beginPath();
+      ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    raf = requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ─────────────────────────────────────────
+   NAVIGATION HELPERS
+   ───────────────────────────────────────── */
+function showScreen(name) {
+  Object.values(screens).forEach(s => s.classList.remove('active'));
+  screens[name].classList.add('active');
+  const hashMap = { quiz: '#quiz', results: '#results', start: '#' };
+  history.replaceState(null, '', hashMap[name] || '#');
+}
+
+function saveQuizState() {
+  const state = {
+    poolIds: pool.map(q => q.id),
+    current,
+    score,
+    answered,
+    postAnswerClicks,
+    answeredFlags: [...answeredFlags],
+    userAnswers: userAnswers.map(a => a ? [...(Array.isArray(a) ? a : [...a])] : null),
+    wrongItemIds: wrongItems.map(w => ({
+      qid: w.question.id,
+      yourLetters: [...(w.yourLetters || [])],
+      correctLetters: [...(w.correctLetters || [])]
+    })),
+    timerSeconds,
+    timerVisible,
+    matchShuffles
+  };
+  localStorage.setItem('quiz-state', JSON.stringify(state));
+}
+
+function clearQuizState() {
+  localStorage.removeItem('quiz-state');
+}
+
+function restoreQuizState() {
+  const raw = localStorage.getItem('quiz-state');
+  if (!raw) return false;
+  try {
+    const s = JSON.parse(raw);
+    const restored = s.poolIds.map(id => QUESTIONS.find(q => q.id === id)).filter(Boolean);
+    if (!restored.length) return false;
+    pool           = restored;
+    current        = s.current || 0;
+    score          = s.score  || 0;
+    answered       = s.answered || false;
+    postAnswerClicks = s.postAnswerClicks || 0;
+    answeredFlags  = s.answeredFlags || [];
+    userAnswers    = (s.userAnswers || []).map(a => a || []);
+    wrongItems     = (s.wrongItemIds || []).map(w => {
+      const question = QUESTIONS.find(q => q.id === w.qid);
+      if (!question) return null;
+      return { question, yourLetters: new Set(w.yourLetters || []), correctLetters: new Set(w.correctLetters || []) };
+    }).filter(Boolean);
+    timerSeconds   = s.timerSeconds != null ? s.timerSeconds : pool.length * 60;
+    timerVisible   = s.timerVisible != null ? s.timerVisible : true;
+    matchShuffles  = s.matchShuffles || [];
+    selectedLetters = new Set(userAnswers[current] && !answeredFlags[current] ? [] : []);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function resumeTimer() {
+  clearInterval(timerInterval);
+  timerPaused = false;
+  renderTimer();
+  timerInterval = setInterval(() => {
+    if (!timerPaused) {
+      timerSeconds--;
+      renderTimer();
+      if (timerSeconds <= 0) { stopTimer(); showResults(true); }
+    }
+  }, 1000);
+}
+
+window.addEventListener('popstate', () => {
+  const hash = location.hash;
+  if (hash === '#quiz' && pool.length > 0) {
+    showScreen('quiz');
+  } else if (hash === '#results') {
+    // nothing to restore, go to start
+    clearQuizState();
+    showScreen('start');
+  } else {
+    clearQuizState();
+    stopTimer();
+    showScreen('start');
+  }
+});
+
+(function initFromHash() {
+  if (location.hash === '#quiz') {
+    if (restoreQuizState()) {
+      showScreen('quiz');
+      timerToggleBtn.classList.toggle('active', timerVisible);
+      qTimer.style.display = timerVisible ? '' : 'none';
+      timerPauseBtn.style.display = '';
+      renderQuestion();
+      if (timerSeconds > 0) resumeTimer();
+      return;
+    }
+    history.replaceState(null, '', '#');
+  }
+})();
+
+/* ─────────────────────────────────────────
+   START QUIZ
+   ───────────────────────────────────────── */
+startBtn.addEventListener('click', startQuiz);
+nextBtn.addEventListener('click', () => {
+  if (answered) { advance(); return; }
+  const q = pool[current];
+  const hasInput = q.match ? matchConnections.length > 0 : selectedLetters.size > 0;
+  if (current === pool.length - 1 && !hasInput) { tryFinish(); } else { confirmAnswer(); }
+});
+
+function startQuiz() {
+  const filtered = QUESTIONS.filter(questionMatchesFilters);
+  const questionPool = filtered.length > 0 ? filtered : [...QUESTIONS];
+  const n = Math.max(1, Math.min(questionPool.length, parseInt(qCount.value) || 10));
+  syncCount(n);
+
+  clearQuizState();
+  pool = shuffle(questionPool).slice(0, n);
+  current = 0; score = 0; wrongItems = [];
+  userAnswers = []; answeredFlags = []; optionShuffles = []; matchShuffles = [];
+  showScreen('quiz');
+  timerToggleBtn.classList.toggle('active', timerVisible);
+  qTimer.style.display = timerVisible ? '' : 'none';
+  timerPauseBtn.style.display = '';
+  timerPauseBtn.classList.remove('paused');
+  timerPauseBtn.textContent = '❚❚';
+  timerPauseBtn.title = 'Pause timer';
+  const customMins = parseInt(customTimeInput.value);
+  startTimer(customMins > 0 ? customMins * 60 : pool.length * 60);
+  renderQuestion();
+}
+
+/* ─────────────────────────────────────────
+   RENDER QUESTION
+   ───────────────────────────────────────── */
+/* ─────────────────────────────────────────
+   MATCHING — click-to-connect UI
+   ───────────────────────────────────────── */
+
+function matchBaseArrays(q) {
+  return {
+    left:  q.match.leftTexts || q.match.pairs.filter(p => p.correct).map(p => p.left),
+    right: q.match.columns,
+  };
+}
+
+// Stable shuffled display order for the current question position, so the
+// correct pairing isn't just "row 1 → row 1, row 2 → row 2".
+function getMatchDisplay(q) {
+  if (!matchShuffles[current]) {
+    const base = matchBaseArrays(q);
+    matchShuffles[current] = { left: shuffle([...base.left]), right: shuffle([...base.right]) };
+  }
+  return matchShuffles[current];
+}
+
+// Correct connections as positions. With `display`, positions are in the
+// shuffled on-screen order; without it, in the original data order.
+function normalizeMatchPairs(q, display) {
+  const base = matchBaseArrays(q);
+  const dispLeft  = display ? display.left  : base.left;
+  const dispRight = display ? display.right : base.right;
+  return q.match.pairs.filter(p => p.correct).map(p => {
+    const leftText  = ('leftIdx'  in p) ? base.left[p.leftIdx]   : p.left;
+    const rightText = ('rightIdx' in p) ? base.right[p.rightIdx] : p.right;
+    return { leftIdx: dispLeft.indexOf(leftText), rightIdx: dispRight.indexOf(rightText) };
+  });
+}
+
+function renderMatchingQuestion(q) {
+  if (matchResizeHandler) {
+    window.removeEventListener('resize', matchResizeHandler);
+    matchResizeHandler = null;
+  }
+
+  const display = getMatchDisplay(q);
+  const leftTexts = display.left;
+  const columns = display.right;
+  let selectedLeftIdx = null;
+
+  const hint = document.createElement('p');
+  hint.className = 'matching-hint';
+  hint.textContent = `Click an item on the left, then click its match on the right. Connect all ${leftTexts.length} items.`;
+  optWrap.appendChild(hint);
+
+  const wrap = document.createElement('div');
+  wrap.className = 'matching-wrap';
+
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(svgNS, 'svg');
+  svg.id = 'match-svg';
+  svg.setAttribute('class', 'matching-svg-overlay');
+  svg.setAttribute('preserveAspectRatio', 'none');
+  wrap.appendChild(svg);
+
+  const leftCol = document.createElement('div');
+  leftCol.className = 'matching-col';
+  const rightCol = document.createElement('div');
+  rightCol.className = 'matching-col';
+
+  leftTexts.forEach((text, i) => {
+    const el = document.createElement('div');
+    el.className = 'matching-item';
+    el.dataset.idx = i;
+    el.textContent = text;
+    el.addEventListener('click', () => {
+      if (answered) { advance(); return; }
+      if (selectedLeftIdx === i) {
+        selectedLeftIdx = null;
+        leftCol.querySelectorAll('.matching-item').forEach(e => e.classList.remove('matching-source'));
+        return;
+      }
+      selectedLeftIdx = i;
+      leftCol.querySelectorAll('.matching-item').forEach(e => e.classList.remove('matching-source'));
+      el.classList.add('matching-source');
+    });
+    leftCol.appendChild(el);
+  });
+
+  columns.forEach((text, i) => {
+    const el = document.createElement('div');
+    el.className = 'matching-item matching-target';
+    el.dataset.idx = i;
+    el.textContent = text;
+    el.addEventListener('click', () => {
+      if (answered) { advance(); return; }
+      if (selectedLeftIdx === null) return;
+      const sourceIdx = selectedLeftIdx;
+      const targetIdx = i;
+      // Each left item connects to exactly one right item
+      const existing = matchConnections.findIndex(c => c.sourceIdx === sourceIdx);
+      if (existing !== -1) matchConnections.splice(existing, 1);
+      matchConnections.push({ sourceIdx, targetIdx });
+      selectedLeftIdx = null;
+      leftCol.querySelectorAll('.matching-item').forEach((el, idx) => {
+        el.classList.remove('matching-source');
+        el.classList.toggle('matched', matchConnections.some(c => c.sourceIdx === idx));
+      });
+      drawAllLines();
+      nextBtn.disabled = matchConnections.length < leftTexts.length;
+    });
+    rightCol.appendChild(el);
+  });
+
+  wrap.appendChild(leftCol);
+  wrap.appendChild(rightCol);
+  optWrap.appendChild(wrap);
+
+  matchResizeHandler = drawAllLines;
+  requestAnimationFrame(() => drawAllLines());
+  window.addEventListener('resize', matchResizeHandler);
+}
+
+function drawAllLines() {
+  const svg = document.getElementById('match-svg');
+  if (!svg) return;
+  const wrap = svg.closest('.matching-wrap');
+  if (!wrap) return;
+
+  const wrapRect = wrap.getBoundingClientRect();
+  if (!wrapRect.width || !wrapRect.height) return;
+  svg.setAttribute('viewBox', `0 0 ${wrapRect.width} ${wrapRect.height}`);
+  svg.querySelectorAll('line').forEach(l => l.remove());
+
+  const cols = wrap.querySelectorAll('.matching-col');
+  if (cols.length < 2) return;
+  const leftItems = cols[0].querySelectorAll('.matching-item');
+  const rightItems = cols[1].querySelectorAll('.matching-item');
+
+  matchConnections.forEach(conn => {
+    const leftEl = leftItems[conn.sourceIdx];
+    const rightEl = rightItems[conn.targetIdx];
+    if (!leftEl || !rightEl) return;
+
+    const leftRect = leftEl.getBoundingClientRect();
+    const rightRect = rightEl.getBoundingClientRect();
+
+    const x1 = leftRect.right - wrapRect.left;
+    const y1 = leftRect.top + leftRect.height / 2 - wrapRect.top;
+    const x2 = rightRect.left - wrapRect.left;
+    const y2 = rightRect.top + rightRect.height / 2 - wrapRect.top;
+
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', x1);
+    line.setAttribute('y1', y1);
+    line.setAttribute('x2', x2);
+    line.setAttribute('y2', y2);
+    svg.appendChild(line);
+  });
+}
+
+function restoreMatchingState(q) {
+  const saved = userAnswers[current] || [];
+  matchConnections = saved.map(c => ({ sourceIdx: c.sourceIdx, targetIdx: c.targetIdx }));
+  requestAnimationFrame(() => showMatchingResult(q, normalizeMatchPairs(q, matchShuffles[current])));
+}
+
+function showMatchingResult(q, correctPairs) {
+  const wrap = optWrap.querySelector('.matching-wrap');
+  if (!wrap) return;
+  const cols = wrap.querySelectorAll('.matching-col');
+  if (cols.length < 2) return;
+  const leftItems = cols[0].querySelectorAll('.matching-item');
+  const rightItems = cols[1].querySelectorAll('.matching-item');
+  const svg = document.getElementById('match-svg');
+
+  if (svg) {
+    const wrapRect = wrap.getBoundingClientRect();
+    if (wrapRect.width && wrapRect.height) {
+      svg.setAttribute('viewBox', `0 0 ${wrapRect.width} ${wrapRect.height}`);
+      svg.querySelectorAll('line').forEach(l => l.remove());
+
+      matchConnections.forEach(conn => {
+        const leftEl = leftItems[conn.sourceIdx];
+        const rightEl = rightItems[conn.targetIdx];
+        if (!leftEl || !rightEl) return;
+
+        const leftRect = leftEl.getBoundingClientRect();
+        const rightRect = rightEl.getBoundingClientRect();
+        const x1 = leftRect.right - wrapRect.left;
+        const y1 = leftRect.top + leftRect.height / 2 - wrapRect.top;
+        const x2 = rightRect.left - wrapRect.left;
+        const y2 = rightRect.top + rightRect.height / 2 - wrapRect.top;
+
+        const isCorrect = correctPairs.some(p => p.leftIdx === conn.sourceIdx && p.rightIdx === conn.targetIdx);
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', x1);
+        line.setAttribute('y1', y1);
+        line.setAttribute('x2', x2);
+        line.setAttribute('y2', y2);
+        line.setAttribute('class', isCorrect ? 'correct' : 'wrong');
+        svg.appendChild(line);
+      });
+    }
+  }
+
+  correctPairs.forEach(p => {
+    const userConn = matchConnections.find(c => c.sourceIdx === p.leftIdx);
+    const isCorrect = userConn && userConn.targetIdx === p.rightIdx;
+    if (leftItems[p.leftIdx]) {
+      leftItems[p.leftIdx].classList.add(isCorrect ? 'correct' : 'incorrect');
+      leftItems[p.leftIdx].classList.add('locked');
+    }
+  });
+  rightItems.forEach(el => el.classList.add('locked'));
+}
+
+function renderQuestion() {
+  const q = pool[current];
+  if (answeredFlags[current]) {
+    answered = true;
+    selectedLetters = new Set(userAnswers[current] || []);
+  } else {
+    answered = false;
+    selectedLetters = new Set();
+  }
+  postAnswerClicks = 0;
+  explanationWrap.style.display = 'none';
+
+  markSeen(q.id);
+  saveQuizState();
+
+  // topbar
+  qCounter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(pool.length).padStart(2, '0')}`;
+  scoreLive.textContent = `✓ ${score}`;
+  wrongLive.textContent = `✗ ${wrongItems.length}`;
+  const pct = ((current + 1) / pool.length) * 100;
+  progress.style.width = pct + '%';
+
+  // hint — show "Choose N" or "Select all"
+  if (q.multi) {
+    multiHint.classList.remove('hidden');
+    const limit = getSelectLimit(q);
+    multiHint.textContent = limit === q.options.length
+      ? 'Select all that apply'
+      : `Choose ${limit} options`;
+  } else {
+    multiHint.classList.add('hidden');
+  }
+
+  qText.textContent = `Q${q.id}. ${q.text}`;
+  nextBtn.disabled = current < pool.length - 1;
+  nextBtn.textContent = current < pool.length - 1 ? 'Confirm →' : 'Finish →';
+
+  // ── EXHIBIT IMAGE ──
+  const prevExhibit = document.getElementById('exhibit-display');
+  if (prevExhibit) prevExhibit.remove();
+  if (q.exhibit) {
+    const imgWrap = document.createElement('div');
+    imgWrap.id = 'exhibit-display';
+    imgWrap.className = 'exhibit-img-wrap';
+    const img = document.createElement('img');
+    img.src = q.exhibit;
+    img.className = 'exhibit-img';
+    img.alt = 'Exhibit';
+    img.title = 'Click to open full size';
+    img.addEventListener('click', () => openLightbox(img.src));
+    imgWrap.appendChild(img);
+    optWrap.before(imgWrap);
+  }
+
+  // ── MATCHING QUESTION TYPE ──
+  if (q.match) {
+    optWrap.innerHTML = '';
+    matchConnections = [];
+    renderMatchingQuestion(q);
+    if (answeredFlags[current]) {
+      restoreMatchingState(q);
+      nextBtn.disabled = false;
+      nextBtn.textContent = current < pool.length - 1 ? 'Next →' : 'See Results →';
+    }
+    updateDiffRaterUI(q.id);
+    return;
+  }
+
+  // render options (standard) — shuffled once per position, stable on revisit
+  if (!optionShuffles[current]) optionShuffles[current] = shuffle([...q.options]);
+  optWrap.innerHTML = '';
+  optionShuffles[current].forEach(opt => {
+    const label = document.createElement('label');
+    label.className = 'option-label';
+    label.dataset.letter = opt.l;
+
+    const input = document.createElement('input');
+    input.type = q.multi ? 'checkbox' : 'radio';
+    input.name = 'option';
+    input.value = opt.l;
+
+    const letter = document.createElement('span');
+    letter.className = 'option-letter';
+    letter.textContent = opt.l;
+
+    const text = document.createElement('span');
+    text.textContent = opt.t;
+
+    label.append(input, letter, text);
+    label.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (answered) {
+        advance();
+        return;
+      }
+      if (selectedLetters.has(opt.l) && !q.multi) {
+        confirmAnswer();
+      } else {
+        handleSelect(opt.l, q.multi);
+      }
+    });
+    optWrap.appendChild(label);
+  });
+
+  // restore locked state for already-answered questions
+  if (answeredFlags[current]) {
+    const correctLetters = new Set(q.options.filter(o => o.c).map(o => o.l));
+    optWrap.querySelectorAll('.option-label').forEach(lbl => {
+      const letter = lbl.dataset.letter;
+      lbl.classList.add('locked');
+      if (correctLetters.has(letter)) {
+        lbl.classList.add('correct');
+      } else if (selectedLetters.has(letter)) {
+        lbl.classList.add('incorrect');
+      }
+    });
+    nextBtn.disabled = false;
+    nextBtn.textContent = current < pool.length - 1 ? 'Next →' : 'See Results →';
+  }
+
+  // nav button state
+  navPrevBtn.disabled = current === 0;
+  navNextBtn.disabled = current >= pool.length - 1;
+
+  // difficulty rater
+  updateDiffRaterUI(q.id);
+}
+
+function getSelectLimit(q) {
+  if (!q.multi) return 1;
+  return q.options.filter(o => o.c).length;
+}
+
+function handleSelect(letter, multi) {
+  const q = pool[current];
+  const limit = getSelectLimit(q);
+  if (multi) {
+    if (selectedLetters.has(letter)) {
+      selectedLetters.delete(letter);
+    } else {
+      if (selectedLetters.size >= limit) return;
+      selectedLetters.add(letter);
+    }
+  } else {
+    selectedLetters.clear();
+    selectedLetters.add(letter);
+  }
+  optWrap.querySelectorAll('.option-label').forEach(lbl => {
+    lbl.classList.toggle('selected', selectedLetters.has(lbl.dataset.letter));
+  });
+  nextBtn.disabled = selectedLetters.size === 0;
+}
+
+function confirmAnswer() {
+  const q = pool[current];
+
+  if (!difficulties[String(q.id)]) setDifficulty(q.id, 'easy');
+
+  if (q.match) {
+    const correctPairs = normalizeMatchPairs(q, matchShuffles[current]);
+    const userConnSet = new Set(matchConnections.map(c => `${c.sourceIdx}-${c.targetIdx}`));
+    const correctSet = new Set(correctPairs.map(p => `${p.leftIdx}-${p.rightIdx}`));
+
+    let allCorrect = true;
+    if (userConnSet.size !== correctSet.size) {
+      allCorrect = false;
+    } else {
+      for (const key of correctSet) {
+        if (!userConnSet.has(key)) {
+          allCorrect = false;
+          break;
+        }
+      }
+    }
+
+    if (allCorrect) {
+      score++;
+      scoreLive.textContent = `✓ ${score}`;
+      markCorrect(q.id);
+    } else {
+      wrongItems.push({ question: q, connections: [...matchConnections], correctConnections: correctPairs });
+      markWrong(q.id);
+    }
+    const expl = window.EXPLANATIONS && window.EXPLANATIONS[String(q.id)];
+    if (expl) {
+      explanationText.textContent = expl;
+      explanationWrap.classList.toggle('correct', allCorrect);
+      explanationWrap.style.display = '';
+    } else {
+      explanationWrap.style.display = 'none';
+    }
+
+    userAnswers[current] = [...matchConnections];
+    answeredFlags[current] = true;
+    answered = true;
+    saveQuizState();
+
+    // Show result visual feedback
+    showMatchingResult(q, correctPairs, allCorrect);
+    nextBtn.disabled = false;
+    nextBtn.textContent = current < pool.length - 1 ? 'Next →' : 'See Results →';
+    return;
+  }
+
+  if (selectedLetters.size === 0) return;
+
+  // standard answer validation
+  const correctLetters = new Set(q.options.filter(o => o.c).map(o => o.l));
+  const userSet = new Set(selectedLetters);
+
+  let correct = true;
+  if (userSet.size !== correctLetters.size) {
+    correct = false;
+  } else {
+    for (const l of correctLetters) {
+      if (!userSet.has(l)) { correct = false; break; }
+    }
+  }
+
+  if (correct) {
+    score++;
+    scoreLive.textContent = `✓ ${score}`;
+    markCorrect(q.id);
+  } else {
+    wrongItems.push({ question: q, yourLetters: selectedLetters, correctLetters });
+    markWrong(q.id);
+  }
+
+  const expl = window.EXPLANATIONS && window.EXPLANATIONS[String(q.id)];
+  if (expl) {
+    explanationText.textContent = expl;
+    explanationWrap.classList.toggle('correct', correct);
+    explanationWrap.style.display = '';
+  } else {
+    explanationWrap.style.display = 'none';
+  }
+
+  userAnswers[current] = [...selectedLetters];
+  answeredFlags[current] = true;
+  answered = true;
+  saveQuizState();
+
+  // lock options
+  optWrap.querySelectorAll('.option-label').forEach(lbl => {
+    const letter = lbl.dataset.letter;
+    lbl.classList.add('locked');
+    if (correctLetters.has(letter)) {
+      lbl.classList.add('correct');
+    } else if (selectedLetters.has(letter)) {
+      lbl.classList.add('incorrect');
+    }
+  });
+
+  nextBtn.disabled = false;
+  nextBtn.textContent = current < pool.length - 1 ? 'Next →' : 'See Results →';
+}
+
+
+function advance() {
+  syncDifficulties();
+  current++;
+  if (current >= pool.length) {
+    // Auto-submit any unanswered questions as incorrect
+    for (let i = 0; i < pool.length; i++) {
+      if (!answeredFlags[i]) {
+        const q = pool[i];
+        if (q.match) {
+          wrongItems.push({ question: q, connections: [], correctConnections: normalizeMatchPairs(q), skipped: true });
+        } else {
+          const correctLetters = new Set(q.options.filter(o => o.c).map(o => o.l));
+          wrongItems.push({ question: q, yourLetters: new Set(), correctLetters, skipped: true });
+        }
+      }
+    }
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+function tryFinish() {
+  const unanswered = [];
+  for (let i = 0; i < pool.length; i++) {
+    if (!answeredFlags[i]) unanswered.push(`Q${pool[i].id}`);
+  }
+  if (unanswered.length === 0) {
+    advance();
+    return;
+  }
+  const count = unanswered.length;
+  const ok = confirm(
+    `${count} unanswered question${count !== 1 ? 's' : ''}: ${unanswered.join(', ')}.\n\nThey will be marked incorrect. Finish anyway?`
+  );
+  if (ok) advance();
+}
+
+/* ─────────────────────────────────────────
+   RESULTS
+   ───────────────────────────────────────── */
+function showResults(timeUp) {
+  syncDifficulties();
+  clearQuizState();
+  progress.style.width = '100%';
+  stopTimer();
+  timerPauseBtn.style.display = 'none';
+  showScreen('results');
+
+  resEyebrow.textContent = timeUp ? "Time's up!" : 'Session complete';
+
+  const pct = Math.round((score / pool.length) * 100);
+  resPct.textContent = pct + '%';
+  resFrac.textContent = `${score} / ${pool.length}`;
+
+  const PASS_PCT = 70;
+  const passed = pct >= PASS_PCT;
+
+  const badge = passed
+    ? `<span class="pass-badge pass">PASSED</span>`
+    : `<span class="pass-badge fail">FAILED</span>`;
+
+  let detail;
+  if (timeUp) {
+    detail = passed
+      ? `Time ran out — but you still scored above the ${PASS_PCT}% pass mark.`
+      : `Time ran out — you needed ${Math.ceil(pool.length * PASS_PCT / 100) - score} more correct answer${Math.ceil(pool.length * PASS_PCT / 100) - score !== 1 ? 's' : ''} to pass.`;
+  } else if (passed) {
+    if (pct === 100)    detail = 'Perfect score!';
+    else if (pct >= 90) detail = 'Excellent work!';
+    else                detail = `You scored above the ${PASS_PCT}% pass mark.`;
+  } else {
+    const missing = Math.ceil(pool.length * PASS_PCT / 100) - score;
+    detail = `You needed ${missing} more correct answer${missing !== 1 ? 's' : ''} to pass.`;
+  }
+
+  resMsg.innerHTML = `${badge} ${detail}`;
+
+  // animate ring
+  const circumference = 327;
+  const offset = circumference - (circumference * pct / 100);
+  setTimeout(() => { ringFill.style.strokeDashoffset = offset; }, 80);
+
+  // color ring by score
+  ringFill.style.stroke = passed ? 'var(--correct)' : 'var(--incorrect)';
+
+  // Save session history
+  const history = JSON.parse(localStorage.getItem('quiz-history') || '[]');
+  history.unshift({
+    date: new Date().toISOString(),
+    questions: pool.length,
+    score,
+    pct,
+    passed
+  });
+  if (history.length > 20) history.length = 20;
+  localStorage.setItem('quiz-history', JSON.stringify(history));
+
+  // Render session history
+  if (history.length > 1) {
+    sessionHistorySection.style.display = '';
+    sessionHistoryList.innerHTML = '';
+    history.slice(1, 6).forEach(h => {
+      const d = new Date(h.date);
+      const dateStr = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+      const item = document.createElement('div');
+      item.className = 'session-history-item';
+      item.innerHTML = `<span class="session-history-date">${dateStr}</span><span class="session-history-score ${h.passed ? 'pass' : 'fail'}">${h.score}/${h.questions} (${h.pct}%)</span>`;
+      sessionHistoryList.appendChild(item);
+    });
+  }
+
+  // wrong answers list
+  wrongList.innerHTML = '';
+  if (wrongItems.length === 0) {
+    wrongList.innerHTML = '<p style="text-align:center;color:var(--correct);font-weight:600;padding:12px 0;">All answers correct!</p>';
+    // Trigger confetti for perfect score
+    if (pct === 100) launchConfetti();
+    return;
+  }
+
+  wrongItems.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'wrong-item';
+
+    const qDiv = document.createElement('div');
+    qDiv.className = 'wrong-item-q';
+
+    const num = document.createElement('span');
+    num.className = 'q-num';
+    num.textContent = `Q${item.question.id}`;
+
+    const txt = document.createTextNode(item.question.text);
+    qDiv.append(num, txt);
+
+    // Matching question result display
+    if (item.question.match) {
+      const base = matchBaseArrays(item.question);
+      const corrLabel = document.createElement('span');
+      corrLabel.className = 'answer-label';
+      corrLabel.textContent = 'Correct pairings:';
+      const corrPills = document.createElement('div');
+      item.question.match.pairs.filter(p => p.correct).forEach(p => {
+        const leftText  = ('leftIdx'  in p) ? base.left[p.leftIdx]   : p.left;
+        const rightText = ('rightIdx' in p) ? base.right[p.rightIdx] : p.right;
+        const pill = document.createElement('span');
+        pill.className = 'answer-pill pill-correct';
+        pill.textContent = `${leftText} → ${rightText}`;
+        corrPills.appendChild(pill);
+      });
+      div.append(qDiv, corrLabel, corrPills);
+      wrongList.appendChild(div);
+      return;
+    }
+
+    const optMap = Object.fromEntries(item.question.options.map(o => [o.l, o.t]));
+
+    const yourLabel = document.createElement('span');
+    yourLabel.className = 'answer-label';
+    yourLabel.textContent = 'Your answer:';
+
+    const yourPills = document.createElement('div');
+    item.yourLetters.forEach(l => {
+      const pill = document.createElement('span');
+      pill.className = 'answer-pill pill-yours';
+      pill.textContent = `${l}. ${optMap[l] || '—'}`;
+      yourPills.appendChild(pill);
+    });
+    if (item.yourLetters.size === 0) {
+      const pill = document.createElement('span');
+      pill.className = 'answer-pill pill-yours';
+      pill.textContent = 'No answer';
+      yourPills.appendChild(pill);
+    }
+
+    const corrLabel = document.createElement('span');
+    corrLabel.className = 'answer-label';
+    corrLabel.style.marginTop = '8px';
+    corrLabel.textContent = 'Correct answer:';
+
+    const corrPills = document.createElement('div');
+    item.correctLetters.forEach(l => {
+      const pill = document.createElement('span');
+      pill.className = 'answer-pill pill-correct';
+      pill.textContent = `${l}. ${optMap[l] || '—'}`;
+      corrPills.appendChild(pill);
+    });
+
+    div.append(qDiv, yourLabel, yourPills, corrLabel, corrPills);
+    wrongList.appendChild(div);
+  });
+}
+
+/* ─────────────────────────────────────────
+   RESTART BUTTONS
+   ───────────────────────────────────────── */
+exitBtn.addEventListener('click', () => {
+  syncDifficulties();
+  clearQuizState();
+  stopTimer();
+  timerPauseBtn.style.display = 'none';
+  showScreen('start');
+});
+
+retryBtn.addEventListener('click', () => {
+  current = 0; score = 0; wrongItems = [];
+  userAnswers = []; answeredFlags = []; optionShuffles = []; matchShuffles = [];
+  pool = shuffle(pool);
+  ringFill.style.strokeDashoffset = 327;
+  ringFill.style.stroke = 'var(--accent)';
+  showScreen('quiz');
+  timerPauseBtn.style.display = '';
+  timerPauseBtn.classList.remove('paused');
+  timerPauseBtn.textContent = '❚❚';
+  timerPauseBtn.title = 'Pause timer';
+  const customMins = parseInt(customTimeInput.value);
+  startTimer(customMins > 0 ? customMins * 60 : pool.length * 60);
+  renderQuestion();
+});
+
+newBtn.addEventListener('click', () => {
+  ringFill.style.strokeDashoffset = 327;
+  ringFill.style.stroke = 'var(--accent)';
+  showScreen('start');
+});
+
+/* ─────────────────────────────────────────
+   UTILITIES
+   ───────────────────────────────────────── */
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function setsEqual(a, b) {
+  if (a.size !== b.size) return false;
+  for (const x of a) if (!b.has(x)) return false;
+  return true;
+}
+
+/* ─────────────────────────────────────────
+   KEYBOARD SHORTCUTS
+   ───────────────────────────────────────── */
+document.addEventListener('keydown', (e) => {
+  // Only active during quiz screen
+  if (!screens.quiz.classList.contains('active')) return;
+
+  const options = optWrap.querySelectorAll('.option-label');
+  if (!options.length) return;
+
+  // Arrow keys / J/K to navigate highlight only (no selection change)
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'j' || e.key === 'J') {
+    e.preventDefault();
+    const currentIdx = Array.from(options).findIndex(o => o.classList.contains('keyboard-focus'));
+    const nextIdx = (currentIdx + 1) % options.length;
+    options.forEach(o => o.classList.remove('keyboard-focus'));
+    options[nextIdx].classList.add('keyboard-focus');
+    options[nextIdx].scrollIntoView({ block: 'nearest' });
+  }
+  else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'k' || e.key === 'K') {
+    e.preventDefault();
+    const currentIdx = Array.from(options).findIndex(o => o.classList.contains('keyboard-focus'));
+    const prevIdx = (currentIdx - 1 + options.length) % options.length;
+    options.forEach(o => o.classList.remove('keyboard-focus'));
+    options[prevIdx].classList.add('keyboard-focus');
+    options[prevIdx].scrollIntoView({ block: 'nearest' });
+  }
+  // Space: toggle keyboard-focused option
+  else if (e.key === ' ') {
+    e.preventDefault();
+    if (answered) { nextBtn.click(); return; }
+    const focused = optWrap.querySelector('.option-label.keyboard-focus');
+    if (focused) handleSelect(focused.dataset.letter, pool[current].multi);
+  }
+  // Enter: select focused option if nothing chosen yet, otherwise confirm
+  else if (e.key === 'Enter') {
+    e.preventDefault();
+    if (answered) { nextBtn.click(); return; }
+    const q = pool[current];
+    const focused = optWrap.querySelector('.option-label.keyboard-focus');
+    if (selectedLetters.size === 0 && focused) {
+      handleSelect(focused.dataset.letter, q.multi);
+      if (!q.multi) confirmAnswer();
+    } else if (selectedLetters.size > 0) {
+      if (!nextBtn.disabled) confirmAnswer();
+    }
+  }
+  // Number keys 1-9 to toggle option letter (A=1, B=2, etc.)
+  else if (/^[1-9]$/.test(e.key) && !answered) {
+    const letterMap = { '1':'A','2':'B','3':'C','4':'D','5':'E','6':'F','7':'G','8':'H','9':'I' };
+    const letter = letterMap[e.key];
+    if (letter) {
+      const q = pool[current];
+      const target = options.find(o => o.dataset.letter === letter);
+      if (target) {
+        handleSelect(letter, q.multi);
+        if (!q.multi) confirmAnswer();
+        // Move keyboard focus to this option
+        options.forEach(o => o.classList.remove('keyboard-focus'));
+        target.classList.add('keyboard-focus');
+      }
+    }
+  }
+  // P to pause/resume timer
+  else if (e.key === 'p' || e.key === 'P') {
+    e.preventDefault();
+    togglePauseTimer();
+  }
+});
+
+/* ─────────────────────────────────────────
+   CONFETTI — lightweight particle burst
+   ───────────────────────────────────────── */
+function launchConfetti() {
+  const canvas = document.createElement('canvas');
+  canvas.style.cssText = 'position:fixed;inset:0;z-index:9999;pointer-events:none;';
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const colors = ['#4F8EF7','#34D399','#F87171','#FBBF24','#A78BFA','#F472B6','#38BDF8'];
+  const particles = [];
+  for (let i = 0; i < 120; i++) {
+    particles.push({
+      x: W / 2 + (Math.random() - 0.5) * 200,
+      y: H / 2,
+      vx: (Math.random() - 0.5) * 16,
+      vy: Math.random() * -18 - 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      size: Math.random() * 6 + 3,
+      rot: Math.random() * Math.PI * 2,
+      vr: (Math.random() - 0.5) * 0.3,
+      life: 1
+    });
+  }
+
+  let raf;
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    let alive = false;
+    for (const p of particles) {
+      if (p.life <= 0) continue;
+      alive = true;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.35;
+      p.vx *= 0.99;
+      p.rot += p.vr;
+      p.life -= 0.008;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.globalAlpha = Math.max(0, p.life);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size * 0.6);
+      ctx.restore();
+    }
+    if (alive) {
+      raf = requestAnimationFrame(frame);
+    } else {
+      window.removeEventListener('resize', resize);
+      canvas.remove();
+      cancelAnimationFrame(raf);
+    }
+  }
+  frame();
+}
+
+document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+/* ── Lightbox ── */
+const lightbox     = id('lightbox');
+const lightboxImg  = id('lightbox-img');
+
+function openLightbox(src) {
+  lightboxImg.src = src;
+  lightbox.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  lightbox.style.display = 'none';
+  lightboxImg.src = '';
+  document.body.style.overflow = '';
+}
+
+lightbox.addEventListener('click', closeLightbox);
+lightboxImg.addEventListener('click', e => e.stopPropagation());
+id('lightbox-close').addEventListener('click', closeLightbox);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });

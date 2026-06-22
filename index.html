@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NetQuiz — CCNA1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=3" />
+</head>
+<body>
+  <canvas id="bg-canvas"></canvas>
+
+  <header class="site-header">
+    <div class="logo">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <circle cx="11" cy="4"  r="2.2" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="3"  cy="18" r="2.2" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="19" cy="18" r="2.2" stroke="currentColor" stroke-width="1.4"/>
+        <line x1="11" y1="6.2" x2="3"  y2="15.8" stroke="currentColor" stroke-width="1.4"/>
+        <line x1="11" y1="6.2" x2="19" y2="15.8" stroke="currentColor" stroke-width="1.4"/>
+        <line x1="5.2" y1="18" x2="16.8" y2="18" stroke="currentColor" stroke-width="1.4"/>
+      </svg>
+      <span>NetQuiz</span>
+    </div>
+    <button id="theme-toggle" class="theme-btn" aria-label="Toggle theme">
+      <span class="icon-sun">☀</span>
+      <span class="icon-moon">☽</span>
+    </button>
+  </header>
+
+  <!-- ── START SCREEN ── -->
+  <main id="screen-start" class="screen active">
+    <div class="start-layout">
+
+      <div class="start-info">
+        <span class="course-tag">CCNA 1 · ITN · v7.0</span>
+        <h1>Introduction<br>to <em>Networks</em></h1>
+        <p class="start-desc">154 exam-style questions covering the full ITN syllabus. Pick your session size and go.</p>
+        <div class="start-stats">
+          <div class="start-stat">
+            <span class="stat-num">154</span>
+            <span class="stat-lbl">questions</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="start-stat">
+            <span class="stat-num">70%</span>
+            <span class="stat-lbl">pass mark</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="start-stat">
+            <span class="stat-num">CCNA</span>
+            <span class="stat-lbl">certification</span>
+          </div>
+        </div>
+        <div class="shortcuts-hint">
+          <span class="shortcut"><kbd>↑↓</kbd> Navigate</span>
+          <span class="shortcut"><kbd>Enter</kbd> Confirm</span>
+          <span class="shortcut"><kbd>P</kbd> Pause timer</span>
+          <span class="shortcut"><kbd>1-9</kbd> Select option</span>
+        </div>
+      </div>
+
+      <div class="start-picker card">
+        <p class="picker-label">Questions per session</p>
+        <div class="big-count-wrap">
+          <input type="number" id="q-count" min="1" max="154" value="10" />
+          <span class="big-count-unit">questions</span>
+          <span id="time-estimate" class="time-estimate">~ 10 min</span>
+        </div>
+        <input type="range" id="q-slider" min="1" max="154" value="10" />
+        <div class="quick-picks">
+          <button class="pick-btn" data-n="10">10</button>
+          <button class="pick-btn" data-n="25">25</button>
+          <button class="pick-btn" data-n="50">50</button>
+          <button class="pick-btn" data-n="154">All</button>
+        </div>
+        <div class="timer-limit-wrap">
+          <p class="picker-label">Time limit <span class="picker-label-hint">(leave blank for default: 1 min / question)</span></p>
+          <div class="timer-limit-row">
+            <input type="number" id="custom-time" min="1" max="999" placeholder="—" />
+            <span class="big-count-unit">minutes</span>
+          </div>
+        </div>
+        <div class="diff-filter-wrap">
+          <p class="picker-label">Filter by difficulty</p>
+          <div class="diff-filter-btns">
+            <button class="diff-filter-btn active" data-diff="all">All</button>
+            <button class="diff-filter-btn" data-diff="easy">Easy</button>
+            <button class="diff-filter-btn" data-diff="medium">Medium</button>
+            <button class="diff-filter-btn" data-diff="hard">Hard</button>
+            <button class="diff-filter-btn" data-diff="exhibit">Exhibit</button>
+            <button class="diff-filter-btn" data-diff="unseen">Unseen</button>
+            <button class="diff-filter-btn" data-diff="wrong">Wrong</button>
+          </div>
+          <span id="diff-avail" class="diff-avail">154 total available</span>
+        </div>
+        <button id="start-btn" class="btn-primary">Begin session →</button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ── QUIZ SCREEN ── -->
+  <main id="screen-quiz" class="screen">
+    <div class="quiz-topbar">
+      <button id="exit-btn" class="exit-btn" title="Exit quiz">❮</button>
+      <button id="nav-prev-btn" class="nav-btn" title="Previous question">◀</button>
+      <span id="q-counter" class="q-counter">01 / 10</span>
+      <button id="nav-next-btn" class="nav-btn" title="Next question">▶</button>
+      <div class="progress-track">
+        <div id="progress-fill" class="progress-fill"></div>
+      </div>
+      <div class="live-tally">
+        <span id="q-score-live" class="score-live">✓ 0</span>
+        <span id="q-wrong-live" class="wrong-live">✗ 0</span>
+        <span class="tally-divider"></span>
+        <button id="timer-toggle-btn" class="timer-toggle-btn" title="Toggle countdown timer">⏱</button>
+        <button id="timer-pause-btn" class="timer-pause-btn" title="Pause/Resume timer" style="display:none;">❚❚</button>
+        <span id="q-timer" class="q-timer">10:00</span>
+      </div>
+    </div>
+
+    <div class="card quiz-card">
+      <p id="multi-hint" class="multi-hint hidden">Select all that apply</p>
+      <h2 id="q-text" class="q-text"></h2>
+      <div id="options-wrap" class="options-wrap"></div>
+      <div id="explanation-wrap" class="explanation-wrap" style="display:none;">
+        <p id="explanation-text" class="explanation-text"></p>
+      </div>
+      <div id="diff-rate-wrap" class="diff-rate-wrap">
+        <span class="diff-rate-label">Difficulty</span>
+        <button class="diff-rate-btn" data-diff="easy">Easy</button>
+        <button class="diff-rate-btn" data-diff="medium">Medium</button>
+        <button class="diff-rate-btn" data-diff="hard">Hard</button>
+        <span id="diff-badge" class="diff-badge" style="display:none;"></span>
+        <span id="exhibit-badge" class="exhibit-badge" style="display:none;">Exhibit</span>
+        <span id="unseen-badge" class="unseen-badge" style="display:none;">New</span>
+        <span id="wrong-badge" class="wrong-badge" style="display:none;">Wrong</span>
+      </div>
+      <button id="next-btn" class="btn-primary" disabled>Confirm →</button>
+    </div>
+  </main>
+
+  <!-- ── RESULTS SCREEN ── -->
+  <main id="screen-results" class="screen">
+    <div class="card results-card">
+      <p id="res-eyebrow" class="results-eyebrow">Session complete</p>
+      <div class="score-ring-wrap">
+        <svg class="score-ring" viewBox="0 0 120 120">
+          <circle class="ring-track" cx="60" cy="60" r="52" />
+          <circle id="ring-fill" class="ring-fill" cx="60" cy="60" r="52" />
+        </svg>
+        <div class="score-inner">
+          <span id="res-pct">0%</span>
+          <small id="res-fraction">0 / 0</small>
+        </div>
+      </div>
+      <p id="res-message" class="res-message"></p>
+      <div id="wrong-list" class="wrong-list"></div>
+      <div id="session-history-section" class="session-history-section" style="display:none;">
+        <p class="session-history-label">Recent sessions</p>
+        <div id="session-history-list" class="session-history-list"></div>
+      </div>
+      <div class="results-actions">
+        <button id="retry-btn" class="btn-primary">Retry</button>
+        <button id="new-btn" class="btn-secondary">New quiz</button>
+      </div>
+      <button id="export-btn" class="btn-export">↓ Export difficulty ratings</button>
+    </div>
+  </main>
+
+  <div id="lightbox" class="lightbox" style="display:none;" role="dialog" aria-modal="true">
+    <button id="lightbox-close" class="lightbox-close" aria-label="Close">&times;</button>
+    <img id="lightbox-img" class="lightbox-img" alt="Exhibit" />
+  </div>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="footer-year"></span> Nejc Bohinjc. All rights reserved. Not for commercial use without permission.</p>
+  </footer>
+
+  <script src="difficulty-data.js?v=3"></script>
+  <script src="wrong-data.js?v=3"></script>
+  <script src="explanations.js?v=3"></script>
+  <script src="app.js?v=3"></script>
+</body>
+</html>
